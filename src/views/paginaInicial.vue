@@ -60,7 +60,7 @@
               </div>
             </div>
           </b-col>
-          <b-col col lg="6" order="1">
+          <b-col col lg="6" order="1" class="left">
             <div class="p-5">
               <h2 class="display-4 mainHeaders mediumFont">Aqui na Buckle facilitamos-te a vida</h2>
               <p class="mainTexts regularFont">É simples e fácil</p>
@@ -81,9 +81,10 @@
           </b-col>
           <b-col col lg="6" order="2">
             <div class="p-5 classAnuncios">
-              <h2 class="display-4 mediumFont mainHeaders">
-                <i> Anúncios: </i> A melhor forma de obteres aquilo que procuras
-              </h2>
+              <div class="display-4 mediumFont mainHeaders">
+                <h4 id="homePageAdHeader">Anúncios: </h4>
+                <p>A melhor forma de obteres aquilo que procuras</p>
+              </div>
               <p class="regularFont mainTexts">
                 Explora todas as ofertas que os alunos da ESMAD estão a oferecer
                 ou cria um anúncio do tipo procura e vai direto ao assunto.
@@ -106,9 +107,10 @@
           </b-col>
           <b-col col lg="6" order="1">
             <div class="p-5  divProjetos">
-              <h2 class="display-4 mediumFont mainHeaders">
-                <i>Projetos: </i> Dá a conhecer o teu potencial
-              </h2>
+              <div class="display-4 mediumFont mainHeaders">
+                <h4 id="homePageProjectHeader">Projetos: </h4>
+                <p>Dá a conhecer o teu potencial</p>
+              </div>
               <p class="regularFont mainTexts">
                 Na Buckle, damos-te também a oportunidade de mostrar o que andas
                 a fazer às grandes empresas.
@@ -200,8 +202,9 @@ export default {
 
 <style scoped>
 .home {
-  background-color: #e5e5e5;
+  background-color: #ebebeb;
 }
+
 .lightFont {
   font-family: var(--lightFont);
 }
@@ -243,14 +246,13 @@ export default {
 
 
 .imageContainer {
-  padding: 25px 25px 75px 25px;
+  padding: 0 0px 75px 0px;
 }
 
 .mainPageImg {
   width: 100% !important;
   height: 650px !important;
   object-fit: cover;
-  border-radius: 20px;
   box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
 }
 
@@ -275,17 +277,39 @@ export default {
 
 .headerSubTitleMain {
   font-weight: 300;
-  font-size: 25px;
+  font-size: 24px;
 }
 
 .mainHeaders {
   text-align: left;
-  font-size: 40px;
+  font-size: 32px;
+}
+
+#homePageProjectHeader {
+  color: var(--blue);
+}
+
+#homePageAdHeader {
+  color: var(--orange);
+}
+
+.mainHeaders p {
+  font-size: 22px;
+  font-weight: normal;
+}
+
+.firstBlock .left {
+  display: flex;
+  padding-right: 75px;
+}
+
+.firstBlock .container .row {
+  margin: auto;
 }
 
 .mainTexts {
   text-align: left;
-  font-size: 22px;
+  font-size: 16px;
   margin-top: 20px;
   margin-bottom: 30px;
 }
@@ -332,9 +356,13 @@ export default {
   border-radius: 10px;
   backdrop-filter: blur(100rem);
   font-family: var(--regularFont);
-  font-size: 22px;
   color: #353535;
 }
+
+.boxesPath .media-body h5 {
+  font-size: 20px;
+}
+
 .boxes {
   width: 520px;
 }
@@ -416,7 +444,7 @@ export default {
   font-family: var(--mediumFont);
   font-style: normal;
   font-weight: 500;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 15px;
   display: flex;
   align-items: center;

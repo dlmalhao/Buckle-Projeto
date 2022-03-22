@@ -73,7 +73,6 @@ export default new Vuex.Store({
         imgBg: 'https://images.unsplash.com/photo-1476820865390-c52aeebb9891?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
       },
     ],
-    loggedUser: localStorage.loggedUser ? JSON.parse(localStorage.loggedUser) : null,
     ads : localStorage.ads ? JSON.parse(localStorage.ads) :[
       {
         title: "Fotografias",
@@ -120,6 +119,23 @@ export default new Vuex.Store({
         typeAd: { value: 'oferta', text: 'Oferta' }
       },
     ],
+    projects : localStorage.projects ? JSON.parse(localStorage.projects) : [
+      {
+        id: 1,
+        id_user: 5,
+        cover_image :  "",
+        title :"Projeto 1",
+        description : "Este é o projeto 1",
+      },
+    ],
+    project_images : localStorage.project_images ? JSON.parse(localStorage.project_images) : [
+      {
+        project_id: 1,
+        image_id: 1,
+        image_src: ""
+      },
+    ],
+    loggedUser: localStorage.loggedUser ? JSON.parse(localStorage.loggedUser) : null,
     favs : localStorage.favs ? JSON.parse(localStorage.favs) :[],
     avaliacoes : localStorage.avaliacoes ? JSON.parse(localStorage.avaliacoes) :[],
     activeAd:localStorage.activeAd ? JSON.parse(localStorage.activeAd):null, 

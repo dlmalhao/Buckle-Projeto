@@ -4,10 +4,9 @@
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav class="mx-auto navbarContent">
-        <b-nav-item><router-link :to="{ name: 'PaginaInicial' }" class="nav-item nav-link">Página Inicial</router-link></b-nav-item>
-        <b-nav-item><router-link :to="{ name: 'Anuncios' }" class="nav-item nav-link">Anúncios</router-link></b-nav-item>
-        <b-nav-item><router-link to="/projetos" class="nav-link">Projetos</router-link></b-nav-item>
-        <b-nav-item><router-link to="/sobre" class="nav-link">Sobre</router-link></b-nav-item>
+        <b-nav-item class="nav-item nav-link" @click="$router.push({name: 'Anuncios'})">Anúncios</b-nav-item>
+        <b-nav-item class="nav-item nav-link" @click="$router.push({name: 'Projetos'})">Projetos</b-nav-item>
+        <b-nav-item class="nav-item nav-link" @click="$router.push({name: 'sobre'})">Sobre</b-nav-item>
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
         <b-nav-item v-if="loggedUser()" class="profileZone">
@@ -100,16 +99,46 @@ export default {
 
   #nav {
     padding: 20px 100px !important;
-    background-color: var(--black);
+    background-color: #202020;
   }
 
-  #nav a a {
-    color: rgb(235, 235, 235);
+  .navbarContent a {
+    color: white !important;
+    position: relative;
+    transition: 0.5s ease;
+    padding: 0 0 2px 0 !important;
+    overflow: hidden;
+    text-underline-offset: 2px;
   }
 
-  #nav a a:hover {
-    color: var(--orange);
+  .navbarContent a.active {
+    color: #202020;
   }
+
+  .navbarContent li {
+    margin: 0 10px;
+  }
+
+  .navbarContent a::after {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 0.1rem;
+    background-color: var(--orange);
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 300ms, transform 300ms;
+    transform: translate3d(-100%, 0, 0);
+  }
+
+  .navbarContent a:hover::after,
+  .navbarContent a:focus::after,
+  .navbarContent a:active::after {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
 
   .navbar-brand {
     font-size: 30px !important;
@@ -117,12 +146,13 @@ export default {
     color: white !important;
   }
 
-  .navbarContent > .nav-item {
-    margin: 0 25px;
+  #nav-collapse > .navbarContent{
+    margin-right: 100px !important;
   }
 
-  .nav-item > a > a{
-    font-size: 16px;
+  .nav-item > a {
+    font-size: 15px;
+    font-weight: 600 !important;
   }
 
   .account-link > a > .login {
@@ -184,6 +214,10 @@ export default {
     display: flex;
     align-items: center;
     font-size: 16px;
+  }
+
+  .profileZone > a > li > a{
+     color: white !important;
   }
 
   .profileZone a img {
