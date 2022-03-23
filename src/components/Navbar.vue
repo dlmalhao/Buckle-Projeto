@@ -133,8 +133,7 @@ export default {
   }
 
   .navbarContent a:hover::after,
-  .navbarContent a:focus::after,
-  .navbarContent a:active::after {
+  .navbarContent a:focus::after {
     opacity: 1;
     transform: translate3d(0, 0, 0);
   }

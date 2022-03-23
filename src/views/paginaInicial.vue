@@ -21,107 +21,86 @@
     <section class="firstBlock">
       <b-container>
         <b-row align-v="center">
-          <b-col col lg="6" order="2">
-            <div class="p-5">
-              <div>
-                <ul class="list-unstyled boxes">
-                  <b-media tag="li" class="boxesPath">
-                    <template #aside>
-                      <img class="imageBox"
-                        src="../assets/img/landingPensar.png">
-                    </template>
-                    <h5 class="mt-0 mb-1">
-                      Tens um projeto que precisa de ajuda extra
-                    </h5>
-                  </b-media>
-
-                  <b-media tag="li" class="my-4 boxesPath">
-                    <template #aside>
-                      <img class="imageBox"
-                        src="../assets/img/landingIdeia.png">
-                    </template>
-
-                    <h5 class="mt-0 mb-1">
-                      Achas que um aluno de outro curso pode ajudar
-                    </h5>
-                  </b-media>
-
-                  <b-media tag="li" class="boxesPath">
-                    <template #aside>
-                      <img class="imageBox"
-                        src="../assets/img/landingMaos.png">
-                    </template>
-
-                    <h5 class="mt-0 mb-1">
-                      Inscreves-te na Buckle e deixas a magia acontecer
-                    </h5>
-                  </b-media>
-                </ul>
-              </div>
+          <b-col md="6" order="2">
+            <div>
+              <ul class="list-unstyled boxes">
+                <b-media tag="li" class="boxesPath">
+                  <template #aside>
+                    <img class="imageBox"
+                      src="../assets/img/landingPensar.png">
+                  </template>
+                  <h5 class="mt-0 mb-1">
+                    Tens um projeto que precisa de ajuda extra
+                  </h5>
+                </b-media>
+                <b-media tag="li" class="my-4 boxesPath">
+                  <template #aside>
+                    <img class="imageBox"
+                      src="../assets/img/landingIdeia.png">
+                  </template>
+                  <h5 class="mt-0 mb-1">
+                    Achas que um aluno de outro curso pode ajudar
+                  </h5>
+                </b-media>
+                <b-media tag="li" class="boxesPath">
+                  <template #aside>
+                    <img class="imageBox"
+                      src="../assets/img/landingMaos.png">
+                  </template>
+                  <h5 class="mt-0 mb-1">
+                    Inscreves-te na Buckle e deixas a magia acontecer
+                  </h5>
+                </b-media>
+              </ul>
             </div>
           </b-col>
-          <b-col col lg="6" order="1" class="left">
-            <div class="p-5">
-              <h2 class="display-4 mainHeaders mediumFont">Aqui na Buckle facilitamos-te a vida</h2>
-              <p class="mainTexts regularFont">É simples e fácil</p>
-              <button class="btn btn-primary mainButtons blueButtons" to="/sobre" type="button">Saber mais</button>
-            </div>
+          <b-col md="6" order="1" class="left">
+            <h2 class="display-4 mainHeaders mediumFont">Aqui na Buckle facilitamos-te a vida</h2>
+            <p class="mainTexts regularFont">É simples e fácil</p>
+            <button class="btn btn-primary mainButtons blueButtons" to="/sobre" type="button">Saber mais</button>
           </b-col>
         </b-row>
       </b-container>
     </section>
 
     <section class="secondBlock">
-      <b-container>
-        <b-row align-v="center">
-          <b-col col lg="6" order="1">
-            <div class="p-5">
-              <img src="../assets/img/mainAnuncios.jpg" style="width:550px; border-radius: 15px;">
-            </div>
-          </b-col>
-          <b-col col lg="6" order="2">
-            <div class="p-5 classAnuncios">
-              <div class="display-4 mediumFont mainHeaders">
-                <h4 id="homePageAdHeader">Anúncios: </h4>
-                <p>A melhor forma de obteres aquilo que procuras</p>
-              </div>
-              <p class="regularFont mainTexts">
-                Explora todas as ofertas que os alunos da ESMAD estão a oferecer
-                ou cria um anúncio do tipo procura e vai direto ao assunto.
-              </p>
-              <button class="btn btn-primary mainButtons orangeButtons" @click="$router.push({name: 'Anuncios'})" type="button">
-                Ver anúncios
-              </button>
-            </div>
-          </b-col>
-        </b-row>
-      </b-container>
-    </section>
-    <section class="thirdBlock">
-      <b-container>
-        <b-row align-v="center">
-          <b-col col lg="6" order="2">
-            <div class="p-5">
-              <img src="../assets/img/mainProjetos.jpg" alt="" srcset="" style="width:550px; border-radius: 15px;"/>
-            </div>
-          </b-col>
-          <b-col col lg="6" order="1">
-            <div class="p-5  divProjetos">
-              <div class="display-4 mediumFont mainHeaders">
-                <h4 id="homePageProjectHeader">Projetos: </h4>
-                <p>Dá a conhecer o teu potencial</p>
-              </div>
-              <p class="regularFont mainTexts">
-                Na Buckle, damos-te também a oportunidade de mostrar o que andas
-                a fazer às grandes empresas.
-              </p>
-              <button class="btn btn-primary mainButtons blueButtons" to="/projetos" type="button">
-                Ver projetos
-              </button>
-            </div>
-          </b-col>
-        </b-row>
-      </b-container>
+      <b-row class="adDiv">
+        <b-col col lg="6" class="l" order="1">
+          <img src="../assets/img/mainAnuncios.jpg">
+        </b-col>
+        <b-col col lg="6" class="r" order="2">
+          <div class="display-4 mediumFont mainHeaders">
+            <h4 id="homePageAdHeader">Anúncios: </h4>
+            <p>A melhor forma de obteres aquilo que procuras</p>
+          </div>
+          <p class="regularFont mainTexts">
+            Explora todas as ofertas que os alunos da ESMAD estão a oferecer
+            ou cria um anúncio do tipo procura e vai direto ao assunto.
+          </p>
+          <button class="btn btn-primary mainButtons orangeButtons" @click="$router.push({name: 'Anuncios'})" type="button">
+            Ver anúncios
+          </button>
+        </b-col>
+      </b-row>
+    
+      <b-row class="projectDiv">
+        <b-col col lg="6" class="l" order="1">
+          <img src="../assets/img/mainProjetos.jpg" alt="" srcset=""/>
+        </b-col>
+        <b-col col lg="6" class="r" order="2">
+          <div class="display-4 mediumFont mainHeaders">
+            <h4 id="homePageProjectHeader">Projetos: </h4>
+            <p>Dá a conhecer o teu potencial</p>
+          </div>
+          <p class="regularFont mainTexts">
+            Na Buckle, damos-te também a oportunidade de mostrar o que andas
+            a fazer às grandes empresas.
+          </p>
+          <button class="btn btn-primary mainButtons blueButtons" to="/projetos" type="button">
+            Ver projetos
+          </button>
+        </b-col>
+      </b-row>
     </section>
 
     <section class="fourthBlock">
@@ -192,7 +171,7 @@ export default {
   computed : {
     ...mapGetters(["getUsers","getAds"]),
   },
-  mounted () {
+  created () {
    this.ads = this.getAds
    this.users = this.getUsers
   },
@@ -299,7 +278,6 @@ export default {
 }
 
 .firstBlock .left {
-  display: flex;
   padding-right: 75px;
 }
 
@@ -364,7 +342,7 @@ export default {
 }
 
 .boxes {
-  width: 520px;
+  width: 100%;
 }
 
 .imageBox {
@@ -374,34 +352,70 @@ export default {
 }
 
 .divProjetos {
-  width: 650px;
+  width: 100%;
   margin-top: -60px;
 }
 
 .classAnuncios {
-  width: 650px;
+  width: 100%;
   margin-top: -45px;
 }
 
-.firstBlock {
-  margin-top: -30px;
-}
-
 .secondBlock {
-  margin-top: 40px;
   background-color: white;
-  margin: 0 25px;
+  margin: 75px 25px 0 25px;
   border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
-.thirdBlock {
-  margin-top: 60px;
+.secondBlock img {
+  border-radius: 15px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+}
+
+.secondBlock .l {
+  padding: 15px;
+  height: 100%;
+  padding-right: 50px !important;
+}
+
+.secondBlock .row {
+  width: 100%;
+  margin: 0;
+}
+
+.secondBlock .adDiv {
+  display: flex;
+  align-items: center;
+}
+
+.secondBlock .adDiv .r {
+  border-left: 2px dashed #f179419c;
+  
+}
+
+.secondBlock .projectDiv .r {
+  border-left: 2px dashed #5266b79c;
+}
+
+.secondBlock .projectDiv {
+  padding-top: 50px;
+  display: flex;
+  align-items: center;
+}
+
+.secondBlock .r {
+  padding: 15px;
+  padding-left: 50px !important;
+  height: 100%;
 }
 
 .fourthBlock {
   margin-top: 60px;
   padding-top: 20px;
-  background-color: white;
   margin: 0 25px;
   border-radius: 15px;
 }
