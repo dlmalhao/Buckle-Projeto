@@ -14,74 +14,79 @@
         </b-container>
       </div>
     </header>
-    <b-row >
-      <div class="filterRectangle">
-        <div class="div">
-          <b-col cols="2">
-            <div class="pesquisa">
-              <p>Pesquisa</p>
-              <b-form-input type="text" v-model="search"></b-form-input>
+    <section>
+      <b-row class="filterRow">
+        <div class="filterRectangle">
+          <div class="div">
+            <div class="filterHeader">
+              <p>Filtrar por:</p>
             </div>
-          </b-col>
-          <b-col cols="2">
-            <div class="licenciatura">
-              <p>Licenciatura</p>
-              <div class="form-selects">
-                <b-form-select v-model="graduation.selected" :options="graduation.options" class="form-select cursos"></b-form-select>
+            <b-col cols="2">
+              <div class="pesquisa">
+                <p>Pesquisa</p>
+                <b-form-input type="text" v-model="search"></b-form-input>
               </div>
-            </div>
-          </b-col>
-          <b-col cols="2">
-            <div class="ordenar">
-              <p>Ordenar</p>
-              <div class="form-selects">
-                <b-form-select v-model="order.selected" :options="order.options" class="form-select cursos"></b-form-select>
-              </div>
-            </div>
-          </b-col>
-          <b-col cols="2">
-            <div class="tipo">
-              <p>Tipo</p>
-              <div class="buttons">
-                <b-button class="btn-procura" v-if="type.isProcura == false" @click="type.isProcura = true; type.isOferta = false" :class="{ active: type.isProcura }" >Procura</b-button>
-                <b-button class="btn-procura" v-if="type.isProcura == true" @click="type.isProcura = false" :class="{ active: type.isProcura }" >Procura</b-button>
-                <b-button class="btn-oferta" v-if="type.isOferta == false" @click="type.isProcura = false; type.isOferta = true" :class="{ active: type.isOferta }" >Oferta</b-button>
-                <b-button class="btn-oferta" v-if="type.isOferta == true" @click="type.isOferta = false" :class="{ active: type.isOferta }" >Oferta</b-button>
-              </div>
-            </div>
-          </b-col>
-        </div>
-      </div>
-    </b-row>
-
-    <b-row>
-      <b-col xl="3" lg="4" cols="6" style="margin-bottom: 20px;" v-for="(ad, index) in this.filteredAds" :key="index" >
-        <router-link :to="{ name: 'anuncioEspecifico', params: { id: ad.id }}">
-          <div class="cardContainer">
-            <div class="cardImage">
-              <img :src="users.find((user) => user.email == ad.email).imgBg" alt="">
-            </div>
-            <div class="cardContent">
-              <div class="adData">
-                <div class="profileImage">
-                  <img :src="users.find((user) => user.email == ad.email).profileImg" alt="">
+            </b-col>
+            <b-col cols="2">
+              <div class="licenciatura">
+                <p>Licenciatura</p>
+                <div class="form-selects">
+                  <b-form-select v-model="graduation.selected" :options="graduation.options" class="form-select cursos"></b-form-select>
                 </div>
-                <div class="nome_curso">
-                  <h4>{{users.find((user) => user.email == ad.email).first_name + " " + users.find((user) => user.email == ad.email).last_name}}</h4>
-                  <div class="curso">
-                    <p>de&nbsp;</p>
-                    <p>{{ad.course}}</p>
+              </div>
+            </b-col>
+            <b-col cols="2">
+              <div class="ordenar">
+                <p>Ordenar</p>
+                <div class="form-selects">
+                  <b-form-select v-model="order.selected" :options="order.options" class="form-select cursos"></b-form-select>
+                </div>
+              </div>
+            </b-col>
+            <b-col cols="2">
+              <div class="tipo">
+                <p>Tipo</p>
+                <div class="buttons">
+                  <b-button class="btn-procura" v-if="type.isProcura == false" @click="type.isProcura = true; type.isOferta = false" :class="{ active: type.isProcura }" >Procura</b-button>
+                  <b-button class="btn-procura" v-if="type.isProcura == true" @click="type.isProcura = false" :class="{ active: type.isProcura }" >Procura</b-button>
+                  <b-button class="btn-oferta" v-if="type.isOferta == false" @click="type.isProcura = false; type.isOferta = true" :class="{ active: type.isOferta }" >Oferta</b-button>
+                  <b-button class="btn-oferta" v-if="type.isOferta == true" @click="type.isOferta = false" :class="{ active: type.isOferta }" >Oferta</b-button>
+                </div>
+              </div>
+            </b-col>
+          </div>
+        </div>
+      </b-row>
+    
+      <b-row style="padding:0;">
+        <b-col xl="4" lg="4" cols="6" style="margin-bottom: 20px;" v-for="(ad, index) in this.filteredAds" :key="index" >
+          <router-link :to="{ name: 'anuncioEspecifico', params: { id: ad.id }}">
+            <div class="cardContainer">
+              <div class="cardImage">
+                <img :src="users.find((user) => user.email == ad.email).imgBg" alt="">
+              </div>
+              <div class="cardContent">
+                <div class="adData">
+                  <div class="profileImage">
+                    <img :src="users.find((user) => user.email == ad.email).profileImg" alt="">
+                  </div>
+                  <div class="nome_curso">
+                    <h4>{{users.find((user) => user.email == ad.email).first_name + " " + users.find((user) => user.email == ad.email).last_name}}</h4>
+                    <div class="curso">
+                      <p>de&nbsp;</p>
+                      <p>{{ad.course}}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="descricao">
-                <p>{{ad.description}}</p>
+                <div class="descricao">
+                  <p>{{ad.description}}</p>
+                </div>
               </div>
             </div>
-          </div>
-        </router-link>
-      </b-col>
-    </b-row>
+          </router-link>
+        </b-col>
+      </b-row>
+    </section>
   </div>
 </template>
 
@@ -172,37 +177,107 @@ html, body {
   height: 507px;
   margin-bottom: 80px;
 }
+.generalContainer {
+  background-color: #ebebeb;
+}
+
+.generalContainer section {
+  display: flex;
+}
+
+.filterRow {
+  padding: 0!important;
+  width: auto !important;
+  height: 440px!important;
+}
 
 .filterRectangle {
+  width: 300px;
+  height: 100%;
+  border-radius: 15px;
+  background-color: rgb(255, 255, 255) !important;
+  margin-left: 15px;
+}
+
+.filterHeader p {
+  margin: 25px 0 10px 0;
+  font-size: 18px;
+}
+
+.filterHeader {
   width: 100%;
-  height: 150px;
-  position: relative;
-  bottom: 130px;
+  border-bottom: 2px solid #ebebeb;
 }
 
 .filterRectangle > div {
-  background-color: var(--border);
   width: 100%;
   height: 100%;
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
-  border-radius: 10px;
+
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 20px;
+  flex-direction: column;
+  padding:0 30px 30px 30px;
+  align-items: flex-start;
 } 
 
-.filterRectangle .tipo .buttons .btn {
+.filterRectangle div input {
+  height: 35px!important;
+  font-size: 14px;
+}
+
+.filterRectangle div select {
+  height: 35px!important;
+  font-size: 14px;
+}
+
+.pesquisa p {
+  margin: 5px;
+  margin-top: 25px!important;
+  font-size: 14px;
+}
+
+.licenciatura p {
+  margin: 5px;
+  font-size: 14px;
+}
+
+.ordenar p {
+  margin: 5px;
+  font-size: 14px;
+}
+
+.tipo p {
+  margin: 5px;
+  font-size: 14px;
+}
+
+.licenciatura, .pesquisa, .ordenar, .tipo  {
+  margin-bottom: 25px;
+}
+
+.filterRectangle > div > .col-2 {
   width: 100%;
+}
+
+.filterRectangle .tipo .buttons .btn {
+  width: 50%;
 }
 
 .filterRectangle .tipo .buttons {
   display: flex;
+  height: 35px;
+}
+
+.filterRectangle .tipo .buttons button{
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .filterRectangle .tipo {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .filterRectangle div p {

@@ -74,8 +74,7 @@
             <p>A melhor forma de obteres aquilo que procuras</p>
           </div>
           <p class="regularFont mainTexts">
-            Explora todas as ofertas que os alunos da ESMAD estão a oferecer
-            ou cria um anúncio do tipo procura e vai direto ao assunto.
+            Explora os anúncios feitos por outros alunos caso precises de ajuda ou caso pretendas ajudar
           </p>
           <button class="btn btn-primary mainButtons orangeButtons" @click="$router.push({name: 'Anuncios'})" type="button">
             Ver anúncios
@@ -93,8 +92,7 @@
             <p>Dá a conhecer o teu potencial</p>
           </div>
           <p class="regularFont mainTexts">
-            Na Buckle, damos-te também a oportunidade de mostrar o que andas
-            a fazer às grandes empresas.
+            Na Buckle, damos-te também a oportunidade de mostrar osteus projetos às grandes empresas.
           </p>
           <button class="btn btn-primary mainButtons blueButtons" to="/projetos" type="button">
             Ver projetos
@@ -331,6 +329,7 @@ export default {
     rgba(255, 255, 255, 0.7),
     rgba(255, 255, 255, 0.3)
   );
+  box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
   border-radius: 10px;
   backdrop-filter: blur(100rem);
   font-family: var(--regularFont);
@@ -379,7 +378,12 @@ export default {
 .secondBlock .l {
   padding: 15px;
   height: 100%;
+  width: 45%;
   padding-right: 50px !important;
+}
+
+.secondBlock .r {
+  width: 55%;
 }
 
 .secondBlock .row {
