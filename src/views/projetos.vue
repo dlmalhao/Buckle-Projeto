@@ -5,9 +5,9 @@
         <b-container>
           <b-row>
             <b-col col mx="auto" class="headerText">
-              <h1 class="headerTitle">Anúncios</h1>
+              <h1 class="headerTitle">Projetos</h1>
               <p class="headerSubTitle">
-                Finalmente, um espaço de união entre os alunos da ESMAD.
+                Mostra às empresas aquilo que tens para oferecer.
               </p>
             </b-col>
           </b-row>
@@ -59,27 +59,27 @@
       </b-row>
     
       <b-row style="padding:0;">
-        <b-col xl="4" lg="4" cols="6" style="margin-bottom: 20px;" v-for="(ad, index) in this.filteredAds" :key="index" >
-          <router-link :to="{ name: 'anuncioEspecifico', params: { id: ad.id }}">
+        <b-col xl="4" lg="4" cols="6" style="margin-bottom: 20px;" v-for="(project, index) in this.projects" :key="index" >
+          <router-link :to="{ name: 'anuncioEspecifico', params: { id: project.id }}">
             <div class="cardContainer">
               <div class="cardImage">
-                <img :src="users.find((user) => user.email == ad.email).imgBg" alt="">
+                <img :src="project.cover_image" alt="">
               </div>
               <div class="cardContent">
                 <div class="adData">
                   <div class="profileImage">
-                    <img :src="users.find((user) => user.email == ad.email).profileImg" alt="">
+                    <img :src="users.find((user) => user.email == project.email).profileImg" alt="">
                   </div>
                   <div class="nome_curso">
-                    <h4>{{users.find((user) => user.email == ad.email).first_name + " " + users.find((user) => user.email == ad.email).last_name}}</h4>
+                    <h4>{{users.find((user) => user.email == project.email).first_name + " " + users.find((user) => user.email == project.email).last_name}}</h4>
                     <div class="curso">
                       <p>de&nbsp;</p>
-                      <p>{{ad.course}}</p>
+                      <p>{{users.find((user) => user.email == project.email).course}}</p>
                     </div>
                   </div>
                 </div>
                 <div class="descricao">
-                  <p>{{ad.description}}</p>
+                  <p>{{project.description}}</p>
                 </div>
               </div>
             </div>
@@ -96,7 +96,7 @@ import {mapGetters} from "vuex"
 export default {
   data() {
     return {
-      ads: [],
+      projects: [],
       users: [],
       graduation: {
         selected: null,
@@ -126,37 +126,37 @@ export default {
     }
   },
   computed : {
-    ...mapGetters(["getUsers","getAds"]),
+    ...mapGetters(["getUsers","getProjects"]),
 
-    filteredAds () {
-      let filterAds = this.ads.slice(0)
-      for(let ad of filterAds) {
-        console.log((this.users.find((user) => user.email == ad.email)).first_name.toLowerCase().includes(this.search.toLowerCase()));
-      }
-      if(this.graduation.selected != null) {
-        filterAds = filterAds.filter((ad)=> ad.course == this.graduation.selected)
-      }
-      if(this.type.isOferta) {
-        filterAds = filterAds.filter((ad)=> ad.typeAd.text == "Oferta")
-      }
-      if(this.type.isProcura) {
-        filterAds = filterAds.filter((ad)=> ad.typeAd.text == "Procura")
-      }
-      if(this.search != "") {
-        filterAds = filterAds.filter((ad)=> ad.description.toLowerCase().replace(/\s/g, '').includes(this.search.toLowerCase().replace(/\s/g, '')) || this.users.find((user) => user.email == ad.email).first_name.toLowerCase().includes(this.search.toLowerCase().replace(/\s/g, '')) || this.users.find((user) => user.email == ad.email).last_name.toLowerCase().includes(this.search.toLowerCase().replace(/\s/g, '')) )
-        // filterAds = filterAds.filter((ad)=> this.users.find((user) => user.email == ad.email).first_name.toLowerCase().includes(this.search.toLowerCase()))
-        // filterAds = this.$store.state.ads.filter((ad) => this.users.find((user)=>user.email == ad.email).first_name.toLowerCase().includes(this.search.toLowerCase()))
-        // filterAds = this.$store.state.ads.filter((ad) => this.users.find((user)=>user.email == ad.email).last_name.toLowerCase().includes(this.search.toLowerCase()))
-      }
-      // for(let user of this.users){
-      //   filterAds = filterAds.filter((ad) => ad.email == user.email)
-      // }
-      return filterAds
-    }
+    // filteredProjects () {
+    //   let filterProjects = this.projects.slice(0)
+    //   for(let project of filterProjects) {
+    //     console.log((this.users.find((user) => user.email == project.email)).first_name.toLowerCase().includes(this.search.toLowerCase()));
+    //   }
+    //   if(this.graduation.selected != null) {
+    //     filterProjects = filterProjects.filter((project)=> project.course == this.graduation.selected)
+    //   }
+    //   if(this.type.isOferta) {
+    //     filterProjects = filterProjects.filter((project)=> project.typeAd.text == "Oferta")
+    //   }
+    //   if(this.type.isProcura) {
+    //     filterProjects = filterProjects.filter((project)=> project.typeAd.text == "Procura")
+    //   }
+    //   if(this.search != "") {
+    //     filterProjects = filterProjects.filter((project)=> project.description.toLowerCase().replace(/\s/g, '').includes(this.search.toLowerCase().replace(/\s/g, '')) || this.users.find((user) => user.email == project.email).first_name.toLowerCase().includes(this.search.toLowerCase().replace(/\s/g, '')) || this.users.find((user) => user.email == project.email).last_name.toLowerCase().includes(this.search.toLowerCase().replace(/\s/g, '')) )
+    //     // filterProjects = filterProjects.filter((project)=> this.users.find((user) => user.email == project.email).first_name.toLowerCase().includes(this.search.toLowerCase()))
+    //     // filterProjects = this.$store.state.ads.filter((project) => this.users.find((user)=>user.email == project.email).first_name.toLowerCase().includes(this.search.toLowerCase()))
+    //     // filterProjects = this.$store.state.ads.filter((project) => this.users.find((user)=>user.email == project.email).last_name.toLowerCase().includes(this.search.toLowerCase()))
+    //   }
+    //   // for(let user of this.users){
+    //   //   filterProjects = filterProjects.filter((project) => project.email == user.email)
+    //   // }
+    //   return filterProjects
+    // }
   },
 
   mounted () {
-    this.ads = this.getAds
+    this.projects = this.getProjects
     this.users = this.getUsers
   },
 }
@@ -173,10 +173,10 @@ html, body {
 
  
 .masthead {
-  background-image: url("../assets/img/anunciosPage.jpg");
+  background-image: url("../assets/img/projectosMain.jpg");
+  background-size: cover;
   height: 507px;
   margin-bottom: 80px;
-  background-size: cover;
 }
 .generalContainer {
   background-color: #ebebeb;
@@ -448,90 +448,5 @@ a {
   border: none;
 }
 
-/* .btnFilter {
-  background: #f17941;
-  border-radius: 5px;
-}
-
-#searchInput {
-  height: 35px;
-  width: 230px;
-  background: #ffffff;
-  border: 1px solid rgba(241, 121, 65, 0.6);
-  box-sizing: border-box;
-  border-radius: 5px;
-}
-
-.filterSelect {
-  height: 35px;
-  width: 180px;
-  background: #ffffff;
-  border: 1px solid rgba(241, 121, 65, 0.6);
-  box-sizing: border-box;
-  border-radius: 5px;
-}
-.cardAd {
-  height: 310px;
-  background: rgba(255, 255, 255, 0.692);
-  border: 1px solid rgba(53, 53, 53, 0.8);
-  box-sizing: border-box;
-  border-radius: 15px 15px 15px 15px;
-}
-
-.cardAvatar {
-  position: absolute;
-  width: 72.86px;
-  height: 72.86px;
-  left: 10px;
-  object-fit: cover;
-  border: 1px solid #353535;
-  box-sizing: border-box;
-  border-radius: 10px;
-  transform: matrix(1, 0, 0, 1, 0, 0);
-}
-
-.cardContent {
-  margin-top: 10px;
-}
-
-.cardTitle {
-  font-family: var(--mediumFont);
-  font-style: normal;
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 15px;
-  display: flex;
-  align-items: center;
-
-  color: #353535;
-}
-
-.titleCourse {
-  font-family: var(--regularFont);
-  font-size: 16px;
-  margin-left: 5px;
-  color: rgba(53, 53, 53, 0.48);
-}
-
-.cardText {
-  font-family: var(--regularFont);
-  font-style: normal;
-  font-weight: normal;
-  font-size: 15px;
-  line-height: 18px;
-  text-align: left;
-  display: flex;
-  align-items: center;
-  color: #353535;
-}
-
-.btnShow {
-  width: 149px;
-  height: 38px;
-  background: #f17941;
-  border-radius: 5px;
-  border: none;
-  margin-top: 50px;
-  margin-bottom: 50px;
-} */
 </style>
+

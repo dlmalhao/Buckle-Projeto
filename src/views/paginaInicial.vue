@@ -392,7 +392,7 @@ export default {
 }
 
 .secondBlock .adDiv {
-  display: flex;
+  display: flex !important;
   align-items: center;
 }
 

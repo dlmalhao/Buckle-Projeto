@@ -11,6 +11,7 @@ import chat from '../views/chat.vue'
 import store from '../store/index.js'
 import perfil from '../views/perfil.vue'
 import sobre from '../views/sobre.vue'
+import projetos from '../views/projetos.vue'
 
 Vue.use(VueRouter)
 
@@ -24,6 +25,11 @@ const routes = [
     path: '/anuncios',
     name: 'Anuncios',
     component: anuncios
+  },
+  {
+    path: '/projetos',
+    name: 'Projetos',
+    component: projetos
   },
   {
     path: '/anuncios/:id',
