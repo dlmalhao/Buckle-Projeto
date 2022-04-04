@@ -60,7 +60,7 @@
     
       <b-row style="padding:0;">
         <b-col xl="4" lg="4" cols="6" style="margin-bottom: 20px;" v-for="(project, index) in this.projects" :key="index" >
-          <router-link :to="{ name: 'anuncioEspecifico', params: { id: project.id }}">
+          <router-link :to="{ name: 'projetoEspecifico', params: { id: project.id }}">
             <div class="cardContainer">
               <div class="cardImage">
                 <img :src="project.cover_image" alt="">

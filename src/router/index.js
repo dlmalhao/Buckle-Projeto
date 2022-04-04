@@ -12,6 +12,8 @@ import store from '../store/index.js'
 import perfil from '../views/perfil.vue'
 import sobre from '../views/sobre.vue'
 import projetos from '../views/projetos.vue'
+import AE from '../views/AE.vue'
+import projetoEspecifico from '../views/projetoEspecifico.vue'
 
 Vue.use(VueRouter)
 
@@ -35,6 +37,11 @@ const routes = [
     path: '/anuncios/:id',
     name: 'anuncioEspecifico',
     component: anuncioEspecifico
+  },
+  {
+    path: '/projetos/:id',
+    name: 'projetoEspecifico',
+    component: projetoEspecifico
   },
   {
     path: '/login',
@@ -90,6 +97,11 @@ const routes = [
     path: '/sobre',
     name: 'sobre',
     component: sobre
+  },
+  {
+    path: '/associacao_estudantes',
+    name: 'AE',
+    component: AE
   },
 ]
 

@@ -127,6 +127,8 @@ export default new Vuex.Store({
         title :"Projeto 1",
         description : "Este é o projeto 1",
         email :"leonor@esmad.ipp.pt",
+        link: "www.google.pt",
+        data: "2022-03-21"
       },
       {
         id: 2,
@@ -135,6 +137,8 @@ export default new Vuex.Store({
         title :"Projeto 2",
         description : "Este é o projeto 2",
         email :"user@esmad.ipp.pt",
+        link: "www.google.pt",
+        data: "2022-03-04"
       },
       {
         id: 3,
@@ -143,6 +147,8 @@ export default new Vuex.Store({
         title :"Projeto 3",
         description : "Este é o projeto 3",
         email :"tiago@esmad.ipp.pt",
+        link: "www.google.pt",
+        data: "2022-03-31"
       },
       {
         id: 4,
@@ -151,6 +157,8 @@ export default new Vuex.Store({
         title :"Projeto 4",
         description : "Este é o projeto 4",
         email :"joao@esmad.ipp.pt",
+        link: "www.google.pt",
+        data: "2022-03-19"
       },
     ],
     project_images : localStorage.project_images ? JSON.parse(localStorage.project_images) : [
@@ -177,6 +185,7 @@ export default new Vuex.Store({
     getId:(state) => state.activeAd,
     getActiveProfile:(state) => state.activeProfile,
     getAdSpecific:(state) => (id) => state.ads.find((ad)=> ad.id == id),
+    getProjectSpecific: (state) => (id) => state.projects.find((project)=> project.id == id),
     getFavs:(state) => state.favs,
     getThisAdFav:(state) => (id) => state.favs.find((fav) => fav.adId == id),
     ads: (state) => state.users,

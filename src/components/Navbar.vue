@@ -6,6 +6,7 @@
       <b-navbar-nav class="mx-auto navbarContent">
         <b-nav-item class="nav-item nav-link" @click="$router.push({name: 'Anuncios'})">Anúncios</b-nav-item>
         <b-nav-item class="nav-item nav-link" @click="$router.push({name: 'Projetos'})">Projetos</b-nav-item>
+        <b-nav-item class="nav-item nav-link" @click="$router.push({name: 'AE'})">AE</b-nav-item>
         <b-nav-item class="nav-item nav-link" @click="$router.push({name: 'sobre'})">Sobre</b-nav-item>
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
