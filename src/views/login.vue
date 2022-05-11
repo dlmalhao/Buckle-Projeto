@@ -110,11 +110,6 @@ export default {
 </script>
     
 <style scoped>
-:root {
-  --orange: #f17941;
-  --black: #353535;
-  --border: #ced4da;
-}
 
 .login button:hover {
   background-color: var(--black) !important;

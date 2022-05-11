@@ -359,10 +359,6 @@ line-height: 43px;
   position: relative;
 }
 
-.cardImage {
-  transition: 0.5s ease ;
-}
-
 .cardContainer:hover .cardImage {
   filter: grayscale(80%);
 }
@@ -402,7 +398,6 @@ a {
   height: 45px;
   overflow: hidden;
   display: -webkit-box;
-  transition: 0.5s ease ;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
 }

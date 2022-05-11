@@ -925,15 +925,6 @@ export default {
 
 <style>
 
-:root {
-        --orange: #F17941;
-        --black: #353535;
-        --border: #ced4da;
-        --blue: #5266B7;
-    }
-
-
-
 .progress {
   background-color: #FFB18C !important;
 }

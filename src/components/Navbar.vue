@@ -28,7 +28,7 @@
         <b-nav-item v-else class="account-link">
           <router-link :to="{ name: 'Login' }" class="nav-item nav-link login" v-if="CurrentPath() == '/login'">Login</router-link>
           <router-link :to="{ name: 'Login' }" class="nav-item nav-link registo" v-else-if="CurrentPath() == '/registo'">Registo</router-link>
-          <router-link :to="{ name: 'Login' }" class="nav-item nav-link" v-else>Entrar</router-link>
+          <router-link :to="{ name: 'Login' }" class="nav-item nav-link" id="entrar" v-else>Entrar</router-link>
         </b-nav-item>
       </b-navbar-nav>
     </b-collapse>
@@ -103,7 +103,7 @@ export default {
     background-color: #202020;
   }
 
-  .navbarContent a {
+  .navbarContent a, #entrar {
     color: white !important;
     position: relative;
     transition: 0.5s ease;
@@ -120,7 +120,7 @@ export default {
     margin: 0 10px;
   }
 
-  .navbarContent a::after {
+  .navbarContent a::after, #entrar::after {
     position: absolute;
     content: "";
     width: 100%;
@@ -134,11 +134,16 @@ export default {
   }
 
   .navbarContent a:hover::after,
+  #entrar:hover::after,
+  #entrar:focus::after,
   .navbarContent a:focus::after {
     opacity: 1;
     transform: translate3d(0, 0, 0);
   }
 
+  /* #entrar {
+    color: white !important;
+  } */
 
   .navbar-brand {
     font-size: 30px !important;

@@ -186,12 +186,6 @@ export default {
 </script>
     
 <style scoped>
-:root {
-  --orange: #f17941;
-  --black: #353535;
-  --border: #ced4da;
-  --blue: #5266b7;
-}
 
 button {
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
