@@ -170,9 +170,20 @@ export default new Vuex.Store({
     ],
     loggedUser: localStorage.loggedUser ? JSON.parse(localStorage.loggedUser) : null,
     favs : localStorage.favs ? JSON.parse(localStorage.favs) :[],
+    aeFavs : localStorage.aeFavs ? JSON.parse(localStorage.aeFavs) :[],
     avaliacoes : localStorage.avaliacoes ? JSON.parse(localStorage.avaliacoes) :[],
     activeAd:localStorage.activeAd ? JSON.parse(localStorage.activeAd):null, 
     activeProfile : localStorage.activeProfile ? JSON.parse(localStorage.activeProfile) : null,
+    ae : localStorage.ae ? JSON.parse(localStorage.ae) :[
+      {
+        id: 0,
+        email: "joao@esmad.ipp.pt",
+        description: "Festa logo á noite !!!",
+        date :  "22222",
+        likes : 0,
+        usersThatLiked: ["admin@esmad.ipp.pt"]
+      },
+    ]
   },
   getters: {
     isLoginValid: (state) => (email, password) => state.users.some((user) => user.email === email && user.password === password),
@@ -180,6 +191,8 @@ export default new Vuex.Store({
     getUsers: (state) => state.users,
     getLoggedUser: (state) => state.loggedUser,
     getAds : (state) => state.ads,
+    getAe : (state) => state.ae,
+    getAeFavs : (state) => state.aeFavs,
     getProjects : (state) => state.projects,
     getAdsId: (state) => state.ads ? state.ads[state.ads.length - 1].id + 1 : 0,
     getId:(state) => state.activeAd,
@@ -223,13 +236,25 @@ export default new Vuex.Store({
       state.favs.push(payload)
       localStorage.favs = JSON.stringify(state.favs)
     },
+    ADD_AE_FAV(state, payload) {
+      state.aeFavs.push(payload)
+      localStorage.aeFavs = JSON.stringify(state.aeFavs)
+    },
     REMOVE_FAV(state,payload) {
       state.favs.splice(payload,1)
       localStorage.favs = JSON.stringify(state.favs)
     },
+    REMOVE_AE_FAV(state,payload) {
+      state.aeFavs.splice(payload,1)
+      localStorage.aeFavs = JSON.stringify(state.aeFavs)
+    },
     REMOVE_AD(state,payload) {
       state.ads.splice(payload,1)
       localStorage.ads = JSON.stringify(state.ads)
+    }, 
+    REMOVE_AE_AD(state,payload) {
+      state.ae.splice(payload,1)
+      localStorage.ae = JSON.stringify(state.ae)
     },
     REMOVE_USER(state,payload) {
       state.users.splice(payload,1)
@@ -249,6 +274,11 @@ export default new Vuex.Store({
       state.activeProfile = state.users.find((user) => user.email === payload);
       localStorage.activeProfile = JSON.stringify(state.activeProfile)
       
+    },
+
+    SET_NEW_AE_AD(state,payload) {
+      state.ae.push(payload)
+      localStorage.ae = JSON.stringify(state.ae)
     },
 
     ADD_COMMENT(state,payload) {

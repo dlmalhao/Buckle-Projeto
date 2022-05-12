@@ -73,7 +73,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
     footer {
         border-top: 1px solid var(--border);
