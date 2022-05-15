@@ -23,7 +23,7 @@
     </header>
 
     <section class="firstBlock">
-      <b-container>
+      <div class="firstBlockContainer">
         <b-row align-v="center">
           <b-col md="6" order="2">
             <div>
@@ -73,53 +73,56 @@
             <button class="btn btn-primary mainButtons blueButtons" to="/sobre" type="button">Saber mais</button>
           </b-col>
         </b-row>
-      </b-container>
+      </div>
     </section>
 
     <section class="secondBlock">
-      <b-row class="adDiv">
-        <b-col col lg="6" class="l" order="1">
-          <picture>
-            <source type="image/webp" srcset="../assets/img/mainAnuncios.webp">
-            <source type="image/jpg" srcset="../assets/img/mainAnuncios.jpg">
-            <img src="../assets/img/mainAnuncios.jpg" class="imageBox">
-          </picture>
-        </b-col>
-        <b-col col lg="6" class="r" order="2">
-          <div class="display-4 mediumFont mainHeaders">
-            <h4 id="homePageAdHeader">Anúncios: </h4>
-            <p>A melhor forma de obteres aquilo que procuras</p>
-          </div>
-          <p class="regularFont mainTexts">
-            Explora os anúncios feitos por outros alunos caso precises de ajuda ou caso pretendas ajudar
-          </p>
-          <button class="btn btn-primary mainButtons orangeButtons" @click="$router.push({name: 'Anuncios'})" type="button">
-            Ver anúncios
-          </button>
-        </b-col>
-      </b-row>
+      <div class="secondBlockContainer">
+        <b-row class="adDiv">
+          <b-col col lg="6" class="l" order="1">
+            <picture>
+              <source type="image/webp" srcset="../assets/img/mainAnuncios.webp">
+              <source type="image/jpg" srcset="../assets/img/mainAnuncios.jpg">
+              <img src="../assets/img/mainAnuncios.jpg" class="imageBox">
+            </picture>
+          </b-col>
+          <b-col col lg="6" class="r" order="2">
+            <div class="display-4 mediumFont mainHeaders">
+              <h4 id="homePageAdHeader">Anúncios: </h4>
+              <p>A melhor forma de obteres aquilo que procuras</p>
+            </div>
+            <p class="regularFont mainTexts">
+              Explora os anúncios feitos por outros alunos caso precises de ajuda ou caso pretendas ajudar
+            </p>
+            <button class="btn btn-primary mainButtons orangeButtons" @click="$router.push({name: 'Anuncios'})" type="button">
+              Ver anúncios
+            </button>
+          </b-col>
+        </b-row>
+      
     
-      <b-row class="projectDiv">
-        <b-col col lg="6" class="l" order="1">
-          <picture>
-            <source type="image/webp" srcset="../assets/img/mainProjetos.webp">
-            <source type="image/jpg" srcset="../assets/img/mainProjetos.jpg">
-            <img src="../assets/img/mainProjetos.jpg" class="imageBox">
-          </picture>
-        </b-col>
-        <b-col col lg="6" class="r" order="2">
-          <div class="display-4 mediumFont mainHeaders">
-            <h4 id="homePageProjectHeader">Projetos: </h4>
-            <p>Dá a conhecer o teu potencial</p>
-          </div>
-          <p class="regularFont mainTexts">
-            Na Buckle, damos-te também a oportunidade de mostrar osteus projetos às grandes empresas.
-          </p>
-          <button class="btn btn-primary mainButtons blueButtons" to="/projetos" type="button">
-            Ver projetos
-          </button>
-        </b-col>
-      </b-row>
+        <b-row class="projectDiv">
+          <b-col col lg="6" class="l" order="1">
+            <picture>
+              <source type="image/webp" srcset="../assets/img/mainProjetos.webp">
+              <source type="image/jpg" srcset="../assets/img/mainProjetos.jpg">
+              <img src="../assets/img/mainProjetos.jpg" class="imageBox">
+            </picture>
+          </b-col>
+          <b-col col lg="6" class="r" order="2">
+            <div class="display-4 mediumFont mainHeaders">
+              <h4 id="homePageProjectHeader">Projetos: </h4>
+              <p>Dá a conhecer o teu potencial</p>
+            </div>
+            <p class="regularFont mainTexts">
+              Na Buckle, damos-te também a oportunidade de mostrar osteus projetos às grandes empresas.
+            </p>
+            <button class="btn btn-primary mainButtons blueButtons" to="/projetos" type="button">
+              Ver projetos
+            </button>
+          </b-col>
+        </b-row>
+      </div>
     </section>
 
     <section class="fourthBlock">
@@ -128,27 +131,27 @@
           <h2 class="text-center regularFont recentAdsHeader mainHeaders">Os anúncios mais recentes</h2>
         </div>
         <b-row class="adRow">
-          <b-col class="adCol" xl="4" lg="4" cols="6" style="margin-bottom: 20px;" v-for="(ad, index) in ads" :key="index" >
-            <router-link v-if="index < 3" :to="{ name: 'anuncioEspecifico', params: { id: ad.id }}">
+          <b-col class="adCol" xl="4" lg="4" cols="6" style="margin-bottom: 20px;" v-for="(index) in 3" :key="index" >
+            <router-link :to="{ name: 'anuncioEspecifico', params: { id: ads[index].id }}">
               <div class="cardContainer">
                 <div class="cardImage">
-                  <img :src="ad.imgBg" alt="">
+                  <img :src="ads[index].imgBg" alt="">
                 </div>
                 <div class="cardContent">
                   <div class="adData">
                     <div class="profileImage">
-                      <img :src="users.find((user) => user.email == ad.email).profileImg" alt="">
+                      <img :src="users.find((user) => user.email == ads[index].email).profileImg" alt="">
                     </div>
                     <div class="nome_curso">
-                      <h4>{{users.find((user) => user.email == ad.email).first_name + " " + users.find((user) => user.email == ad.email).last_name}}</h4>
+                      <h4>{{users.find((user) => user.email == ads[index].email).first_name + " " + users.find((user) => user.email == ads[index].email).last_name}}</h4>
                       <div class="curso">
                         <p>de&nbsp;</p>
-                        <p>{{ad.course}}</p>
+                        <p>{{ads[index].course}}</p>
                       </div>
                     </div>
                   </div>
                   <div class="descricao">
-                    <p>{{ad.description}}</p>
+                    <p>{{ads[index].description}}</p>
                   </div>
                 </div>
               </div>
@@ -167,27 +170,27 @@
           <h2 class="regularFont recentProjectsHeader mainHeaders">Os projetos mais recentes</h2>
         </div>
         <b-row class="adRowRecent">
-          <b-col class="adCol" xl="4" lg="4" cols="6" style="margin-bottom: 20px;" v-for="(project, index) in projects" :key="index" >
-            <router-link v-if="index < 3" :to="{ name: 'projetoEspecifico', params: { id: project.id }}">
+          <b-col class="adCol" xl="4" lg="4" cols="6" style="margin-bottom: 20px;" v-for="index in 3" :key="index" >
+            <router-link :to="{ name: 'projetoEspecifico', params: { id: projects[index].id }}">
               <div class="cardContainer">
                 <div class="cardImage">
-                  <img :src="project.cover_image" alt="">
+                  <img :src="projects[index].cover_image" alt="">
                 </div>
                 <div class="cardContent">
                   <div class="adData">
                     <div class="profileImage">
-                      <img :src="users.find((user) => user.email == project.email).profileImg" alt="">
+                      <img :src="users.find((user) => user.email == projects[index].email).profileImg" alt="">
                     </div>
                     <div class="nome_curso">
-                      <h4>{{users.find((user) => user.email == project.email).first_name + " " + users.find((user) => user.email == project.email).last_name}}</h4>
+                      <h4>{{users.find((user) => user.email == projects[index].email).first_name + " " + users.find((user) => user.email == projects[index].email).last_name}}</h4>
                       <div class="curso">
                         <p>de&nbsp;</p>
-                        <p>{{users.find((user) => user.email == project.email).course}}</p>
+                        <p>{{users.find((user) => user.email == projects[index].email).course}}</p>
                       </div>
                     </div>
                   </div>
                   <div class="descricao">
-                    <p>{{project.description}}</p>
+                    <p>{{projects[index].description}}</p>
                   </div>
                 </div>
               </div>
@@ -259,24 +262,32 @@ export default {
   border-radius: 10px;
   text-align: center !important;
   color: white !important;
-  background-color: var(--black) !important;
   border: none;
-  margin-bottom: 40px;
+  margin-bottom: 40px !important;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+.adRow .lastButton {
+  background-color: var(--orange) !important;
+}
+
+.adRowRecent .lastButton {
+  background-color: var(--blue) !important;
+}
+
 .lastButton:hover {
-  background-color: white !important;
-  color: var(--black) !important;
+  background-color: var(--black) !important;
 }
 
 .text-center {
   margin-bottom: 60px;
 }
 
-
+.firstBlockContainer {
+  margin: 0 10%;
+}
 
 .imageContainer {
   padding: 0 0px 75px 0px;
@@ -421,10 +432,9 @@ export default {
 }
 
 .secondBlock {
-  background-color: white;
-  margin: 75px 25px 0 25px;
-  border-radius: 15px;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  background-color: #f5f5f5;
+  margin-top: 75px;
+  padding-bottom: 30px;
 }
 
 .secondBlock img {
@@ -435,17 +445,16 @@ export default {
 }
 
 .recentAdsDiv h2, .recentProjectsDiv h2 {
-  font-weight: bold;
-  margin-top: 30px;
-  margin-bottom: 40px;
+  padding-top: 15px;
   text-align: center;
-  font-size: 25px;
+  font-size: 22px;
   color: white;
 }
 
 .recentAdsDiv, .recentProjectsDiv {
   width: 500px;
   margin: 0 auto;
+  height: 60px;
   padding: 2px 0 2px 0;
   border-radius: 15px 15px 0 0;
 }
@@ -460,9 +469,13 @@ export default {
 
 .secondBlock .l {
   padding: 15px;
-  height: 100%;
+  height: 400px;
   width: 45%;
   padding-right: 50px !important;
+}
+
+.secondBlockContainer {
+  margin: 0 6%;
 }
 
 .secondBlock .r {
@@ -501,9 +514,8 @@ export default {
 }
 
 .fourthBlock {
-  margin: 80px 25px 0 25px;
+  margin-top: 80px;
   padding-top: 20px;
-  border-radius: 15px;
 }
 
 .fourthBlock .container div h2 {
@@ -512,7 +524,8 @@ export default {
 }
 
 .fifthBlock {
-  margin: 100px 25px 60px 25px;
+  margin: 100px 0px 60px 0px;
+  padding-bottom: 100px;
 }
 
 .cardAdNew {
@@ -596,13 +609,12 @@ export default {
   max-width: none;
   margin: 0;
   padding: 0 150px;
-  padding-top: 40px;
-  border-radius: 15px;
-  background-color: white;
+  padding-top: 85px;
+  background-color: #f5f5f5;
 }
 
 .adCol {
-  margin-bottom: 25px;
+  padding-bottom: 40px;
 }
 
 .cardContainer {
