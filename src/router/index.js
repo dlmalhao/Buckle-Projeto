@@ -101,7 +101,10 @@ const routes = [
   {
     path: '/associacao_estudantes',
     name: 'AE',
-    component: AE
+    component: AE,
+    meta: {
+      requiresAuth: true,
+    }
   },
 ]
 

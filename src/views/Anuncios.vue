@@ -1,6 +1,11 @@
 <template>
   <div class="generalContainer">
     <header class="masthead">
+      <picture>
+        <source type="image/webp" srcset="../assets/img/anunciosPage.webp">
+        <source type="image/jpg" srcset="../assets/img/anunciosPage.jpg">
+        <img src="../assets/img/anunciosPage.jpg" class="imageBox">
+      </picture>
       <div class="intro-body">
         <b-container>
           <b-row>
@@ -171,13 +176,17 @@ html, body {
   overflow-x:hidden ;
 } 
 
- 
 .masthead {
-  background-image: url("../assets/img/anunciosPage.jpg");
   height: 507px;
   margin-bottom: 80px;
-  background-size: cover;
 }
+
+.masthead img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .generalContainer {
   background-color: #ebebeb;
 }

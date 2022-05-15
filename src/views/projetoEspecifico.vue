@@ -3,7 +3,20 @@
     <b-container>
       <b-row>
         <b-col col lg="7">
-          <img class="adImage" :src="getActiveProfile.imgBg" />
+          <div class="imagesCarousel" style="height: 100%;">
+            <b-carousel
+              style="text-shadow: 0px 0px 2px #000; height: 100%;"
+              no-animation
+              controls
+              indicators
+              img-width="1024"
+              img-height="200"
+            >
+              <b-carousel-slide style="height: 200px !important;" v-for="(image, index) in thisProjectImages" :key="index"
+                :img-src="image.image_src"
+              ></b-carousel-slide>
+            </b-carousel>
+          </div>
         </b-col>
         <b-col col lg="5">
           <div class="specificAdInfo">
@@ -74,19 +87,35 @@ export default {
       users: [],
       favs: [],
       userEmail: "",
-      idAd: ""
+      idAd: "",
+      projects: [],
+      allProjectImages: [],
+      thisProjectImages: []
     }
   },
   computed: {
-    ...mapGetters(["getProjectSpecific", "getUsers","getFavs","getLoggedUser", "getActiveProfile"]),
+    ...mapGetters(["getProjectSpecific", "getUsers","getFavs","getLoggedUser", "getActiveProfile", "getProjects", "getProjectImages"]),
+
   },
   created() {
     this.projectEspecific = this.getProjectSpecific(this.$route.params.id)
+    this.projects = this.getProjects
+    this.allProjectImages = this.getProjectImages
     this.users = this.getUsers
     this.favs = this.getFavs
+
+    for (const project of this.projects) {
+      for (const image of this.allProjectImages) {
+        if(project.id == image.project_id && project.id == this.$route.params.id) {
+          this.thisProjectImages.push(image)
+        }
+      }
+    }
+
     if(this.getLoggedUser) {
       this.loggedUser = this.getLoggedUser
     }
+
     this.SET_ACTIVE_PROFILE(this.projectEspecific.email);
     
     this.SET_ACTIVE_AD(this.projectEspecific.id)
@@ -293,5 +322,11 @@ button {
   font-size: 16px;
   font-weight: light;
 }
+
+.carousel-item img {
+  height: 200px !important;
+}
+
+
 
 </style>

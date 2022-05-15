@@ -1,7 +1,11 @@
 <template>
     <div>
         <div class="generalContainer">
-            <img class="backgroundImage" src="../assets/img/sobreMain.jpg" alt="">
+            <picture style="width:100%;">
+                <source type="image/webp" srcset="../assets/img/sobreMain.webp">
+                <source type="image/jpg" srcset="../assets/img/sobreMain.jpg">
+                <img src="../assets/img/sobreMain.jpg" class="backgroundImage">
+            </picture>
             <div class="containerBackgroundImage">
                 <h2>Sobre Nós</h2>
             </div>
@@ -17,7 +21,11 @@
         </div>
         <b-row class="sector2">
             <b-col class="leftSide" xl="6">
-                <img src="../assets/img/esmad.jpg" alt="" class="esmadImg">
+                <picture style="width:100%;">
+                    <source type="image/webp" srcset="../assets/img/esmad.webp">
+                    <source type="image/jpg" srcset="../assets/img/esmad.jpg">
+                    <img src="../assets/img/esmad.jpg" class="esmadImg">
+                </picture>
             </b-col>
             <b-col class="rightSide" xl="6">
                 <div class="title">

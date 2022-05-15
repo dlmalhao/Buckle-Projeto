@@ -1,6 +1,11 @@
 <template>
   <div class="generalContainer">
     <header class="masthead">
+      <picture>
+        <source type="image/webp" srcset="../assets/img/projectosMain.webp">
+        <source type="image/jpg" srcset="../assets/img/projectosMain.jpg">
+        <img src="../assets/img/projectosMain.jpg" class="imageBox">
+      </picture>
       <div class="intro-body">
         <b-container>
           <b-row>
@@ -173,11 +178,16 @@ html, body {
 
  
 .masthead {
-  background-image: url("../assets/img/projectosMain.jpg");
-  background-size: cover;
   height: 507px;
   margin-bottom: 80px;
 }
+
+.masthead img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .generalContainer {
   background-color: #ebebeb;
 }
@@ -318,8 +328,8 @@ line-height: 43px;
 }
 
 .cardImage img {
-  width: 100%;
-  height: 340px;
+  width: 490px;
+  height: 220px;
   border-radius: 5px 5px 0 0;
   object-fit: cover;
 }

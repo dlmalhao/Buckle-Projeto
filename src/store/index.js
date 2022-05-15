@@ -165,7 +165,47 @@ export default new Vuex.Store({
       {
         project_id: 1,
         image_id: 1,
-        image_src: ""
+        image_src: "https://t4.ftcdn.net/jpg/04/75/67/67/360_F_475676739_4uSdpV10kGemUK6JN0MPrWLVOhxyZ49R.jpg"
+      },
+      {
+        project_id: 1,
+        image_id: 2,
+        image_src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRw4Xaf0afxbWT0zXRo6apRDS4y8jJPcM0dWg&usqp=CAU"
+      },
+      {
+        project_id: 1,
+        image_id: 3,
+        image_src: "https://lumiere-a.akamaihd.net/v1/images/sa_pixar_virtualbg_coco_16x9_9ccd7110.jpeg"
+      },
+      {
+        project_id: 2,
+        image_id: 1,
+        image_src: "https://t4.ftcdn.net/jpg/04/75/67/67/360_F_475676739_4uSdpV10kGemUK6JN0MPrWLVOhxyZ49R.jpg"
+      },
+      {
+        project_id: 2,
+        image_id: 2,
+        image_src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRw4Xaf0afxbWT0zXRo6apRDS4y8jJPcM0dWg&usqp=CAU"
+      },
+      {
+        project_id: 3,
+        image_id: 3,
+        image_src: "https://lumiere-a.akamaihd.net/v1/images/sa_pixar_virtualbg_coco_16x9_9ccd7110.jpeg"
+      },
+      {
+        project_id: 3,
+        image_id: 1,
+        image_src: "https://t4.ftcdn.net/jpg/04/75/67/67/360_F_475676739_4uSdpV10kGemUK6JN0MPrWLVOhxyZ49R.jpg"
+      },
+      {
+        project_id: 3,
+        image_id: 2,
+        image_src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRw4Xaf0afxbWT0zXRo6apRDS4y8jJPcM0dWg&usqp=CAU"
+      },
+      {
+        project_id: 3,
+        image_id: 3,
+        image_src: "https://lumiere-a.akamaihd.net/v1/images/sa_pixar_virtualbg_coco_16x9_9ccd7110.jpeg"
       },
     ],
     loggedUser: localStorage.loggedUser ? JSON.parse(localStorage.loggedUser) : null,
@@ -194,6 +234,7 @@ export default new Vuex.Store({
     getAe : (state) => state.ae,
     getAeFavs : (state) => state.aeFavs,
     getProjects : (state) => state.projects,
+    getProjectImages: (state) => state.project_images,
     getAdsId: (state) => state.ads ? state.ads[state.ads.length - 1].id + 1 : 0,
     getId:(state) => state.activeAd,
     getActiveProfile:(state) => state.activeProfile,
