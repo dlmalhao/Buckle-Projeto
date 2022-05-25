@@ -219,7 +219,7 @@ export default new Vuex.Store({
         id: 0,
         email: "joao@esmad.ipp.pt",
         description: "Festa logo á noite !!!",
-        date :  "22222",
+        date :  "15:17?2022-5-17",
         likes : 0,
         usersThatLiked: ["admin@esmad.ipp.pt"]
       },
@@ -326,7 +326,14 @@ export default new Vuex.Store({
       state.avaliacoes.push(payload)
       localStorage.avaliacoes = JSON.stringify(state.avaliacoes)
     },
-
+    INCREASE_LIKES(state,payload) {
+      state.ae[payload].likes++
+      localStorage.as = JSON.stringify(state.ae)
+    },
+    DECREASE_LIKES(state,payload) {
+      state.ae[payload].likes--
+      localStorage.as = JSON.stringify(state.ae)
+    }
   },
   actions: {
   },

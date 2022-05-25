@@ -57,7 +57,7 @@
                       <h5>{{ad.email}}</h5>
                     </div>
                     <div class="texto_data">
-                      <p>{{ad.date}}</p>
+                      <p>{{formatTimeAndDate(ad.date)}}</p>
                     </div>
                   </div>
                 </div>
@@ -66,7 +66,8 @@
                 </div>
                 <div class="actions">
                   <div class="like">
-                    <a v-if="favs.find((favs) => favs.topicIdx == index)" @click="removeFavourite(index)"><b-icon icon="heart-fill" style="width: 20px; height: 20px; color: green;"></b-icon></a>
+                    <span v-if="ad.likes > 0">{{ad.likes}}</span>
+                    <a v-if="favs.find((fav) => fav.topicIdx == index && fav.userEmail == loggedUser.email)" @click="removeFavourite(index)"><b-icon icon="heart-fill" style="width: 20px; height: 20px; color: green;"></b-icon></a>
                     <a v-else @click="addFavourite(index)"><b-icon icon="heart" style="width: 20px; height: 20px;"></b-icon></a>
                   </div>
                   <div class="delete" v-if="ad.email == loggedUser.email">
@@ -165,17 +166,68 @@ export default {
     this.favs = this.getAeFavs
   },
   methods: {
-    ...mapMutations(["SET_NEW_AE_AD", "REMOVE_AE_AD","ADD_AE_FAV", "REMOVE_AE_FAV"]),
+    ...mapMutations(["SET_NEW_AE_AD", "REMOVE_AE_AD","ADD_AE_FAV", "REMOVE_AE_FAV", "INCREASE_LIKES", "DECREASE_LIKES"]),
+
+    // formatDateAndTime (date) {
+    //   let currentDay = new Date().getDate()
+    //   let currentYear = new Date().getFullYear()
+    //   let currentMonth = new Date().getMonth()
+    //   let currentDate = currentYear + "/" + currentMonth + "/" + currentDay
+    //   let currentTime = new Date().getHours() + ":" + new Date().getMinutes()
+    //   let dateDay = date.getDate()
+    //   let dateMonth = date.getMonth()
+    //   let dateYear = date.getFullYear()
+
+    //   if(currentYear == dateYear) {
+    //     if((currentMonth) == dateMonth) {
+    //       if(currentDay == dateDay) {
+
+    //         return currentTime
+    //       }
+    //       else {
+    //         return currentDate
+    //       }
+    //     }
+    //     else {
+    //         return currentDate
+    //       }
+    //   }
+    //   else {
+    //         return currentDate
+    //       }
+    // },
+
+    formatTimeAndDate (timeAndDate) {
+      let timeAndDateArray = timeAndDate.split("?");
+      let unformattedDate = timeAndDateArray[1].split("-")
+      let formattedDate = unformattedDate[2] + "/" + unformattedDate[1]+ "/" + unformattedDate[0]
+      return formattedDate + " " + "-" + " " + timeAndDateArray[0];
+      // let date = timeAndDateArray[1]
+      // console.log(date)
+      // let DateArray = date.split("-")
+      // let formatedDate = DateArray[2] + "-" + DateArray[1] + "-" + DateArray[0]
+      // console.log(formatedDate)
+    },
+
+    aeId() {
+      if(this.ae.length > 0) {
+        return this.ae[this.ae.length-1].id + 1
+      }
+      else {
+        return 0
+      }
+    },
+    
 
     addTopic() {
       const today = new Date()
       const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()
       const time = today.getHours() + ":" + today.getMinutes()
       const formData = {
-        id: this.ae[this.ae.length-1].id + 1,
+        id: this.aeId(),
         email: this.loggedUser.email,
         description: this.formDescription,
-        date: date + "?" + time,
+        date: time + "?" + date,
         likes: 0
       }
       this.SET_NEW_AE_AD(formData)
@@ -209,10 +261,12 @@ export default {
         topicIdx: i
       }  
       this.ADD_AE_FAV(favData)
+      this.INCREASE_LIKES(i)
     },
     removeFavourite(i) {
       let idx = this.favs.indexOf(this.favs.find((fav) => fav.topicIdx == i))
       this.REMOVE_AE_FAV(idx)
+      this.DECREASE_LIKES(i)
     },
   }
 }
@@ -597,6 +651,12 @@ a {
 
 .form-submit button {
   width: 100%;
+}
+
+.actions .like span {
+  position: absolute;
+  bottom: 12px;
+  right: 86px;
 }
 
 </style>
