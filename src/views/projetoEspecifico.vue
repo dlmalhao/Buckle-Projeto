@@ -10,9 +10,9 @@
               controls
               indicators
               img-width="1024"
-              img-height="200"
+              img-height="600"
             >
-              <b-carousel-slide style="height: 200px !important;" v-for="(image, index) in thisProjectImages" :key="index"
+              <b-carousel-slide style="height: 600px !important;" v-for="(image, index) in thisProjectImages" :key="index"
                 :img-src="image.image_src"
               ></b-carousel-slide>
             </b-carousel>

@@ -92,4 +92,60 @@ export default {
   font-weight: bold;
   color: #2c3e50;
 }
+
+.myTabs .col-auto ul {
+  background-color: white;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  padding: 0;
+}
+
+.myTabs .col-auto .nav-item a{
+  color: var(--black);
+  text-align: left;
+}
+
+.myTabs .col-auto .nav-link.active {
+  color: white;
+  background-color: var(--orange);
+}
+
+.myTabs .col-auto .nav-item {
+  padding: 5px 10px;
+}
+
+.myTabs .col-auto .profileArea {
+  color: var(--black);
+  margin-bottom: 10px;
+  border-bottom: 1px solid ;
+}
+
+.myTabs .tab-content {
+  padding-left: 0;
+}
+
+.myTabs {
+  margin: 0;
+}
+
+.profileArea .sector1 {
+  padding: 0 15px;
+}
+
+.ads-tab section{
+  display: flex;
+  justify-content: space-between;
+}
+
+.ads-tab section .filterRow{
+  order: 2;
+}
+
+.ads-tab section .ads-row{
+  order: 1;
+  margin-top: 10px;
+}
+
+
+
+
 </style>
