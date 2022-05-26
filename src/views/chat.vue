@@ -5,14 +5,14 @@
                 <div class="left-side-container">
                     <div class="left-side-header">
                         <b-dropdown id="dropdown-1" class="m-md-2">
-                            <template #button-content>{{getLoggedUser.first_name}}</template>
+                            <template #button-content>Diogo</template>
                             <b-dropdown-item>Definições de perfil</b-dropdown-item>
                             <b-dropdown-item>Os teus anúncios</b-dropdown-item>
                             <b-dropdown-item>Os teus projetos</b-dropdown-item>
                             <b-dropdown-item>Favoritos</b-dropdown-item>
                             <b-dropdown-item>Avaliações</b-dropdown-item>
                             <b-dropdown-divider></b-dropdown-divider>
-                            <b-dropdown-item @click="logOut()">Terminar sessão</b-dropdown-item>
+                            <b-dropdown-item >Terminar sessão</b-dropdown-item>
                         </b-dropdown>
                     </div>
                     <div class="left-side-content">

@@ -4,7 +4,7 @@
 
     <router-view />
 
-    <Footer />
+    <Footer v-if="this.$router.currentRoute.path !== '/perfil'" />
   </div>
 </template>
 
@@ -114,17 +114,17 @@ export default {
 }
 
 .myTabs .col-auto .profileArea {
-  color: var(--black);
+  color: white;
   margin-bottom: 10px;
-  border-bottom: 1px solid ;
+  background-color: var(--orange);
 }
 
 .myTabs .tab-content {
-  padding-left: 0;
+  padding: 0;
 }
 
 .myTabs {
-  margin: 0;
+  margin: 0 !important;
 }
 
 .profileArea .sector1 {
@@ -142,10 +142,30 @@ export default {
 
 .ads-tab section .ads-row{
   order: 1;
-  margin-top: 10px;
+  margin: 10px 0 0 0;
+  padding: 0 15px;
+}
+
+.projects-tab section{
+  display: flex;
+  justify-content: space-between;
+}
+
+.projects-tab section .filterRow{
+  order: 2;
+}
+
+.projects-tab section .projects-row{
+  order: 1;
+  margin: 10px 0 0 0;
+  padding: 0 15px;
 }
 
 
+
+.myTabs .col-auto {
+  padding: 0;
+}
 
 
 </style>
