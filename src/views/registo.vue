@@ -18,7 +18,7 @@
               </router-link>
               <b-button type="button" class="register-btn2">Registo</b-button>
             </div>
-            <form @submit.prevent="register">
+            <form @submit.prevent="registerUser">
               <div class="form-names">
                 <b-form-input
                   type="text"
@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex";
+import { mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {
   data: function () {
@@ -120,7 +120,6 @@ export default {
         confirm_password: "",
         favs: [],
         description: "",
-        
       },
     };
   },
@@ -129,33 +128,31 @@ export default {
   },
   methods: {
     ...mapMutations(["SET_NEW_USER"]),
+    ...mapActions(["register"]),
 
-    register() {
-      const form_data = {
-        first_name: this.form.first_name,
-        last_name: this.form.last_name,
-        course: this.form.course.selected,
-        gender: this.form.gender.selected,
-        email: this.form.email,
-        password: this.form.password,
-        role: "user",
-        status: "active",
-        favs: this.form.favs,
-        description: this.form.description,
-        profileImg: "https://cdn3.iconfinder.com/data/icons/vector-icons-6/96/256-512.png",
-        imgBg: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80'
-      };
-
-      if (!this.isEmailRegistered(form_data.email)) {
+    async registerUser() {
+      try {
         if (this.form.password === this.form.confirm_password) {
           if (this.form.password.length >= 8) {
-            this.SET_NEW_USER(form_data);
-            Swal.fire({
-              icon: "success",
-              title: "Sucesso",
-              text: "Agora já podes fazer login!",
-              confirmButtonText: "Entrar",
+            const response = await this.register({
+              email_utilizador: this.form.email,
+              nome: this.form.first_name,
+              sobrenome: this.form.last_name,
+              password: this.form.password,
+              descricao_curso: this.form.course.selected,
+              role: "Student",
             });
+            if (response.data.success) {
+              Swal.fire({
+                icon: "success",
+                title: "Sucesso",
+                text: "Registado com sucesso!",
+                confirmButtonText: "Entrar",
+              });
+              this.$router.push('/login')
+            } else {
+              throw new Error(response.data.message);
+            }
           } else {
             Swal.fire({
               icon: "error",
@@ -172,12 +169,11 @@ export default {
             confirmButtonText: "Tentar outra vez..",
           });
         }
-      } else {
+      } catch (err) {
         Swal.fire({
           icon: "error",
-          title: "Oops...",
-          text: "Esse email já está registado noutra conta!",
-          confirmButtonText: "Tentar outra vez..",
+          title: "Error",
+          text: "O email já está registado!",
         });
       }
     },
@@ -186,7 +182,6 @@ export default {
 </script>
     
 <style scoped>
-
 button {
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
     border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
