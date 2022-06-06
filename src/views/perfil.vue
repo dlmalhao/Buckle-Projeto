@@ -512,7 +512,6 @@
                         <b-tab class="buttonsProfile" title="Anúncios" @click="selectorOtherPerson ='anunciosOtherPerson'"></b-tab>
                         <b-tab class="buttonsProfile" title="Projetos " @click="selectorOtherPerson ='projetosOtherPerson'"></b-tab>
                         <b-tab class="buttonsProfile" title="Avaliações" @click="selectorOtherPerson ='avaliacoesOtherPerson'"></b-tab>
-
                       </b-tabs>
               </b-card>
           </div>

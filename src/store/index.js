@@ -396,43 +396,37 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    async getUser({ context, state }, user){
+    async getUser({ context, state }, id){
       try{
-        const response = await axios.get("http://127.0.0.1:3000/users/" +user.id )
-
-        if (response.status === 200) {
-          return response;
-        } else {
-          const data = response;
-          throw Error(data.message);
-        }
+        const response = await axios.get(`http://127.0.0.1:3000/users/${id}`)        
+          return response.data.user;
       }
       catch(err){
-        throw Error(err.message);
+        throw Error(err.response.data.message);
       }
     },
-    async loadUsers(context) {
-      try {
-        const response = await fetch("http://127.0.0.1:3000/users/", {
-          method: "GET",
-          headers: {
-            Accept: "*/*",
-            "Content-Type": "application/json",
-            // 'Authorization': 'Bearer ' + state.loggedUser.auth_key
-          },
-        });
+    // async loadUsers(context) {
+    //   try {
+    //     const response = await fetch("http://127.0.0.1:3000/users/", {
+    //       method: "GET",
+    //       headers: {
+    //         Accept: "*/*",
+    //         "Content-Type": "application/json",
+    //         // 'Authorization': 'Bearer ' + state.loggedUser.auth_key
+    //       },
+    //     });
 
-        if (response.ok) {
-          // return await response.json();
-          context.commit("SET_USERS", await response.json());
-        } else {
-          const data = await response.json();
-          throw Error(data.msg);
-        }
-      } catch (e) {
-        throw Error(e.message);
-      }
-    },
+    //     if (response.ok) {
+    //       // return await response.json();
+    //       context.commit("SET_USERS", await response.json());
+    //     } else {
+    //       const data = await response.json();
+    //       throw Error(data.msg);
+    //     }
+    //   } catch (e) {
+    //     throw Error(e.message);
+    //   }
+    // },
     async login({ context, state }, user) {
       try {
         const response = await axios.post("http://127.0.0.1:3000/auth/signin", {
@@ -462,15 +456,11 @@ export default new Vuex.Store({
           password: user.password,
           descricao_curso: user.descricao_curso,
         });
+        
+        return response;
 
-        if (response.status === 200) {
-          return response;
-        } else {
-          const data = response;
-          throw Error(data.message);
-        }
       } catch (err) {
-        throw Error(err.message);
+        throw Error(err.response.data.message);
       }
     },
   },

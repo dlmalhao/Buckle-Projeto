@@ -207,8 +207,9 @@ export default {
     },
 
     goProfile() {
-      this.SET_ACTIVE_PROFILE(this.getLoggedUser.email);
-      this.$router.push({ name: "perfil" });
+      // this.SET_ACTIVE_PROFILE(this.getLoggedUser.email);
+      
+      this.$router.push({ name: "perfil", params: {id: this.getLoggedUser.id}});
     },
   },
 };

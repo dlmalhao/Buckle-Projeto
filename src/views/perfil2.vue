@@ -1,633 +1,1251 @@
 <template>
+  <div v-if="getLoggedUser.id === userData.id">
     <div class="main">
-        <div class="left-side">
-            <div>
-                <b-card no-body>
-                    <b-tabs pills card vertical class="myTabs">
-                        <template #tabs-start>
-                            <li role="presentation" class="profileArea">
-                                <div class="sector1">
-                                    <img src="../assets/img/danielFreitas.jpg" alt="">
-                                    <h3>Daniel Freitas</h3>
-                                    <b-icon icon="gear"></b-icon>
-                                </div>
-                            </li>
-                        </template>
-                        <b-tab title="Perfil" active>
-                            <div class="right-side">
-                                <div class="image-div">
-                                    <img src="../assets/img/backgroundPerfil.jpg" />
-                                </div>
-                                <div class="user-data-div">
-                                    <div class="profile">
-                                        <div class="image">
-                                            <img src="../assets/img/danielFreitas.jpg" alt="">
-                                        </div>
-                                        <div class="profile-data">
-                                            <div class="nome">
-                                                <h3>Daniel Freitas</h3>
-                                            </div>
-                                            <div class="curso">
-                                                <h3>TSIW</h3>
-                                            </div>
-                                            <div class="data">
-                                                <h3>Entrou em 21/04/2022</h3>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="settings">
-                                        <b-icon icon="gear"></b-icon>
-                                    </div>
-                                </div>
-                                <div class="main-div">
-                                    <div class="content">
-                                        <div class="left">
-                                            <div class="nome">
-                                                <div class="nomeLabel">
-                                                    <h3>Nome:</h3>
-                                                </div>
-                                                <h3 id="nome">Daniel Freitas</h3>
-                                            </div>
-                                            <div class="email">
-                                                <div class="emailLabel">
-                                                    <h3>Email:</h3>
-                                                </div>
-                                                <h3 id="email">danielfreitas@esmad.ipp.pt</h3>
-                                            </div>
-                                            <div class="curso">
-                                                <div class="cursoLabel">
-                                                    <h3>Curso:</h3>
-                                                </div>
-                                                <h3 id="curso">TSIW</h3>
-                                            </div>
-                                            <div class="descricao">
-                                                <div class="descricaoLabel">
-                                                    <h3>Descrição:</h3>
-                                                </div>
-                                                <h3 id="descricao">t is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</h3>
-                                            </div>
-                                        </div>
-                                        <div class="right">
-                                            <div class="container1">
-                                                <b-icon icon="gear"></b-icon>
-                                                <div class="containerTexto">
-                                                    <div class="title">
-                                                        <h3>Anúncios</h3>
-                                                    </div>
-                                                    <div class="description">
-                                                        <h3>3</h3>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="container2">
-                                                <b-icon icon="gear"></b-icon>
-                                                <div class="containerTexto">
-                                                    <div class="title">
-                                                        <h3>Anúncios</h3>
-                                                    </div>
-                                                    <div class="description">
-                                                        <h3>3</h3>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="container3">
-                                                <b-icon icon="gear"></b-icon>
-                                                <div class="containerTexto">
-                                                    <div class="title">
-                                                        <h3>Anúncios</h3>
-                                                    </div>
-                                                    <div class="description">
-                                                        <h3>3</h3>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="container4">
-                                                <b-icon icon="gear"></b-icon>
-                                                <div class="containerTexto">
-                                                    <div class="title">
-                                                        <h3>Anúncios</h3>
-                                                    </div>
-                                                    <div class="description">
-                                                        <h3>3</h3>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </b-tab>
-                        <b-tab title="Anúncios" class="ads-tab">
-                            <section>
-                              <b-row class="filterRow">
-                                <div class="filterRectangle">
-                                  <div class="addAnnouncement">
-                                    <div class="addButton">
-                                      <b-button>+</b-button>
-                                    </div>
-                                    <div class="addText">
-                                      <h3>Novo</h3>
-                                    </div>
-                                  </div>
-                                  <div class="div">
-                                    <div class="filterHeader">
-                                      <p>Filtrar por:</p>
-                                    </div>
-                                    <b-col cols="2">
-                                      <div class="pesquisa">
-                                        <p>Pesquisa</p>
-                                        <b-form-input type="text"></b-form-input>
-                                      </div>
-                                    </b-col>
-                                    <b-col cols="2">
-                                      <div class="licenciatura">
-                                        <p>Licenciatura</p>
-                                        <div class="form-selects">
-                                          <b-form-select class="form-select cursos"></b-form-select>
-                                        </div>
-                                      </div>
-                                    </b-col>
-                                    <b-col cols="2">
-                                      <div class="ordenar">
-                                        <p>Ordenar</p>
-                                        <div class="form-selects">
-                                          <b-form-select class="form-select cursos"></b-form-select>
-                                        </div>
-                                      </div>
-                                    </b-col>
-                                    <b-col cols="2">
-                                      <div class="tipo">
-                                        <p>Tipo</p>
-                                        <div class="buttons">
-                                          <b-button class="btn-procura">Procura</b-button>
-                                          <b-button class="btn-oferta">Oferta</b-button>
-                                        </div>
-                                      </div>
-                                    </b-col>
-                                  </div>
-                                </div>
-                              </b-row>
-                            
-                              <b-row style="padding:0;" class="ads-row">
-                                <b-col cols="4" style="margin-bottom: 20px;">
-                                  <router-link :to="{ name: 'PaginaInicial' }">
-                                    <div class="cardContainer">
-                                      <div class="cardImage">
-                                        <img src="../assets/img/esmad.jpg" class="imageBox">
-                                      </div>
-                                      <div class="cardContent">
-                                        <div class="adData">
-                                          <div class="profileImage">
-                                            <img src="../assets/img/ireneCosta.jpg" class="imageBox">
-                                          </div>
-                                          <div class="nome_curso">
-                                            <h4>Irene Costa</h4>
-                                            <div class="curso">
-                                              <p>de&nbsp;</p>
-                                              <p>TCAV</p>
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div class="descricao">
-                                          <p>Descrição 1 2 3</p>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </router-link>
-                                </b-col>
-                                <b-col cols="4" style="margin-bottom: 20px;">
-                                  <router-link :to="{ name: 'PaginaInicial' }">
-                                    <div class="cardContainer">
-                                      <div class="cardImage">
-                                        <img src="../assets/img/esmad.jpg" class="imageBox">
-                                      </div>
-                                      <div class="cardContent">
-                                        <div class="adData">
-                                          <div class="profileImage">
-                                            <img src="../assets/img/ireneCosta.jpg" class="imageBox">
-                                          </div>
-                                          <div class="nome_curso">
-                                            <h4>Irene Costa</h4>
-                                            <div class="curso">
-                                              <p>de&nbsp;</p>
-                                              <p>TCAV</p>
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div class="descricao">
-                                          <p>Descrição 1 2 3</p>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </router-link>
-                                </b-col>
-                                <b-col cols="4" style="margin-bottom: 20px;">
-                                  <router-link :to="{ name: 'PaginaInicial' }">
-                                    <div class="cardContainer">
-                                      <div class="cardImage">
-                                        <img src="../assets/img/esmad.jpg" class="imageBox">
-                                      </div>
-                                      <div class="cardContent">
-                                        <div class="adData">
-                                          <div class="profileImage">
-                                            <img src="../assets/img/ireneCosta.jpg" class="imageBox">
-                                          </div>
-                                          <div class="nome_curso">
-                                            <h4>Irene Costa</h4>
-                                            <div class="curso">
-                                              <p>de&nbsp;</p>
-                                              <p>TCAV</p>
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div class="descricao">
-                                          <p>Descrição 1 2 3</p>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </router-link>
-                                </b-col>
-                                <b-col cols="4" style="margin-bottom: 20px;">
-                                  <router-link :to="{ name: 'PaginaInicial' }">
-                                    <div class="cardContainer">
-                                      <div class="cardImage">
-                                        <img src="../assets/img/esmad.jpg" class="imageBox">
-                                      </div>
-                                      <div class="cardContent">
-                                        <div class="adData">
-                                          <div class="profileImage">
-                                            <img src="../assets/img/ireneCosta.jpg" class="imageBox">
-                                          </div>
-                                          <div class="nome_curso">
-                                            <h4>Irene Costa</h4>
-                                            <div class="curso">
-                                              <p>de&nbsp;</p>
-                                              <p>TCAV</p>
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div class="descricao">
-                                          <p>Descrição 1 2 3</p>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </router-link>
-                                </b-col>
-                                <b-col cols="4" style="margin-bottom: 20px;">
-                                  <router-link :to="{ name: 'PaginaInicial' }">
-                                    <div class="cardContainer">
-                                      <div class="cardImage">
-                                        <img src="../assets/img/esmad.jpg" class="imageBox">
-                                      </div>
-                                      <div class="cardContent">
-                                        <div class="adData">
-                                          <div class="profileImage">
-                                            <img src="../assets/img/ireneCosta.jpg" class="imageBox">
-                                          </div>
-                                          <div class="nome_curso">
-                                            <h4>Irene Costa</h4>
-                                            <div class="curso">
-                                              <p>de&nbsp;</p>
-                                              <p>TCAV</p>
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div class="descricao">
-                                          <p>Descrição 1 2 3</p>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </router-link>
-                                </b-col>
-                              </b-row>
-                            </section>
-                        </b-tab>
-
-
-
-
-
-
-
-                        <b-tab title="Projetos" class="projects-tab">
-                            <section>
-                              <b-row class="filterRow">
-                                <div class="filterRectangle">
-                                  <div class="addAnnouncement">
-                                    <div class="addButton">
-                                      <b-button>+</b-button>
-                                    </div>
-                                    <div class="addText">
-                                      <h3>Novo</h3>
-                                    </div>
-                                  </div>
-                                  <div class="div">
-                                    <div class="filterHeader">
-                                      <p>Filtrar por:</p>
-                                    </div>
-                                    <b-col cols="2">
-                                      <div class="pesquisa">
-                                        <p>Pesquisa</p>
-                                        <b-form-input type="text"></b-form-input>
-                                      </div>
-                                    </b-col>
-                                    <b-col cols="2">
-                                      <div class="licenciatura">
-                                        <p>Licenciatura</p>
-                                        <div class="form-selects">
-                                          <b-form-select class="form-select cursos"></b-form-select>
-                                        </div>
-                                      </div>
-                                    </b-col>
-                                    <b-col cols="2">
-                                      <div class="ordenar">
-                                        <p>Ordenar</p>
-                                        <div class="form-selects">
-                                          <b-form-select class="form-select cursos"></b-form-select>
-                                        </div>
-                                      </div>
-                                    </b-col>
-                                    <b-col cols="2">
-                                      <div class="tipo">
-                                        <p>Tipo</p>
-                                        <div class="buttons">
-                                          <b-button class="btn-procura">Procura</b-button>
-                                          <b-button class="btn-oferta">Oferta</b-button>
-                                        </div>
-                                      </div>
-                                    </b-col>
-                                  </div>
-                                </div>
-                              </b-row>
-                            
-                              <b-row style="padding:0;" class="projects-row">
-                                <b-col cols="4" style="margin-bottom: 20px;">
-                                  <router-link :to="{ name: 'PaginaInicial' }">
-                                    <div class="cardContainer">
-                                      <div class="cardImage">
-                                        <img src="../assets/img/esmad.jpg" class="imageBox">
-                                      </div>
-                                      <div class="cardContent">
-                                        <div class="adData">
-                                          <div class="profileImage">
-                                            <img src="../assets/img/ireneCosta.jpg" class="imageBox">
-                                          </div>
-                                          <div class="nome_curso">
-                                            <h4>Irene Costa</h4>
-                                            <div class="curso">
-                                              <p>de&nbsp;</p>
-                                              <p>TCAV</p>
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div class="descricao">
-                                          <p>Descrição 1 2 3</p>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </router-link>
-                                </b-col>
-                                <b-col cols="4" style="margin-bottom: 20px;">
-                                  <router-link :to="{ name: 'PaginaInicial' }">
-                                    <div class="cardContainer">
-                                      <div class="cardImage">
-                                        <img src="../assets/img/esmad.jpg" class="imageBox">
-                                      </div>
-                                      <div class="cardContent">
-                                        <div class="adData">
-                                          <div class="profileImage">
-                                            <img src="../assets/img/ireneCosta.jpg" class="imageBox">
-                                          </div>
-                                          <div class="nome_curso">
-                                            <h4>Irene Costa</h4>
-                                            <div class="curso">
-                                              <p>de&nbsp;</p>
-                                              <p>TCAV</p>
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div class="descricao">
-                                          <p>Descrição 1 2 3</p>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </router-link>
-                                </b-col>
-                                <b-col cols="4" style="margin-bottom: 20px;">
-                                  <router-link :to="{ name: 'PaginaInicial' }">
-                                    <div class="cardContainer">
-                                      <div class="cardImage">
-                                        <img src="../assets/img/esmad.jpg" class="imageBox">
-                                      </div>
-                                      <div class="cardContent">
-                                        <div class="adData">
-                                          <div class="profileImage">
-                                            <img src="../assets/img/ireneCosta.jpg" class="imageBox">
-                                          </div>
-                                          <div class="nome_curso">
-                                            <h4>Irene Costa</h4>
-                                            <div class="curso">
-                                              <p>de&nbsp;</p>
-                                              <p>TCAV</p>
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div class="descricao">
-                                          <p>Descrição 1 2 3</p>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </router-link>
-                                </b-col>
-                                <b-col cols="4" style="margin-bottom: 20px;">
-                                  <router-link :to="{ name: 'PaginaInicial' }">
-                                    <div class="cardContainer">
-                                      <div class="cardImage">
-                                        <img src="../assets/img/esmad.jpg" class="imageBox">
-                                      </div>
-                                      <div class="cardContent">
-                                        <div class="adData">
-                                          <div class="profileImage">
-                                            <img src="../assets/img/ireneCosta.jpg" class="imageBox">
-                                          </div>
-                                          <div class="nome_curso">
-                                            <h4>Irene Costa</h4>
-                                            <div class="curso">
-                                              <p>de&nbsp;</p>
-                                              <p>TCAV</p>
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div class="descricao">
-                                          <p>Descrição 1 2 3</p>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </router-link>
-                                </b-col>
-                                <b-col cols="4" style="margin-bottom: 20px;">
-                                  <router-link :to="{ name: 'PaginaInicial' }">
-                                    <div class="cardContainer">
-                                      <div class="cardImage">
-                                        <img src="../assets/img/esmad.jpg" class="imageBox">
-                                      </div>
-                                      <div class="cardContent">
-                                        <div class="adData">
-                                          <div class="profileImage">
-                                            <img src="../assets/img/ireneCosta.jpg" class="imageBox">
-                                          </div>
-                                          <div class="nome_curso">
-                                            <h4>Irene Costa</h4>
-                                            <div class="curso">
-                                              <p>de&nbsp;</p>
-                                              <p>TCAV</p>
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div class="descricao">
-                                          <p>Descrição 1 2 3</p>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </router-link>
-                                </b-col>
-                              </b-row>
-                            </section>
-                        </b-tab>
-
-
-
-
-
-                        <b-tab title="Mensagens">
-                          <div class="chat">
-                            <b-row style="margin-right: 0;">
-                                <b-col cols="3">
-                                    <div class="left-side-container">
-                                        <div class="left-side-Content">
-                                            <div class="card-container">
-                                                <div class="card-img">
-                                                    <img src="../assets/img/CardExample.png" alt="">
-                                                </div>
-                                                <div class="card-text">
-                                                    <h4>Irene</h4>
-                                                    <p>24/05/2020</p>
-                                                </div>
-                                            </div>
-                                            <div class="card-container">
-                                                <div class="card-img">
-                                                    <img src="../assets/img/pedroNunes.jpg" alt="">
-                                                </div>
-                                                <div class="card-text">
-                                                    <h4>António</h4>
-                                                    <p>21/04/2020</p>
-                                                </div>
-                                            </div>
-                                            <div class="card-container">
-                                                <div class="card-img">
-                                                    <img src="../assets/img/danielFreitas.jpg" alt="">
-                                                </div>
-                                                <div class="card-text">
-                                                    <h4>Gonçalo</h4>
-                                                    <p>03/04/2020</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </b-col>
-                                <b-col cols="9" class="chatZone">
-                                    <div class="content">
-                                      <div class="footerBar">
-                                        <div class="input">
-                                          <b-form-input type="text" placeholder="Enviar mensagem.."></b-form-input>
-                                        </div>
-                                        <div class="sendButton">
-                                          <b-icon icon="arrow-return-right"></b-icon>
-                                        </div>
-                                      </div>
-                                    </div>
-                                </b-col>
-                            </b-row>
+      <div class="left-side">
+        <div>
+          <b-card no-body>
+            <b-tabs pills card vertical class="myTabs">
+              <template #tabs-start>
+                <li role="presentation" class="profileArea">
+                  <div class="sector1">
+                    <img :src="userData.img" alt="" />
+                    <h3>{{ userData.nome }} {{ userData.sobrenome }}</h3>
+                    <b-icon icon="gear"></b-icon>
+                  </div>
+                </li>
+              </template>
+              <b-tab title="Perfil" active>
+                <div class="right-side">
+                  <div class="image-div">
+                    <img src="../assets/img/backgroundPerfil.jpg" />
+                  </div>
+                  <div class="user-data-div">
+                    <div class="profile">
+                      <div class="image">
+                        <img :src="userData.img" alt="" />
+                      </div>
+                      <div class="profile-data">
+                        <div class="nome">
+                          <h3>{{ userData.nome }} {{ userData.sobrenome }}</h3>
+                        </div>
+                        <div class="curso">
+                          <h3>TSIW</h3>
+                        </div>
+                        <div class="data">
+                          <h3>Entrou em 21/04/2022</h3>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="settings">
+                      <b-icon icon="gear"></b-icon>
+                    </div>
+                  </div>
+                  <div class="main-div">
+                    <div class="content">
+                      <div class="left">
+                        <div class="nome">
+                          <div class="nomeLabel">
+                            <h3>Nome:</h3>
                           </div>
-                        </b-tab>
-                        <b-tab title="Favoritos"><b-card-text>Tab contents 3</b-card-text></b-tab>
-                        <b-tab title="Avaliações"><b-card-text>Tab contents 3</b-card-text></b-tab>
-                    </b-tabs>
-              </b-card>
+                          <h3 id="nome">
+                            {{ userData.nome }} {{ userData.sobrenome }}
+                          </h3>
+                        </div>
+                        <div class="email">
+                          <div class="emailLabel">
+                            <h3>Email:</h3>
+                          </div>
+                          <h3 id="email">{{ userData.email_utilizador }}</h3>
+                        </div>
+                        <div class="curso">
+                          <div class="cursoLabel">
+                            <h3>Curso:</h3>
+                          </div>
+                          <h3 id="curso">TSIW</h3>
+                        </div>
+                        <div class="descricao">
+                          <div class="descricaoLabel">
+                            <h3>Descrição:</h3>
+                          </div>
+                          <h3 id="descricao">
+                            t is a long established fact that a reader will be
+                            distracted by the readable content of a page when
+                            looking at its layout. The point of using Lorem
+                            Ipsum is that it has a more-or-less normal
+                            distribution of letters, as opposed to using
+                            'Content here, content here', making it look like
+                            readable English.
+                          </h3>
+                        </div>
+                      </div>
+                      <div class="right">
+                        <div class="container1">
+                          <b-icon icon="gear"></b-icon>
+                          <div class="containerTexto">
+                            <div class="title">
+                              <h3>Anúncios</h3>
+                            </div>
+                            <div class="description">
+                              <h3>3</h3>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="container2">
+                          <b-icon icon="gear"></b-icon>
+                          <div class="containerTexto">
+                            <div class="title">
+                              <h3>Anúncios</h3>
+                            </div>
+                            <div class="description">
+                              <h3>3</h3>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="container3">
+                          <b-icon icon="gear"></b-icon>
+                          <div class="containerTexto">
+                            <div class="title">
+                              <h3>Anúncios</h3>
+                            </div>
+                            <div class="description">
+                              <h3>3</h3>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="container4">
+                          <b-icon icon="gear"></b-icon>
+                          <div class="containerTexto">
+                            <div class="title">
+                              <h3>Anúncios</h3>
+                            </div>
+                            <div class="description">
+                              <h3>3</h3>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </b-tab>
+              <b-tab title="Anúncios" class="ads-tab">
+                <section>
+                  <b-row class="filterRow">
+                    <div class="filterRectangle">
+                      <div class="addAnnouncement">
+                        <div class="addButton">
+                          <b-button>+</b-button>
+                        </div>
+                        <div class="addText">
+                          <h3>Novo</h3>
+                        </div>
+                      </div>
+                      <div class="div">
+                        <div class="filterHeader">
+                          <p>Filtrar por:</p>
+                        </div>
+                        <b-col cols="2">
+                          <div class="pesquisa">
+                            <p>Pesquisa</p>
+                            <b-form-input type="text"></b-form-input>
+                          </div>
+                        </b-col>
+                        <b-col cols="2">
+                          <div class="licenciatura">
+                            <p>Licenciatura</p>
+                            <div class="form-selects">
+                              <b-form-select
+                                class="form-select cursos"
+                              ></b-form-select>
+                            </div>
+                          </div>
+                        </b-col>
+                        <b-col cols="2">
+                          <div class="ordenar">
+                            <p>Ordenar</p>
+                            <div class="form-selects">
+                              <b-form-select
+                                class="form-select cursos"
+                              ></b-form-select>
+                            </div>
+                          </div>
+                        </b-col>
+                        <b-col cols="2">
+                          <div class="tipo">
+                            <p>Tipo</p>
+                            <div class="buttons">
+                              <b-button class="btn-procura">Procura</b-button>
+                              <b-button class="btn-oferta">Oferta</b-button>
+                            </div>
+                          </div>
+                        </b-col>
+                      </div>
+                    </div>
+                  </b-row>
+
+                  <b-row style="padding: 0" class="ads-row">
+                    <b-col cols="4" style="margin-bottom: 20px">
+                      <router-link :to="{ name: 'PaginaInicial' }">
+                        <div class="cardContainer">
+                          <div class="cardImage">
+                            <img
+                              src="../assets/img/esmad.jpg"
+                              class="imageBox"
+                            />
+                          </div>
+                          <div class="cardContent">
+                            <div class="adData">
+                              <div class="profileImage">
+                                <img
+                                  src="../assets/img/ireneCosta.jpg"
+                                  class="imageBox"
+                                />
+                              </div>
+                              <div class="nome_curso">
+                                <h4>Irene Costa</h4>
+                                <div class="curso">
+                                  <p>de&nbsp;</p>
+                                  <p>TCAV</p>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="descricao">
+                              <p>Descrição 1 2 3</p>
+                            </div>
+                          </div>
+                        </div>
+                      </router-link>
+                    </b-col>
+                    <b-col cols="4" style="margin-bottom: 20px">
+                      <router-link :to="{ name: 'PaginaInicial' }">
+                        <div class="cardContainer">
+                          <div class="cardImage">
+                            <img
+                              src="../assets/img/esmad.jpg"
+                              class="imageBox"
+                            />
+                          </div>
+                          <div class="cardContent">
+                            <div class="adData">
+                              <div class="profileImage">
+                                <img
+                                  src="../assets/img/ireneCosta.jpg"
+                                  class="imageBox"
+                                />
+                              </div>
+                              <div class="nome_curso">
+                                <h4>Irene Costa</h4>
+                                <div class="curso">
+                                  <p>de&nbsp;</p>
+                                  <p>TCAV</p>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="descricao">
+                              <p>Descrição 1 2 3</p>
+                            </div>
+                          </div>
+                        </div>
+                      </router-link>
+                    </b-col>
+                    <b-col cols="4" style="margin-bottom: 20px">
+                      <router-link :to="{ name: 'PaginaInicial' }">
+                        <div class="cardContainer">
+                          <div class="cardImage">
+                            <img
+                              src="../assets/img/esmad.jpg"
+                              class="imageBox"
+                            />
+                          </div>
+                          <div class="cardContent">
+                            <div class="adData">
+                              <div class="profileImage">
+                                <img
+                                  src="../assets/img/ireneCosta.jpg"
+                                  class="imageBox"
+                                />
+                              </div>
+                              <div class="nome_curso">
+                                <h4>Irene Costa</h4>
+                                <div class="curso">
+                                  <p>de&nbsp;</p>
+                                  <p>TCAV</p>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="descricao">
+                              <p>Descrição 1 2 3</p>
+                            </div>
+                          </div>
+                        </div>
+                      </router-link>
+                    </b-col>
+                    <b-col cols="4" style="margin-bottom: 20px">
+                      <router-link :to="{ name: 'PaginaInicial' }">
+                        <div class="cardContainer">
+                          <div class="cardImage">
+                            <img
+                              src="../assets/img/esmad.jpg"
+                              class="imageBox"
+                            />
+                          </div>
+                          <div class="cardContent">
+                            <div class="adData">
+                              <div class="profileImage">
+                                <img
+                                  src="../assets/img/ireneCosta.jpg"
+                                  class="imageBox"
+                                />
+                              </div>
+                              <div class="nome_curso">
+                                <h4>Irene Costa</h4>
+                                <div class="curso">
+                                  <p>de&nbsp;</p>
+                                  <p>TCAV</p>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="descricao">
+                              <p>Descrição 1 2 3</p>
+                            </div>
+                          </div>
+                        </div>
+                      </router-link>
+                    </b-col>
+                    <b-col cols="4" style="margin-bottom: 20px">
+                      <router-link :to="{ name: 'PaginaInicial' }">
+                        <div class="cardContainer">
+                          <div class="cardImage">
+                            <img
+                              src="../assets/img/esmad.jpg"
+                              class="imageBox"
+                            />
+                          </div>
+                          <div class="cardContent">
+                            <div class="adData">
+                              <div class="profileImage">
+                                <img
+                                  src="../assets/img/ireneCosta.jpg"
+                                  class="imageBox"
+                                />
+                              </div>
+                              <div class="nome_curso">
+                                <h4>Irene Costa</h4>
+                                <div class="curso">
+                                  <p>de&nbsp;</p>
+                                  <p>TCAV</p>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="descricao">
+                              <p>Descrição 1 2 3</p>
+                            </div>
+                          </div>
+                        </div>
+                      </router-link>
+                    </b-col>
+                  </b-row>
+                </section>
+              </b-tab>
+
+              <b-tab title="Projetos" class="projects-tab">
+                <section>
+                  <b-row class="filterRow">
+                    <div class="filterRectangle">
+                      <div class="addAnnouncement">
+                        <div class="addButton">
+                          <b-button>+</b-button>
+                        </div>
+                        <div class="addText">
+                          <h3>Novo</h3>
+                        </div>
+                      </div>
+                      <div class="div">
+                        <div class="filterHeader">
+                          <p>Filtrar por:</p>
+                        </div>
+                        <b-col cols="2">
+                          <div class="pesquisa">
+                            <p>Pesquisa</p>
+                            <b-form-input type="text"></b-form-input>
+                          </div>
+                        </b-col>
+                        <b-col cols="2">
+                          <div class="licenciatura">
+                            <p>Licenciatura</p>
+                            <div class="form-selects">
+                              <b-form-select
+                                class="form-select cursos"
+                              ></b-form-select>
+                            </div>
+                          </div>
+                        </b-col>
+                        <b-col cols="2">
+                          <div class="ordenar">
+                            <p>Ordenar</p>
+                            <div class="form-selects">
+                              <b-form-select
+                                class="form-select cursos"
+                              ></b-form-select>
+                            </div>
+                          </div>
+                        </b-col>
+                        <b-col cols="2">
+                          <div class="tipo">
+                            <p>Tipo</p>
+                            <div class="buttons">
+                              <b-button class="btn-procura">Procura</b-button>
+                              <b-button class="btn-oferta">Oferta</b-button>
+                            </div>
+                          </div>
+                        </b-col>
+                      </div>
+                    </div>
+                  </b-row>
+
+                  <b-row style="padding: 0" class="projects-row">
+                    <b-col cols="4" style="margin-bottom: 20px">
+                      <router-link :to="{ name: 'PaginaInicial' }">
+                        <div class="cardContainer">
+                          <div class="cardImage">
+                            <img
+                              src="../assets/img/esmad.jpg"
+                              class="imageBox"
+                            />
+                          </div>
+                          <div class="cardContent">
+                            <div class="adData">
+                              <div class="profileImage">
+                                <img
+                                  src="../assets/img/ireneCosta.jpg"
+                                  class="imageBox"
+                                />
+                              </div>
+                              <div class="nome_curso">
+                                <h4>Irene Costa</h4>
+                                <div class="curso">
+                                  <p>de&nbsp;</p>
+                                  <p>TCAV</p>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="descricao">
+                              <p>Descrição 1 2 3</p>
+                            </div>
+                          </div>
+                        </div>
+                      </router-link>
+                    </b-col>
+                    <b-col cols="4" style="margin-bottom: 20px">
+                      <router-link :to="{ name: 'PaginaInicial' }">
+                        <div class="cardContainer">
+                          <div class="cardImage">
+                            <img
+                              src="../assets/img/esmad.jpg"
+                              class="imageBox"
+                            />
+                          </div>
+                          <div class="cardContent">
+                            <div class="adData">
+                              <div class="profileImage">
+                                <img
+                                  src="../assets/img/ireneCosta.jpg"
+                                  class="imageBox"
+                                />
+                              </div>
+                              <div class="nome_curso">
+                                <h4>Irene Costa</h4>
+                                <div class="curso">
+                                  <p>de&nbsp;</p>
+                                  <p>TCAV</p>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="descricao">
+                              <p>Descrição 1 2 3</p>
+                            </div>
+                          </div>
+                        </div>
+                      </router-link>
+                    </b-col>
+                    <b-col cols="4" style="margin-bottom: 20px">
+                      <router-link :to="{ name: 'PaginaInicial' }">
+                        <div class="cardContainer">
+                          <div class="cardImage">
+                            <img
+                              src="../assets/img/esmad.jpg"
+                              class="imageBox"
+                            />
+                          </div>
+                          <div class="cardContent">
+                            <div class="adData">
+                              <div class="profileImage">
+                                <img
+                                  src="../assets/img/ireneCosta.jpg"
+                                  class="imageBox"
+                                />
+                              </div>
+                              <div class="nome_curso">
+                                <h4>Irene Costa</h4>
+                                <div class="curso">
+                                  <p>de&nbsp;</p>
+                                  <p>TCAV</p>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="descricao">
+                              <p>Descrição 1 2 3</p>
+                            </div>
+                          </div>
+                        </div>
+                      </router-link>
+                    </b-col>
+                    <b-col cols="4" style="margin-bottom: 20px">
+                      <router-link :to="{ name: 'PaginaInicial' }">
+                        <div class="cardContainer">
+                          <div class="cardImage">
+                            <img
+                              src="../assets/img/esmad.jpg"
+                              class="imageBox"
+                            />
+                          </div>
+                          <div class="cardContent">
+                            <div class="adData">
+                              <div class="profileImage">
+                                <img
+                                  src="../assets/img/ireneCosta.jpg"
+                                  class="imageBox"
+                                />
+                              </div>
+                              <div class="nome_curso">
+                                <h4>Irene Costa</h4>
+                                <div class="curso">
+                                  <p>de&nbsp;</p>
+                                  <p>TCAV</p>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="descricao">
+                              <p>Descrição 1 2 3</p>
+                            </div>
+                          </div>
+                        </div>
+                      </router-link>
+                    </b-col>
+                    <b-col cols="4" style="margin-bottom: 20px">
+                      <router-link :to="{ name: 'PaginaInicial' }">
+                        <div class="cardContainer">
+                          <div class="cardImage">
+                            <img
+                              src="../assets/img/esmad.jpg"
+                              class="imageBox"
+                            />
+                          </div>
+                          <div class="cardContent">
+                            <div class="adData">
+                              <div class="profileImage">
+                                <img
+                                  src="../assets/img/ireneCosta.jpg"
+                                  class="imageBox"
+                                />
+                              </div>
+                              <div class="nome_curso">
+                                <h4>Irene Costa</h4>
+                                <div class="curso">
+                                  <p>de&nbsp;</p>
+                                  <p>TCAV</p>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="descricao">
+                              <p>Descrição 1 2 3</p>
+                            </div>
+                          </div>
+                        </div>
+                      </router-link>
+                    </b-col>
+                  </b-row>
+                </section>
+              </b-tab>
+
+              <b-tab title="Mensagens">
+                <div class="chat">
+                  <b-row style="margin-right: 0">
+                    <b-col cols="3">
+                      <div class="left-side-container">
+                        <div class="left-side-Content">
+                          <div class="card-container">
+                            <div class="card-img">
+                              <img src="../assets/img/CardExample.png" alt="" />
+                            </div>
+                            <div class="card-text">
+                              <h4>Irene</h4>
+                              <p>24/05/2020</p>
+                            </div>
+                          </div>
+                          <div class="card-container">
+                            <div class="card-img">
+                              <img src="../assets/img/pedroNunes.jpg" alt="" />
+                            </div>
+                            <div class="card-text">
+                              <h4>António</h4>
+                              <p>21/04/2020</p>
+                            </div>
+                          </div>
+                          <div class="card-container">
+                            <div class="card-img">
+                              <img
+                                src="../assets/img/danielFreitas.jpg"
+                                alt=""
+                              />
+                            </div>
+                            <div class="card-text">
+                              <h4>Gonçalo</h4>
+                              <p>03/04/2020</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </b-col>
+                    <b-col cols="9" class="chatZone">
+                      <div class="content">
+                        <div class="footerBar">
+                          <div class="input">
+                            <b-form-input
+                              type="text"
+                              placeholder="Enviar mensagem.."
+                            ></b-form-input>
+                          </div>
+                          <div class="sendButton">
+                            <b-icon icon="arrow-return-right"></b-icon>
+                          </div>
+                        </div>
+                      </div>
+                    </b-col>
+                  </b-row>
+                </div>
+              </b-tab>
+              <b-tab title="Favoritos"
+                ><b-card-text>Tab contents 3</b-card-text></b-tab
+              >
+              <b-tab title="Avaliações"
+                ><b-card-text>Tab contents 3</b-card-text></b-tab
+              >
+            </b-tabs>
+          </b-card>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div v-else>
+    <div class="generalContainerOtherPerson">
+      <header class="headBg">
+        <div class="intro-body">
+          <b-container>
+            <b-row>
+              <b-col col mx="auto" class="headerTexto">
+                <img class="image1" :src="userData.img" />
+                <img class="image2" :src="userData.img" />
+                <div class="headerData">
+                  <h1 class="headerName">
+                    {{ userData.nome }}
+                    {{ userData.sobrenome }}
+                  </h1>
+                  <p style="text-transform: capitalize">
+                    {{ userData.courseId }}
+                  </p>
+                </div>
+              </b-col>
+            </b-row>
+          </b-container>
+        </div>
+      </header>
+      <div class="profileButtonsPanel">
+        <div class="div">
+          <b-card no-body class="buttonsProfileCard">
+            <b-tabs pills card nav-wrapper-class="w-10">
+              <b-tab
+                class="buttonsProfile"
+                title="Informação"
+                active
+                @click="selectorOtherPerson = 'dadosPerfilOtherPerson'"
+              ></b-tab>
+              <b-tab
+                class="buttonsProfile"
+                title="Anúncios"
+                @click="selectorOtherPerson = 'anunciosOtherPerson'"
+              ></b-tab>
+              <b-tab
+                class="buttonsProfile"
+                title="Projetos "
+                @click="selectorOtherPerson = 'projetosOtherPerson'"
+              ></b-tab>
+              <b-tab
+                class="buttonsProfile"
+                title="Avaliações"
+                @click="selectorOtherPerson = 'avaliacoesOtherPerson'"
+              ></b-tab>
+            </b-tabs>
+          </b-card>
+        </div>
+      </div>
+      <div v-if="selectorOtherPerson == 'dadosPerfilOtherPerson'" class="dadosProfileOtherPerson">
+      <!-- Atualizar Descrição -->
+        <h4>Descrição</h4>
+        <p v-if="userData.nome != ''"> 
+          {{ userData.nome}} 
+        </p>
+        <p v-else>Este utilizador ainda não tem uma descrição</p>
+        <h4>Contacto</h4>
+        <p>{{ userData.email_utilizador }}</p>
+        <br />
+
+        <h4>Anúncios criados</h4>
+        <p>1 ofertas, 1 procuras</p>
+        <br />
+
+        <h4>Projetos criados</h4>
+        <p>1 projeto</p>
+        <br />
+
+        <h4>Colaborações em projetos</h4>
+        <p>1 colaboração</p>
+      </div>
+
+  <!--Falta a página anúncios  -->
+      <div v-if="selectorOtherPerson == 'anunciosOtherPerson'" >
+          <div class="adsContainer PerfilOtherPerson">
+            <div class="row" >
+                <div class="Card col-md-4" v-for="(ad,index) in getAds" :key="index">
+                  <div class="card text-center " v-if="getActiveProfile.email == ad.email">
+                    <div class="backgroundAnuncios">
+                      <img :src="getActiveProfile.imgBg" alt="" class="backgroundAnuncio" >
+                    </div>
+                    <div class="imagemAnuncios">
+                      <img :src="getActiveProfile.profileImg" class="imgAnuncio col-md-3">
+                      <div class="nome curso container">
+                        <h4>{{getActiveProfile.first_name}} {{getActiveProfile.last_name}}<h5>de {{getActiveProfile.course}}</h5></h4>
+                        <p>{{ad.description}}</p>
+                      </div>
+                    </div>
+                      <router-link :to="{ name: 'anuncioEspecifico', params: { id: ad.id }}">
+                        <button class="btn btn-warning" @click=" editSelectAd(ad.id) ">Ver Anúncio</button> 
+                      </router-link>
+                  </div>
+                  
+                </div>
+              <!-- </div> -->
+
+            
+            </div>  
+
+          </div>
+      </div>
+
+      <div v-if="selectorOtherPerson== 'avaliacoesOtherPerson'">
+          <div class="avaliacoes ContainerOtherPerson">
+            <div class="row">
+              <div class="col-md-3 avaliacaoContainer" v-for="(avaliacao, index) in avaliacoesUserActive" :key="index">
+                <div>
+                  <div class="statsComment" >
+                    <star-rating class="camposAvaliacao" :read-only="true" :star-size="20"  active-color="#F17941" v-model="avaliacao.rating"></star-rating>
+                  </div>
+                  <p>{{avaliacao.opiniao}}</p>
+                  <hr>
+                  <div>
+                    <p class="personComment"><b>{{avaliacao.userName}}</b></p> 
+                    <p class="cursoAvaliacao">{{avaliacao.course}}</p>
+                  </div>
+                </div>
+              </div>
             </div>
+            <div class="row">
+              <div class="col-md-1"></div>
+              <div class="col-md-10 ">
+                <h4>Avalia o trabalho da {{getActiveProfile.first_name +' '+ getActiveProfile.last_name}}!</h4>
+                <div class="containerAvaliacoes">
+                  <div class="containerEsquerdo">
+                    <img :src="getActiveProfile.imgBg" class="avaliacaoImg" >
+                  </div>
+                  <div class="containerDireito">
+                    <div class="nomeeAvaliacao">
+                      <label for="nomeTxt">Email</label>
+                      <b-form-input type="text" class="camposAvaliacao" :value="getLoggedUser.email" disabled></b-form-input>
+                    </div>
+                    <div class="cursoeOpiniao">
+                      <label for="nomeTxt">Curso</label>
+                      <b-form-input type="text" class="camposAvaliacao" :value="getLoggedUser.course" disabled></b-form-input>
+                      <star-rating class="camposAvaliacao" :animate="true" :active-on-click="true" :star-size="20"  active-color="#F17941"  v-model="avaliacao.rating"></star-rating>
+                      <label for="nomeTxt">Opinião</label>
+                      <b-form-textarea type="text" class="camposAvaliacao" v-model="avaliacao.opiniaoTxt" ></b-form-textarea>
+                    </div>
+                    <div class="btn btn-warning enviarAvaliacao" @click="addAvaliacao">Enviar</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
     </div>
+  </div>
 </template>
 
 <script>
-export default {
+import { mapActions, mapGetters } from "vuex";
+import StarRating from "vue-star-rating";
 
-}
+export default {
+  data() {
+    return {
+      userData: {},
+      selectorOtherPerson: "dadosPerfilOtherPerson",
+    };
+  },
+
+  mounted() {
+    this.getDataUser();
+  },
+  computed: {
+    ...mapGetters(["getLoggedUser"]),
+  },
+  methods: {
+    ...mapActions(["getUser"]),
+
+    async getDataUser() {
+      try {
+        this.userData = await this.getUser(this.$route.params.id);
+      } catch (err) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: err.message,
+        });
+        this.$router.push("/");
+      }
+    },
+  },
+};
 </script>
 
-<style scoped>
+<style>
+/* Código da antiga página de perfil */
+
+.generalContainerOtherPerson {
+  margin: 2vh;
+}
+
+.headBg {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+.headerTexto {
+  color: white !important;
+}
+
+.image1 {
+  position: relative;
+  top: 0;
+  left: 0;
+  height: 507px;
+  width: 100%;
+  object-fit: cover;
+  filter: brightness(0.5);
+}
+
+.image2 {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 200px;
+  border-radius: 200px;
+}
+
+.headerData {
+  position: absolute;
+  left: 50%;
+  top: 85%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 200px;
+  border-radius: 200px;
+}
+
+.headerName {
+  font-weight: bold;
+}
+
+.profileButtonsPanel {
+  width: 100%;
+  position: relative;
+  bottom: 30px;
+  padding: 0 180px;
+}
+
+.profileButtonsPanel > div {
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+
+.dadosProfileOtherPerson{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding : 0 180px;
+  text-align:left;
+}
+
+
+.adsContainer.PerfilOtherPerson{
+  padding : 0 180px;
+}
+
+.backgroundAnuncio{
+  border-radius: 5px;
+  border: 1px solid;
+  width: 100%;
+  height:14rem;
+}
+
+.imagemAnuncios{
+  padding: 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.btn.btn-warning{
+  background-color: #F17941;
+  border-color: #F17941;
+  color:white
+}
+
+.btn.btn-warning:hover{
+  background-color: #F17941 !important;
+  border-color: #F17941 !important;
+  color:white
+}
+
+.btn.btn-warning:focus{
+  background-color: #F17941;
+  border-color: #F17941;
+  color:white
+}
+
+
+.card.buttonsProfileCard{
+  border: none !important;
+}
+
+.buttonsProfileCard ul li{
+  display: flex;
+  justify-content: center;
+  margin-right: 6vh;
+  margin-left: 6vh;
+}
+
+.buttonsProfileCard ul li a {
+  background-color: white !important;
+  color: var(--black);
+  font-weight: bold !important;
+} 
+.buttonsProfileCard ul li a.active {
+  background-color:var(--orange) !important;
+} 
+.buttonsProfileCard ul li a:hover {
+  color:var(--black) !important;
+} 
+
+.buttonsProfileCard ul li a.active:hover {
+  color:white !important;
+} 
+
+.cardProfile ul li a {
+  text-align: left;
+  color: #353535 !important;
+  font-weight: bold;
+}
+
+.cardProfile ul li a.active {
+  text-align: left;
+  background-color: var(--orange) !important;
+  color: white !important;
+}
+
+.cardProfile ul li a.active:hover {
+  text-align: left;
+  background-color: var(--orange) !important;
+  color: white !important;
+}
+.cardProfile ul li{
+  text-align: left;
+}
+.cardProfile ul li a:hover{
+  color: var(--orange) !important;
+}
+.cardProfile ul li a:active{
+  color: white !important;
+}
+
+.cardProfile ul li:focus{
+  background-color:#F17941 !important;
+}
+
+.cardProfile ul{
+  background-color:#F1F1F1;
+}
+.card.cardProfile{
+  background-color:#F1F1F1;
+  border: none;
+}
+
+.avaliacoes.ContainerOtherPerson{
+  padding : 0 180px;
+}
+
+.col-md-3.avaliacaoContainer{
+ margin-top: 2rem;
+ margin-left: 2rem;
+}
+
+.statsComment{
+  display:flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.camposAvaliacao{
+  margin-bottom: 3vh;
+}
+
+.personComment{
+  margin-bottom: 0rem;
+}
+
+.cursoAvaliacao{
+  color: #F17941;
+}
+
+.containerAvaliacoes{
+  display: flex;
+  border : 1px solid;
+  border-radius :20px;
+}
+
+.containerEsquerdo{
+  display: flex;
+  align-items: flex-start;
+  width : 50%;
+}
+.avaliacaoImg{
+  width : 100%;
+  border-radius: 20px;
+  object-fit: cover;
+  font-weight: bold;
+  height:100%
+}
+
+.containerDireito{
+  display: flex;
+ flex-direction: column;
+ margin-top: 5vh;
+ margin-left: 3vh;
+ width: 50%;
+ margin-bottom: 5vh;
+}
+
+.nomeeAvaliacao{
+  text-align: left;
+  width: 90%;
+}
+
+.camposAvaliacao{
+  margin-bottom: 3vh;
+}
+
+.btn.btn-warning.enviarAvaliacao{
+  width: 90%;
+  font-weight: bold;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Código da página de perfil */
 .main {
-    display: flex !important;
-    width: 100%;
-    
+  display: flex !important;
+  width: 100%;
 }
 .main .left-side {
-    height: 90vh;
-    width: 100%;
-    background-color: white;
+  height: 90vh;
+  width: 100%;
+  background-color: white;
 }
 .main .right-side {
-    width: 100%;
-    background-color:#f3f3f3;
+  width: 100%;
+  background-color: #f3f3f3;
 }
 
 .main .right-side .image-div {
-    height: 300px;
+  height: 300px;
 }
 
 .main .right-side .image-div img {
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
 }
 
 .right-side .user-data-div {
-    display: flex;
-    height: 140px;
+  display: flex;
+  height: 140px;
 }
 
 .main .right-side .user-data-div .profile {
-    width: 100%;
-    height: 200px;
-    display: flex;
+  width: 100%;
+  height: 200px;
+  display: flex;
 }
 
-.main .right-side .user-data-div .profile .image img{
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 50%;
-    position: relative;
-    bottom: 100px;
-    left: 100px;
+.main .right-side .user-data-div .profile .image img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 50%;
+  position: relative;
+  bottom: 100px;
+  left: 100px;
 }
 
 .right-side .user-data-div .settings {
-    width: 100%;
+  width: 100%;
 }
 
 .right-side .user-data-div .profile .profile-data {
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    align-items: left;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
 }
 
-.right-side .user-data-div .profile .profile-data .nome h3{
-    font-size: 18px;
-    font-weight: bold;
-    margin: 1px;
-    color: var(--black);
+.right-side .user-data-div .profile .profile-data .nome h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 1px;
+  color: var(--black);
 }
 
 .right-side .user-data-div .profile .profile-data .nome {
@@ -635,9 +1253,9 @@ export default {
 }
 
 .right-side .user-data-div .profile .profile-data .curso h3 {
-    font-size: 14px;
-    margin: 0;
-    color: rgb(131, 131, 131);
+  font-size: 14px;
+  margin: 0;
+  color: rgb(131, 131, 131);
 }
 
 .right-side .user-data-div .profile .profile-data .curso {
@@ -645,176 +1263,188 @@ export default {
 }
 
 .right-side .user-data-div .profile .profile-data .data h3 {
-    font-size: 14px;
-    color: rgb(131, 131, 131);
-    margin: 0;
+  font-size: 14px;
+  color: rgb(131, 131, 131);
+  margin: 0;
 }
 
 .profile .profile-data {
-    position: relative;
-    top: 10px;
-    left: 140px;
+  position: relative;
+  top: 10px;
+  left: 140px;
 }
 
 .user-data-div .settings {
-    font-size: 22px;
-    display: flex;
-    justify-content: end;
-    margin : 20px;
+  font-size: 22px;
+  display: flex;
+  justify-content: end;
+  margin: 20px;
 }
 
 .user-data-div .settings svg {
-    color: var(--black);
-    cursor: pointer;
+  color: var(--black);
+  cursor: pointer;
 }
 
 .user-data-div .settings svg:hover {
-    color: var(--orange);
+  color: var(--orange);
 }
 
 .main-div .content {
-    display: flex;
-    background-color: white;
-    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  display: flex;
+  background-color: white;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
 .main-div {
-    margin: 0 25px !important;
-    padding-bottom: 20px;
+  margin: 0 25px !important;
+  padding-bottom: 20px;
 }
 
 .main-div .content .left {
-    text-align: left;
-    margin-left: 20px;
-    width: 50%;
+  text-align: left;
+  margin-left: 20px;
+  width: 50%;
 }
 
-.nomeLabel h3, .emailLabel h3, .cursoLabel h3, .descricaoLabel h3 {
-    font-weight: bold;
-    font-size: 18px;
-    margin: 0;
-    color: var(--black);
+.nomeLabel h3,
+.emailLabel h3,
+.cursoLabel h3,
+.descricaoLabel h3 {
+  font-weight: bold;
+  font-size: 18px;
+  margin: 0;
+  color: var(--black);
 }
 
 .nomeLabel {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
-.descricao, .nome, .email, .curso {
-    margin-bottom: 15px;
-    padding: 0 !important;
+.descricao,
+.nome,
+.email,
+.curso {
+  margin-bottom: 15px;
+  padding: 0 !important;
 }
 
-.nome h3, .email h3, .curso h3, .descricao h3 {
-    font-size: 14px;
+.nome h3,
+.email h3,
+.curso h3,
+.descricao h3 {
+  font-size: 14px;
 }
 
 .right {
-    width: 50%;
-    margin: 0 20px;
+  width: 50%;
+  margin: 0 20px;
 }
 
-.container1, .container2, .container3, .container4 {
-    background-color: #f3f3f3;
-    width: 100%;
-    display: flex;
-    margin: 15px 0;
-    align-items:center;
-    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+.container1,
+.container2,
+.container3,
+.container4 {
+  background-color: #f3f3f3;
+  width: 100%;
+  display: flex;
+  margin: 15px 0;
+  align-items: center;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
 .container1 {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .container4 {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .main-div {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
-.container1 svg, .container2 svg, .container3 svg, .container4 svg {
-    font-size: 32px;
-    margin-left: 20px;
+.container1 svg,
+.container2 svg,
+.container3 svg,
+.container4 svg {
+  font-size: 32px;
+  margin-left: 20px;
 }
 
 .container1 .containerTexto .title h3,
- .container2 .containerTexto .title h3,
-  .container3 .containerTexto .title h3,
-   .container4 .containerTexto .title h3{
-    font-size: 18px;
-    margin: 5px 0 0 0;
+.container2 .containerTexto .title h3,
+.container3 .containerTexto .title h3,
+.container4 .containerTexto .title h3 {
+  font-size: 18px;
+  margin: 5px 0 0 0;
 }
 
 .container1 .containerTexto .description h3,
- .container2 .containerTexto .description h3,
-  .container3 .containerTexto .description h3,
-   .container4 .containerTexto .description h3 {
-       font-weight: bold;
-       font-size: 22px;
-       margin: 5px 0 0 0;
-   }
+.container2 .containerTexto .description h3,
+.container3 .containerTexto .description h3,
+.container4 .containerTexto .description h3 {
+  font-weight: bold;
+  font-size: 22px;
+  margin: 5px 0 0 0;
+}
 
-   #nome, #email, #curso, #descricao {
-     color: rgb(131, 131, 131);
-   }
+#nome,
+#email,
+#curso,
+#descricao {
+  color: rgb(131, 131, 131);
+}
 
 .containerTexto {
-    width: 100%;
-    margin-right: 52px;
-    padding: 15px 0;
+  width: 100%;
+  margin-right: 52px;
+  padding: 15px 0;
 }
 
 .left-side .sector1 {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
-.left-side .sector1 svg{
-    margin-left: 20px;
+.left-side .sector1 svg {
+  margin-left: 20px;
 }
 
-.left-side .sector1 h3{
-    font-weight: bold;
-    font-size: 18px;
-    margin: 0;
+.left-side .sector1 h3 {
+  font-weight: bold;
+  font-size: 18px;
+  margin: 0;
 }
 
 .left-side .sector1 img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin: 10px 20px 10px 0;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 10px 20px 10px 0;
 }
 
 .card {
-    border: none;
+  border: none;
 }
 
 .tabs {
-    width: 100%;
+  width: 100%;
 }
 
 .col-auto {
-    padding: 0 !important;
+  padding: 0 !important;
 }
 
 .col {
-    padding: 0 !important;
+  padding: 0 !important;
 }
 
 .tab-content > .tab-pane {
-    padding: 0 !important;
+  padding: 0 !important;
 }
-
-
-
-
-
-
 
 .generalContainer {
   background-color: #ebebeb;
@@ -825,7 +1455,7 @@ export default {
 }
 
 .filterRow {
-  padding: 0!important;
+  padding: 0 !important;
   width: auto !important;
   margin: 0;
   box-shadow: rgb(99 99 99 / 20%) 0px 2px 8px 0px;
@@ -853,23 +1483,23 @@ export default {
   width: 100%;
   display: flex;
   flex-direction: column;
-  padding:0 30px 30px 30px;
+  padding: 0 30px 30px 30px;
   align-items: flex-start;
-} 
+}
 
 .filterRectangle div input {
-  height: 35px!important;
+  height: 35px !important;
   font-size: 14px;
 }
 
 .filterRectangle div select {
-  height: 35px!important;
+  height: 35px !important;
   font-size: 14px;
 }
 
 .pesquisa p {
   margin: 5px;
-  margin-top: 25px!important;
+  margin-top: 25px !important;
   font-size: 14px;
 }
 
@@ -888,7 +1518,10 @@ export default {
   font-size: 14px;
 }
 
-.licenciatura, .pesquisa, .ordenar, .tipo  {
+.licenciatura,
+.pesquisa,
+.ordenar,
+.tipo {
   margin-bottom: 25px;
 }
 
@@ -905,7 +1538,7 @@ export default {
   height: 35px;
 }
 
-.filterRectangle .tipo .buttons button{
+.filterRectangle .tipo .buttons button {
   font-size: 16px;
   display: flex;
   align-items: center;
@@ -939,19 +1572,19 @@ export default {
   line-height: 43px;
   text-align: center;
   z-index: 10;
-  color: white;
+  color: white !important;
 }
 
-.headerTitle{
-font-weight: 500;
-font-size: 96px;
-line-height: 100px;
+.headerTitle {
+  font-weight: 500;
+  font-size: 96px;
+  line-height: 100px;
 }
 
-.headerSubTitle{
-font-weight: 300;
-font-size: 36px;
-line-height: 43px;
+.headerSubTitle {
+  font-weight: 300;
+  font-size: 36px;
+  line-height: 43px;
 }
 
 .cardImage img {
@@ -978,6 +1611,9 @@ line-height: 43px;
 .col-4 {
   margin-bottom: 25px;
 }
+.col-4 a {
+  text-decoration: none;
+}
 
 .cardContainer {
   display: flex;
@@ -1001,7 +1637,8 @@ a {
   text-decoration: none;
 }
 
-.cardContainer p, h4 {
+.cardContainer p,
+h4 {
   color: var(--black);
 }
 
@@ -1024,7 +1661,7 @@ a {
   position: relative;
 }
 
-.descricao p{
+.descricao p {
   height: 45px;
   overflow: hidden;
   display: -webkit-box;
@@ -1032,7 +1669,8 @@ a {
   -webkit-line-clamp: 2;
 }
 
-.cardContent h4, .cardContent p {
+.cardContent h4,
+.cardContent p {
   margin: 0;
 }
 
@@ -1054,7 +1692,7 @@ a {
   padding-top: 10px;
 }
 
-.cardContent .adData .nome_curso h4{
+.cardContent .adData .nome_curso h4 {
   font-weight: bold;
   font-size: 14px;
 }
@@ -1098,138 +1736,131 @@ a {
   background-color: var(--blue);
 }
 
+.chat > .row {
+  margin: 0;
+  padding-top: 10px;
+}
 
+.left-side-container {
+  height: 100vh;
+}
 
+.left-side-Content > .card-container > .card-img > img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+}
 
+.card-img {
+  margin: 10px;
+  display: flex;
+  width: 30%;
+}
 
-    .chat > .row {
-        margin: 0;
-        padding-top: 10px;
-    }
+.card-container {
+  display: flex !important;
+  align-items: center !important;
+  height: 100%;
+}
 
-    .left-side-container {
-        height: 100vh;
-    }
+.card-container {
+  background-color: var(--black);
+  border-radius: 10px;
+  height: 62px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: 0.15s ease-in;
+}
 
-    .left-side-Content > .card-container > .card-img > img  {
-        width: 50px;
-        height: 50px;
-        object-fit: cover;
-        border-radius: 50%;
-    }
+.card-container:hover {
+  background-color: var(--orange);
+}
 
-    .card-img {
-        margin: 10px;
-        display: flex;
-        width: 30%;        
-    }
+.card-container > .card-text {
+  color: white;
+  width: 70%;
+  margin-right: 20px;
+  max-height: 100%;
+  text-align: left;
+}
 
-    .card-container {
-        display: flex !important;
-        align-items: center !important;
-        height: 100%;
-    }
+.card-container > .card-text > h4 {
+  font-size: 16px;
+  margin: 0;
+  font-weight: bold;
+  color: white;
+}
 
-    .card-container {
-        background-color: var(--black);
-        border-radius: 10px;
-        height: 62px;
-        margin-bottom: 10px;
-        cursor: pointer;
-        transition: 0.15s ease-in;
-    }
+.card-container > .card-text > p {
+  font-size: 14px;
+  font-weight: 200;
+  margin: 0;
+}
 
-    .card-container:hover {
-      background-color: var(--orange);
-    }
+.chatZone .content {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  border: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
 
-    .card-container > .card-text {
-        color: white;
-        width: 70%;
-        margin-right: 20px;
-        max-height: 100%;
-        text-align: left;
-    }
+.chat {
+  overflow: hidden;
+  max-height: 87vh;
+}
 
-    .card-container > .card-text > h4 {
-        font-size: 16px;
-        margin: 0;
-        font-weight: bold;
-        color: white;
-    }
+.chatZone {
+  max-height: 86vh;
+  padding-left: 0;
+  border-bottom: 1px solid var(--border);
+}
 
-    .card-container > .card-text > p {
-        font-size: 14px;
-        font-weight: 200;
-        margin: 0;
-    }
+.footerBar {
+  width: 100%;
+  display: flex;
+  padding: 10px 25px;
+  position: relative;
+}
 
-    .chatZone .content {
-      height: 100%;
-      width: 100%;
-      display: flex;
-      align-items: flex-end;
-      border: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
+.footerBar .input {
+  width: 100%;
+  height: 42px;
+}
 
-    .chat {
-      overflow: hidden;
-      max-height: 87vh;
-    }
+.footerBar .sendButton {
+  width: 36px;
+  height: 36px;
+  background-color: var(--orange);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  top: 2px;
+  left: 5px;
+}
 
-    .chatZone {
-      max-height: 86vh;
-      padding-left: 0;
-      border-bottom: 1px solid var(--border);
-    }
+.footerBar .input input {
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  height: 100%;
+}
 
+.footerBar .sendButton svg {
+  color: white;
+  font-weight: bold;
+}
 
-    .footerBar {
-      width: 100%;
-      display: flex;
-      padding: 10px 25px;
-      position: relative;
+.footerBar .sendButton:hover {
+  background-color: var(--black);
+  border: 1px solid var(--black);
+}
 
-    }
-
-    .footerBar .input {
-      width: 100%;
-      height: 42px;
-    }
-
-    .footerBar .sendButton {
-      width: 36px;
-      height: 36px;
-      background-color: var(--orange);
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items:center;
-      cursor: pointer;
-      position: relative;
-      top: 2px;
-      left: 5px;
-    }
-
-    .footerBar .input input {
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      height: 100%;
-    }
-
-    .footerBar .sendButton svg {
-      color: white;
-      font-weight: bold;
-    }
-
-    .footerBar .sendButton:hover {
-      background-color: var(--black);
-      border: 1px solid var(--black);
-    }
-
-    .chat .col-3 {
-      background-color: var(--border)
-    }
-
+.chat .col-3 {
+  background-color: var(--border);
+}
 </style>

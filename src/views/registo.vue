@@ -142,6 +142,7 @@ export default {
               descricao_curso: this.form.course.selected,
               role: "Student",
             });
+            
             if (response.data.success) {
               Swal.fire({
                 icon: "success",
@@ -173,7 +174,7 @@ export default {
         Swal.fire({
           icon: "error",
           title: "Error",
-          text: "O email já está registado!",
+          text: err.message,
         });
       }
     },
