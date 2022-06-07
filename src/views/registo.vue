@@ -141,6 +141,7 @@ export default {
               password: this.form.password,
               descricao_curso: this.form.course.selected,
               role: "Student",
+              gender:this.form.gender.selected
             });
             
             if (response.data.success) {
