@@ -483,6 +483,7 @@ export default new Vuex.Store({
           sobrenome: user.sobrenome,
           password: user.password,
           descricao_curso: user.descricao_curso,
+          gender : user.gender
         });
         
         return response;

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="getLoggedUser.id === userData.id">
+
     <div class="main">
       <div class="left-side">
         <div>
@@ -17,7 +17,7 @@
               <b-tab title="Perfil" active>
                 <div class="right-side">
                   <div class="image-div">
-                    <img src="../assets/img/backgroundPerfil.jpg" />
+                    <img :src="userData.bgImg" />
                   </div>
                   <div class="user-data-div">
                     <div class="profile">
@@ -32,7 +32,7 @@
                           <h3>TSIW</h3>
                         </div>
                         <div class="data">
-                          <h3>Entrou em 21/04/2022</h3>
+                          <h3>{{userData.date}}</h3>
                         </div>
                       </div>
                     </div>
@@ -67,15 +67,7 @@
                           <div class="descricaoLabel">
                             <h3>Descrição:</h3>
                           </div>
-                          <h3 id="descricao">
-                            t is a long established fact that a reader will be
-                            distracted by the readable content of a page when
-                            looking at its layout. The point of using Lorem
-                            Ipsum is that it has a more-or-less normal
-                            distribution of letters, as opposed to using
-                            'Content here, content here', making it look like
-                            readable English.
-                          </h3>
+                          <h3 id="descricao">{{userData.descricao}}</h3>
                         </div>
                       </div>
                       <div class="right">
@@ -636,158 +628,7 @@
         </div>
       </div>
     </div>
-  </div>
-  <div v-else>
-    <div class="generalContainerOtherPerson">
-      <header class="headBg">
-        <div class="intro-body">
-          <b-container>
-            <b-row>
-              <b-col col mx="auto" class="headerTexto">
-                <img class="image1" :src="userData.img" />
-                <img class="image2" :src="userData.img" />
-                <div class="headerData">
-                  <h1 class="headerName">
-                    {{ userData.nome }}
-                    {{ userData.sobrenome }}
-                  </h1>
-                  <p style="text-transform: capitalize">
-                    {{ userData.courseId }}
-                  </p>
-                </div>
-              </b-col>
-            </b-row>
-          </b-container>
-        </div>
-      </header>
-      <div class="profileButtonsPanel">
-        <div class="div">
-          <b-card no-body class="buttonsProfileCard">
-            <b-tabs pills card nav-wrapper-class="w-10">
-              <b-tab
-                class="buttonsProfile"
-                title="Informação"
-                active
-                @click="selectorOtherPerson = 'dadosPerfilOtherPerson'"
-              ></b-tab>
-              <b-tab
-                class="buttonsProfile"
-                title="Anúncios"
-                @click="selectorOtherPerson = 'anunciosOtherPerson'"
-              ></b-tab>
-              <b-tab
-                class="buttonsProfile"
-                title="Projetos "
-                @click="selectorOtherPerson = 'projetosOtherPerson'"
-              ></b-tab>
-              <b-tab
-                class="buttonsProfile"
-                title="Avaliações"
-                @click="selectorOtherPerson = 'avaliacoesOtherPerson'"
-              ></b-tab>
-            </b-tabs>
-          </b-card>
-        </div>
-      </div>
-      <div v-if="selectorOtherPerson == 'dadosPerfilOtherPerson'" class="dadosProfileOtherPerson">
-      <!-- Atualizar Descrição -->
-        <h4>Descrição</h4>
-        <p v-if="userData.nome != ''"> 
-          {{ userData.nome}} 
-        </p>
-        <p v-else>Este utilizador ainda não tem uma descrição</p>
-        <h4>Contacto</h4>
-        <p>{{ userData.email_utilizador }}</p>
-        <br />
 
-        <h4>Anúncios criados</h4>
-        <p>1 ofertas, 1 procuras</p>
-        <br />
-
-        <h4>Projetos criados</h4>
-        <p>1 projeto</p>
-        <br />
-
-        <h4>Colaborações em projetos</h4>
-        <p>1 colaboração</p>
-      </div>
-
-  <!--Falta a página anúncios  -->
-      <div v-if="selectorOtherPerson == 'anunciosOtherPerson'" >
-          <div class="adsContainer PerfilOtherPerson">
-            <div class="row" >
-                <div class="Card col-md-4" v-for="(ad,index) in getAds" :key="index">
-                  <div class="card text-center " v-if="getActiveProfile.email == ad.email">
-                    <div class="backgroundAnuncios">
-                      <img :src="getActiveProfile.imgBg" alt="" class="backgroundAnuncio" >
-                    </div>
-                    <div class="imagemAnuncios">
-                      <img :src="getActiveProfile.profileImg" class="imgAnuncio col-md-3">
-                      <div class="nome curso container">
-                        <h4>{{getActiveProfile.first_name}} {{getActiveProfile.last_name}}<h5>de {{getActiveProfile.course}}</h5></h4>
-                        <p>{{ad.description}}</p>
-                      </div>
-                    </div>
-                      <router-link :to="{ name: 'anuncioEspecifico', params: { id: ad.id }}">
-                        <button class="btn btn-warning" @click=" editSelectAd(ad.id) ">Ver Anúncio</button> 
-                      </router-link>
-                  </div>
-                  
-                </div>
-              <!-- </div> -->
-
-            
-            </div>  
-
-          </div>
-      </div>
-
-      <div v-if="selectorOtherPerson== 'avaliacoesOtherPerson'">
-          <div class="avaliacoes ContainerOtherPerson">
-            <div class="row">
-              <div class="col-md-3 avaliacaoContainer" v-for="(avaliacao, index) in avaliacoesUserActive" :key="index">
-                <div>
-                  <div class="statsComment" >
-                    <star-rating class="camposAvaliacao" :read-only="true" :star-size="20"  active-color="#F17941" v-model="avaliacao.rating"></star-rating>
-                  </div>
-                  <p>{{avaliacao.opiniao}}</p>
-                  <hr>
-                  <div>
-                    <p class="personComment"><b>{{avaliacao.userName}}</b></p> 
-                    <p class="cursoAvaliacao">{{avaliacao.course}}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-1"></div>
-              <div class="col-md-10 ">
-                <h4>Avalia o trabalho da {{getActiveProfile.first_name +' '+ getActiveProfile.last_name}}!</h4>
-                <div class="containerAvaliacoes">
-                  <div class="containerEsquerdo">
-                    <img :src="getActiveProfile.imgBg" class="avaliacaoImg" >
-                  </div>
-                  <div class="containerDireito">
-                    <div class="nomeeAvaliacao">
-                      <label for="nomeTxt">Email</label>
-                      <b-form-input type="text" class="camposAvaliacao" :value="getLoggedUser.email" disabled></b-form-input>
-                    </div>
-                    <div class="cursoeOpiniao">
-                      <label for="nomeTxt">Curso</label>
-                      <b-form-input type="text" class="camposAvaliacao" :value="getLoggedUser.course" disabled></b-form-input>
-                      <star-rating class="camposAvaliacao" :animate="true" :active-on-click="true" :star-size="20"  active-color="#F17941"  v-model="avaliacao.rating"></star-rating>
-                      <label for="nomeTxt">Opinião</label>
-                      <b-form-textarea type="text" class="camposAvaliacao" v-model="avaliacao.opiniaoTxt" ></b-form-textarea>
-                    </div>
-                    <div class="btn btn-warning enviarAvaliacao" @click="addAvaliacao">Enviar</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-    </div>
-  </div>
 </template>
 
 <script>
@@ -827,7 +668,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 /* Código da antiga página de perfil */
 
 .generalContainerOtherPerson {
