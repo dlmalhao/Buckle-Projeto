@@ -82,23 +82,14 @@ export default {
         password: this.form.password,
       });
       if (response.data.success) {
-        Swal.fire({
-          icon: "success",
-          title: "Sucesso",
-          text: "Login efetuado com sucesso!",
-          confirmButtonText: "Entrar",
-        });
+        this.$swal('Sucesso!', 'Login efetuado com sucesso.', 'success');
         this.$router.push("/");
       } else {
         throw new Error(response.data.msg);
       }
       }catch (err){
         console.log(err);
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: err,
-        });
+        this.$swal('Erro!', 'Erro', 'error');
       }
       
     },

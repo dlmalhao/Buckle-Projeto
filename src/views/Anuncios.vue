@@ -29,14 +29,14 @@
             <b-col cols="2">
               <div class="pesquisa">
                 <p>Pesquisa</p>
-                <b-form-input type="text" v-model="search"></b-form-input>
+                <b-form-input type="text" ></b-form-input>
               </div>
             </b-col>
             <b-col cols="2">
               <div class="licenciatura">
                 <p>Licenciatura</p>
                 <div class="form-selects">
-                  <b-form-select v-model="graduation.selected" :options="graduation.options" class="form-select cursos"></b-form-select>
+                  <b-form-select  class="form-select cursos"></b-form-select>
                 </div>
               </div>
             </b-col>
@@ -44,7 +44,7 @@
               <div class="ordenar">
                 <p>Ordenar</p>
                 <div class="form-selects">
-                  <b-form-select v-model="order.selected" :options="order.options" class="form-select cursos"></b-form-select>
+                  <b-form-select  class="form-select cursos"></b-form-select>
                 </div>
               </div>
             </b-col>
@@ -52,10 +52,11 @@
               <div class="tipo">
                 <p>Tipo</p>
                 <div class="buttons">
-                  <b-button class="btn-procura" v-if="type.isProcura == false" @click="type.isProcura = true; type.isOferta = false" :class="{ active: type.isProcura }" >Procura</b-button>
+                  <!-- <b-button class="btn-procura" v-if="type.isProcura == false" @click="type.isProcura = true; type.isOferta = false" :class="{ active: type.isProcura }" >Procura</b-button>
                   <b-button class="btn-procura" v-if="type.isProcura == true" @click="type.isProcura = false" :class="{ active: type.isProcura }" >Procura</b-button>
                   <b-button class="btn-oferta" v-if="type.isOferta == false" @click="type.isProcura = false; type.isOferta = true" :class="{ active: type.isOferta }" >Oferta</b-button>
                   <b-button class="btn-oferta" v-if="type.isOferta == true" @click="type.isOferta = false" :class="{ active: type.isOferta }" >Oferta</b-button>
+                  -->
                 </div>
               </div>
             </b-col>
@@ -64,27 +65,27 @@
       </b-row>
     
       <b-row style="padding:0;">
-        <b-col xl="4" lg="4" cols="6" style="margin-bottom: 20px;" v-for="(ad, index) in this.filteredAds" :key="index" >
+        <b-col xl="4" lg="4" cols="6" style="margin-bottom: 20px;" v-for="(ad, index) in announcementsData" :key="index" >
           <router-link :to="{ name: 'anuncioEspecifico', params: { id: ad.id }}">
             <div class="cardContainer">
               <div class="cardImage">
-                <img :src="users.find((user) => user.email == ad.email).imgBg" alt="">
+                <img :src="ad.img" alt="">
               </div>
               <div class="cardContent">
                 <div class="adData">
                   <div class="profileImage">
-                    <img :src="users.find((user) => user.email == ad.email).profileImg" alt="">
+                    <img :src="users.find((user) => user.id == ad.utilizadorId).img" alt="">
                   </div>
                   <div class="nome_curso">
-                    <h4>{{users.find((user) => user.email == ad.email).first_name + " " + users.find((user) => user.email == ad.email).last_name}}</h4>
+                    <!-- <h4>{{users.find((user) => user.email == ad.utilizadorId).first_name + " " + users.find((user) => user.email == ad.email).last_name}}</h4> -->
                     <div class="curso">
                       <p>de&nbsp;</p>
-                      <p>{{ad.course}}</p>
+                      <!-- <p>{{users.find((user) => user.email == ad.utilizadorId).course}}</p> -->
                     </div>
                   </div>
                 </div>
                 <div class="descricao">
-                  <p>{{ad.description}}</p>
+                  <p>{{ad.descricao}}</p>
                 </div>
               </div>
             </div>
@@ -96,75 +97,99 @@
 </template>
 
 <script>
-import {mapGetters} from "vuex"
+import {mapGetters, mapActions} from "vuex"
 
 export default {
   data() {
     return {
-      ads: [],
       users: [],
-      graduation: {
-        selected: null,
-        options: [
-          { value: null, text: "Tudo" },
-          { value: "tsiw", text: "TSIW" },
-          { value: "tcav", text: "TCAV" },
-          { value: "design-grafico", text: "Design Gráfico" },
-          { value: "design-industrial", text: "Design Industrial" },
-          { value: "fotografia", text: "Fotografia" },
-          { value: "multimedia", text: "Multimédia" },
-        ],
-      },
-      order: {
-        selected: null,
-        options: [
-          { value: null, text: "Tudo" },
-          { value: "recentes", text: "Mais recentes" },
-          { value: "antigos", text: "Mais antigos" },
-        ],
-      },
-      type: {
-        isOferta: false,
-        isProcura: false,
-      },
-      search: ""
+      // graduation: {
+      //   selected: null,
+      //   options: [
+      //     { value: null, text: "Tudo" },
+      //     { value: "tsiw", text: "TSIW" },
+      //     { value: "tcav", text: "TCAV" },
+      //     { value: "design-grafico", text: "Design Gráfico" },
+      //     { value: "design-industrial", text: "Design Industrial" },
+      //     { value: "fotografia", text: "Fotografia" },
+      //     { value: "multimedia", text: "Multimédia" },
+      //   ],
+      // },
+      // order: {
+      //   selected: null,
+      //   options: [
+      //     { value: null, text: "Tudo" },
+      //     { value: "recentes", text: "Mais recentes" },
+      //     { value: "antigos", text: "Mais antigos" },
+      //   ],
+      // },
+      // type: {
+      //   isOferta: false,
+      //   isProcura: false,
+      // },
+      // search: "",
+      announcementsData: []
     }
   },
   computed : {
-    ...mapGetters(["getUsers","getAds"]),
+    ...mapGetters(["getAds"]),
 
-    filteredAds () {
-      let filterAds = this.ads.slice(0)
-      for(let ad of filterAds) {
-        console.log((this.users.find((user) => user.email == ad.email)).first_name.toLowerCase().includes(this.search.toLowerCase()));
-      }
-      if(this.graduation.selected != null) {
-        filterAds = filterAds.filter((ad)=> ad.course == this.graduation.selected)
-      }
-      if(this.type.isOferta) {
-        filterAds = filterAds.filter((ad)=> ad.typeAd.text == "Oferta")
-      }
-      if(this.type.isProcura) {
-        filterAds = filterAds.filter((ad)=> ad.typeAd.text == "Procura")
-      }
-      if(this.search != "") {
-        filterAds = filterAds.filter((ad)=> ad.description.toLowerCase().replace(/\s/g, '').includes(this.search.toLowerCase().replace(/\s/g, '')) || this.users.find((user) => user.email == ad.email).first_name.toLowerCase().includes(this.search.toLowerCase().replace(/\s/g, '')) || this.users.find((user) => user.email == ad.email).last_name.toLowerCase().includes(this.search.toLowerCase().replace(/\s/g, '')) )
-        // filterAds = filterAds.filter((ad)=> this.users.find((user) => user.email == ad.email).first_name.toLowerCase().includes(this.search.toLowerCase()))
-        // filterAds = this.$store.state.ads.filter((ad) => this.users.find((user)=>user.email == ad.email).first_name.toLowerCase().includes(this.search.toLowerCase()))
-        // filterAds = this.$store.state.ads.filter((ad) => this.users.find((user)=>user.email == ad.email).last_name.toLowerCase().includes(this.search.toLowerCase()))
-      }
-      // for(let user of this.users){
-      //   filterAds = filterAds.filter((ad) => ad.email == user.email)
-      // }
-      return filterAds
-    }
+  //   filteredAds () {
+  //     let filterAds = this.announcementsData.slice(0)
+  //     for(let ad of filterAds) {
+  //       console.log((this.users.find((user) => user.email == ad.email)).first_name.toLowerCase().includes(this.search.toLowerCase()));
+  //     }
+  //     if(this.graduation.selected != null) {
+  //       filterAds = filterAds.filter((ad)=> ad.course == this.graduation.selected)
+  //     }
+  //     if(this.type.isOferta) {
+  //       filterAds = filterAds.filter((ad)=> ad.typeAd.text == "Oferta")
+  //     }
+  //     if(this.type.isProcura) {
+  //       filterAds = filterAds.filter((ad)=> ad.typeAd.text == "Procura")
+  //     }
+  //     if(this.search != "") {
+  //       filterAds = filterAds.filter((ad)=> ad.description.toLowerCase().replace(/\s/g, '').includes(this.search.toLowerCase().replace(/\s/g, '')) || this.users.find((user) => user.email == ad.email).first_name.toLowerCase().includes(this.search.toLowerCase().replace(/\s/g, '')) || this.users.find((user) => user.email == ad.email).last_name.toLowerCase().includes(this.search.toLowerCase().replace(/\s/g, '')) )
+  //     //   // filterAds = filterAds.filter((ad)=> this.users.find((user) => user.email == ad.email).first_name.toLowerCase().includes(this.search.toLowerCase()))
+  //     //   // filterAds = this.$store.state.ads.filter((ad) => this.users.find((user)=>user.email == ad.email).first_name.toLowerCase().includes(this.search.toLowerCase()))
+  //     //   // filterAds = this.$store.state.ads.filter((ad) => this.users.find((user)=>user.email == ad.email).last_name.toLowerCase().includes(this.search.toLowerCase()))
+  //     // }
+  //     // // for(let user of this.users){
+  //     // //   filterAds = filterAds.filter((ad) => ad.email == user.email)
+  //     // // }
+  //     return filterAds
+  //   }
+  // },
+  },
+  mounted () {
+    this.getUsersData()
+    this.getAnnouncementsData()
   },
 
-  mounted () {
-    this.ads = this.getAds
-    this.users = this.getUsers
+   methods: {
+    ...mapActions(["getAnnouncements","getUsers"]),
+
+    async getAnnouncementsData() {
+      try {
+        this.announcementsData = await this.getAnnouncements();
+      } catch (err) {
+        this.$swal('Erro')
+        console.log(err)
+      }
+    },
+
+    async getUsersData() {
+      try {
+        this.users = await this.getUsers();
+        console.log(this.users)
+      } catch (err) {
+        this.$swal('Erro')
+        console.log(err)
+      }
+    },
   },
 }
+
 
 </script>
 

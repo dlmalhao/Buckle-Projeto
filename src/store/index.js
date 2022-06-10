@@ -95,9 +95,7 @@ export default new Vuex.Store({
               "Preciso que alguém me empreste uma câmara por um dia.",
             course: "multimedia",
             time: "24-50",
-            email: "user@esmad.ipp.pt",
-            profileImg:
-              "https://i.pinimg.com/originals/7c/19/75/7c197545ca20fab203abb8b415de34e2.gif",
+            userId: 0,
             imgBg:
               "https://media.istockphoto.com/photos/live-video-streaming-media-entertainment-technology-on-laptop-and-picture-id1218395365?b=1&k=20&m=1218395365&s=170667a&w=0&h=DNmqcjDzFNqFqHH0LjdscsDiTzbqOpddOeN4LfePFSE=",
             id: 1,
@@ -282,7 +280,7 @@ export default new Vuex.Store({
       ),
     isEmailRegistered: (state) => (email) =>
       state.users.some((user) => user.email === email),
-    getUsers: (state) => state.users,
+    // getUsers: (state) => state.users,
     getLoggedUser: (state) => state.loggedUser,
     getAds: (state) => state.ads,
     getAe: (state) => state.ae,
@@ -400,6 +398,36 @@ export default new Vuex.Store({
       try{
         const response = await axios.get(`http://127.0.0.1:3000/users/${id}`)        
           return response.data.user;
+      }
+      catch(err){
+        throw Error(err.response.data.message);
+      }
+    },
+
+    async getAnnouncements({ context, state }){
+      try{
+        const response = await axios.get(`http://127.0.0.1:3000/announcements`)        
+          return response.data.announcements;
+      }
+      catch(err){
+        throw Error(err.response.data.message);
+      }
+    },
+
+    async getUsers({ context, state }){
+      try{
+        const response = await axios.get(`http://127.0.0.1:3000/users`)        
+          return response.data.users;
+      }
+      catch(err){
+        throw Error(err.response.data.message);
+      }
+    },
+
+    async getCourses({ context, state }){
+      try{
+        const response = await axios.get(`http://127.0.0.1:3000/users`)        
+          return response.data.users;
       }
       catch(err){
         throw Error(err.response.data.message);

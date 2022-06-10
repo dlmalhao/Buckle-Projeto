@@ -166,7 +166,7 @@ export default {
     async logoutUser() {
       try {
         if (localStorage.token != null) {
-          Swal.fire({
+          this.$swal({
             title: "Atenção!",
             text: "Tens a certeza que queres sair da tua conta?",
             icon: "warning",
@@ -177,7 +177,7 @@ export default {
             cancelButtonText: "Não",
           }).then((result) => {
             if (result.isConfirmed) {
-              Swal.fire({
+              this.$swal({
                 title: "Adeus!",
                 text: "Logout efetuado com sucesso.",
                 confirmButtonColor: "#3085d6",
@@ -189,7 +189,7 @@ export default {
             }
           });
         } else {
-          Swal.fire({
+          this.$swal({
             icon: "error",
             title: "Oops...",
             // text: response.msg,
@@ -198,7 +198,7 @@ export default {
           });
         }
       } catch (err) {
-        Swal.fire({
+        this.$swal({
           icon: "error",
           title: "Error",
           text: err,
