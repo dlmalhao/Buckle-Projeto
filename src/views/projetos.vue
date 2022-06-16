@@ -48,43 +48,32 @@
                 </div>
               </div>
             </b-col>
-            <b-col cols="2">
-              <div class="tipo">
-                <p>Tipo</p>
-                <div class="buttons">
-                  <b-button class="btn-procura" v-if="type.isProcura == false" @click="type.isProcura = true; type.isOferta = false" :class="{ active: type.isProcura }" >Procura</b-button>
-                  <b-button class="btn-procura" v-if="type.isProcura == true" @click="type.isProcura = false" :class="{ active: type.isProcura }" >Procura</b-button>
-                  <b-button class="btn-oferta" v-if="type.isOferta == false" @click="type.isProcura = false; type.isOferta = true" :class="{ active: type.isOferta }" >Oferta</b-button>
-                  <b-button class="btn-oferta" v-if="type.isOferta == true" @click="type.isOferta = false" :class="{ active: type.isOferta }" >Oferta</b-button>
-                </div>
-              </div>
-            </b-col>
           </div>
         </div>
       </b-row>
     
       <b-row style="padding:0;">
-        <b-col xl="4" lg="4" cols="6" style="margin-bottom: 20px;" v-for="(project, index) in this.projects" :key="index" >
+        <b-col xl="4" lg="4" cols="6" style="margin-bottom: 20px;" v-for="(project, index) in this.filteredProjects" :key="index" >
           <router-link :to="{ name: 'projetoEspecifico', params: { id: project.id }}">
             <div class="cardContainer">
               <div class="cardImage">
-                <img :src="project.cover_image" alt="">
+                <img v-if="!loadingProjetos && !loadingImagensProjetos" :src="allProjectImages.filter((image) => image.projetoID == project.id)[0].descricao" alt="">
               </div>
               <div class="cardContent">
                 <div class="adData">
                   <div class="profileImage">
-                    <img :src="users.find((user) => user.email == project.email).profileImg" alt="">
+                    <img :src="users.find((user) => user.id == project.utilizadorId).img" alt="">
                   </div>
                   <div class="nome_curso">
-                    <h4>{{users.find((user) => user.email == project.email).first_name + " " + users.find((user) => user.email == project.email).last_name}}</h4>
+                    <h4>{{users.find((user) => user.id == project.utilizadorId).nome + " " + users.find((user) => user.id == project.utilizadorId).sobrenome}}</h4>
                     <div class="curso">
                       <p>de&nbsp;</p>
-                      <p>{{users.find((user) => user.email == project.email).course}}</p>
+                      <p>{{users.find((user) => user.id == project.utilizadorId).course.descricao_curso}}</p>
                     </div>
                   </div>
                 </div>
                 <div class="descricao">
-                  <p>{{project.description}}</p>
+                  <p>{{project.descricao}}</p>
                 </div>
               </div>
             </div>
@@ -96,12 +85,15 @@
 </template>
 
 <script>
-import {mapGetters} from "vuex"
+import {mapGetters,mapActions} from "vuex"
 
 export default {
   data() {
     return {
       projects: [],
+      allProjectImages: [],
+      loadingProjetos: false,
+      loadingImagensProjetos: false,
       users: [],
       graduation: {
         selected: null,
@@ -131,38 +123,93 @@ export default {
     }
   },
   computed : {
-    ...mapGetters(["getUsers","getProjects"]),
+    ...mapGetters([""]),
 
-    // filteredProjects () {
-    //   let filterProjects = this.projects.slice(0)
-    //   for(let project of filterProjects) {
-    //     console.log((this.users.find((user) => user.email == project.email)).first_name.toLowerCase().includes(this.search.toLowerCase()));
-    //   }
-    //   if(this.graduation.selected != null) {
-    //     filterProjects = filterProjects.filter((project)=> project.course == this.graduation.selected)
-    //   }
-    //   if(this.type.isOferta) {
-    //     filterProjects = filterProjects.filter((project)=> project.typeAd.text == "Oferta")
-    //   }
-    //   if(this.type.isProcura) {
-    //     filterProjects = filterProjects.filter((project)=> project.typeAd.text == "Procura")
-    //   }
-    //   if(this.search != "") {
-    //     filterProjects = filterProjects.filter((project)=> project.description.toLowerCase().replace(/\s/g, '').includes(this.search.toLowerCase().replace(/\s/g, '')) || this.users.find((user) => user.email == project.email).first_name.toLowerCase().includes(this.search.toLowerCase().replace(/\s/g, '')) || this.users.find((user) => user.email == project.email).last_name.toLowerCase().includes(this.search.toLowerCase().replace(/\s/g, '')) )
-    //     // filterProjects = filterProjects.filter((project)=> this.users.find((user) => user.email == project.email).first_name.toLowerCase().includes(this.search.toLowerCase()))
-    //     // filterProjects = this.$store.state.ads.filter((project) => this.users.find((user)=>user.email == project.email).first_name.toLowerCase().includes(this.search.toLowerCase()))
-    //     // filterProjects = this.$store.state.ads.filter((project) => this.users.find((user)=>user.email == project.email).last_name.toLowerCase().includes(this.search.toLowerCase()))
-    //   }
-    //   // for(let user of this.users){
-    //   //   filterProjects = filterProjects.filter((project) => project.email == user.email)
-    //   // }
-    //   return filterProjects
-    // }
+    filteredProjects () {
+      let filterProjects = this.projects.slice(0)
+      let filterProjectsCopy = []
+      if(this.graduation.selected != null) {
+        for(let ad of filterProjects) {
+          let utilizadorID = ad.utilizadorId
+          // Utilizador que criou o anuncio
+          let utilizador = this.users.find((user) => user.id == utilizadorID)
+
+          // Filtro por Curso
+          if(utilizador.course.value == this.graduation.selected) {
+            filterProjectsCopy.push(ad) 
+          }
+        }
+        filterProjects = filterProjectsCopy
+      }
+ 
+      // Filtro por pesquisa
+      if(this.search != "") {
+        filterProjects = filterProjects.filter((ad)=> ad.descricao.toLowerCase().replace(/\s/g, '').includes(this.search.toLowerCase().replace(/\s/g, '')) || this.users.find((user) => user.id == ad.utilizadorId).nome.toLowerCase().includes(this.search.toLowerCase().replace(/\s/g, '')) || this.users.find((user) => user.id == ad.utilizadorId).sobrenome.toLowerCase().includes(this.search.toLowerCase().replace(/\s/g, '')) )
+      }
+      return filterProjects
+    }
   },
 
   mounted () {
-    this.projects = this.getProjects
-    this.users = this.getUsers
+    this.getUsersData()
+    this.getProjectImagesData()
+  },
+
+   methods: {
+    ...mapActions(["getProjects","getUsers", "getCourses","getProjectImages"]),
+
+    async getProjectsData() {
+      try {
+        this.loadingProjetos = true
+        this.projects = await this.getProjects();
+        this.loadingProjetos = false
+      } catch (err) {
+        this.$swal('Erro ao requisitar projetos')
+        console.log(err)
+      }
+    },
+
+    async getUsersData() {
+      try {
+        this.users = await this.getUsers();
+        this.getCoursesData()
+        this.getProjectsData()
+      } catch (err) {
+        this.$swal('Erro ao requisitar utilizadores')
+        console.log(err)
+      }
+    },
+
+    async getCoursesData() {
+      try {
+        this.courses = await this.getCourses();
+        this.getCoursesOptions()
+      } catch (err) {
+        this.$swal('Erro ao requisitar cursos')
+        console.log(err)
+      }
+    },
+
+    getCoursesOptions () {
+      let optionsData = []
+      for(let course of this.courses) {
+        let opt = {value: course.value, text: course.descricao_curso}
+        optionsData.push(opt)
+      }
+      this.graduation.options = optionsData
+    },
+
+    async getProjectImagesData() {
+      try {
+        this.loadingImagensProjetos = true
+        this.allProjectImages = await this.getProjectImages();
+        this.loadingImagensProjetos = false
+        console.log(this.allProjectImages)
+      } catch (err) {
+        this.$swal('Erro ao requisitar imagens de projetos')
+        console.log(err)
+      }
+    },
   },
 }
 

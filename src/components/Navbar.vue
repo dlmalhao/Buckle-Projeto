@@ -122,8 +122,7 @@ export default {
   },
 
   mounted() {
-    console.log(this.getLoggedUser);
-    console.log(localStorage.loggedUser);
+    
   },
   computed: {
     ...mapGetters(["getLoggedUser"]),
@@ -166,7 +165,7 @@ export default {
     async logoutUser() {
       try {
         if (localStorage.token != null) {
-          this.$swal({
+          Swal.fire({
             title: "Atenção!",
             text: "Tens a certeza que queres sair da tua conta?",
             icon: "warning",
@@ -177,7 +176,7 @@ export default {
             cancelButtonText: "Não",
           }).then((result) => {
             if (result.isConfirmed) {
-              this.$swal({
+              Swal.fire({
                 title: "Adeus!",
                 text: "Logout efetuado com sucesso.",
                 confirmButtonColor: "#3085d6",
@@ -189,7 +188,7 @@ export default {
             }
           });
         } else {
-          this.$swal({
+          Swal.fire({
             icon: "error",
             title: "Oops...",
             // text: response.msg,
@@ -198,7 +197,7 @@ export default {
           });
         }
       } catch (err) {
-        this.$swal({
+        Swal.fire({
           icon: "error",
           title: "Error",
           text: err,

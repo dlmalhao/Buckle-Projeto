@@ -161,11 +161,58 @@ export default {
   padding: 0 15px;
 }
 
-
+.imagesCarousel div div div img {
+  height: 500px;
+  object-fit: cover;
+}
 
 .myTabs .col-auto {
   padding: 0;
 }
 
+.buttonsProfileCard .tabs div ul li a.active {
+  background-color: var(--orange);
+}
+
+.buttonsProfileCard .tabs div ul li a {
+  color: var(--black);
+}
+
+.settingsButton .btn.dropdown-toggle.btn-primary {
+  background-color: var(--orange);
+  border-color: var(--orange);
+  margin-right: 12vh;
+}
+.settingsButton .btn-primary.dropdown-toggle {
+  background-color: var(--orange) !important;
+  border-color: var(--orange) !important;
+}
+
+.settingsButton .dropdown-item:active {
+  background-color: var(--orange) !important;
+}
+.settingsButton .dropdown-item.text-danger:active {
+  background-color: #d9534f !important;
+  color: #ffffff !important;
+}
+.modal-content .close {
+  background-color: #d9534f !important;
+  color: #ffffff !important;
+  border: none;
+  border-radius: 4px;
+}
+
+.modal .modal-dialog {
+  margin-top: 100px;
+}
+
+.modal .modal-header {
+  background-color: var(--black);
+  border-radius: 0;
+}
+
+.modal .modal-header h5 {
+  color: white;
+}
 
 </style>

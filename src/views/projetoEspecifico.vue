@@ -12,9 +12,11 @@
               img-width="1024"
               img-height="600"
             >
-              <b-carousel-slide style="height: 600px !important;" v-for="(image, index) in thisProjectImages" :key="index"
-                :img-src="image.image_src"
-              ></b-carousel-slide>
+              <div class="div" v-for="(image, index) in thisProjectImages" :key="index">
+                <b-carousel-slide 
+                  :img-src="image.descricao"
+                ></b-carousel-slide>
+              </div>
             </b-carousel>
           </div>
         </b-col>
@@ -22,37 +24,33 @@
           <div class="specificAdInfo">
             <div class="text">
               <p class="adType">Projeto</p>
-              <h3 class="specificAdTitle">{{projectEspecific.title}}</h3>
+              <h3 class="specificAdTitle">{{especificProjectData.titulo}}</h3>
               <div class="secondLine">
-                <p class="announcerName">{{users.find((user) => user.email == projectEspecific.email).first_name + " " + users.find((user) => user.email == projectEspecific.email).last_name}}</p>
+                <p class="announcerName">{{userData.nome + " " + userData.sobrenome}}</p>
                 <div class="containerFavourites" v-if="getLoggedUser">
-                  <a @click="removeFavourite()"  v-if="favs.find((fav) => fav.userEmail == loggedUser.email && fav.adId == projectEspecific.id)"><i class="fas fa-bookmark" style="color: var(--orange);"></i></a>
-                  <a v-else @click="addFavourite()"><i class="far fa-bookmark"></i></a>
+                  <p v-if="didUserLikeThisProject()">{{favsCount()}}</p><a @click="removeProjectFavById()"  v-if="didUserLikeThisProject() && this.userData.id != this.loggedUser.id "><i class="fas fa-bookmark" style="color: var(--orange);"></i></a>
+                  <p v-if="!didUserLikeThisProject()">{{favsCount()}}</p><a @click="postProjectFavById()" v-if="!didUserLikeThisProject() && this.userData.id != this.loggedUser.id"><i class="far fa-bookmark"></i></a>
                 </div>
               </div>
               <div class="userContent">
                 <div class="adSpecificSummary">
                   <p class="announcerDescription">Descrição</p>
                   <p>
-                    {{projectEspecific.description}}
+                    {{especificProjectData.descricao}}
                   </p>
                 </div>
                 <div class="announcerCourse">
                   <p class="courseWritten">Curso</p>
-                  <p class="courseName">{{users.find((user) => user.email == projectEspecific.email).course}}</p>
-                </div>
-                <div class="announcerLink">
-                  <p class="linkWritten">Link</p>
-                  <a :href="'//' + projectEspecific.link" target="_blank">{{projectEspecific.link}}</a>
+                  <p v-if="!loadingUser && !loadingEspecificProjectData">{{users.find((user) => user.id == especificProjectData.utilizadorId).course.descricao_curso}}</p>
                 </div>
                 <div class="announcerTime">
                   <p class="timeWritten">Data</p>
-                  <p class="timeNeeded">{{projectEspecific.data}}</p>
+                  <p class="timeNeeded">{{especificProjectData.data}}</p>
                 </div>
               </div>
             </div>
             <div class="button">
-              <b-button type="button" @click="goProfileOtherPerson">Contactar</b-button>
+              <!-- <b-button type="button" @click="goProfileOtherPerson">Contactar</b-button> -->
             </div>
           </div>
         </b-col>
@@ -61,14 +59,15 @@
     <b-container>
       <div class="slideBg">
         <div class="userImg">
-          <img :src="users.find((user) => user.email == projectEspecific.email).profileImg" alt="">
+          <img :src="userData.img">
         </div>
         <div class="userInfo">
           <div class="header">
             <h3>Sobre o criador</h3>
           </div>
           <div class="content">
-            <p>{{users.find((user) => user.email == projectEspecific.email).description}}</p>
+            <p v-if="userData.descricao == '' || userData.descricao == null ">{{userData.nome + ' ' + userData.sobrenome + ' não tem descrição.'}}</p>
+            <p v-else>{{userData.descricao}}</p>
           </div>
         </div>
       </div>
@@ -77,71 +76,173 @@
 </template>
 
 <script>
-import {mapGetters,mapMutations} from "vuex"
+import {mapGetters,mapMutations,mapActions} from "vuex"
 
 export default {
   data () {
     return {
-      projectEspecific: {},
+      project: {},
       loggedUser: {},
       users: [],
       favs: [],
-      userEmail: "",
-      idAd: "",
       projects: [],
+      especificProjectData: {},
+      userCourse: {},
+      courses: [],
+      userData: {},
+      loadingUser: true,
       allProjectImages: [],
+      loadingEspecificProjectData: true,
       thisProjectImages: []
     }
   },
   computed: {
-    ...mapGetters(["getProjectSpecific", "getUsers","getFavs","getLoggedUser", "getActiveProfile", "getProjects", "getProjectImages"]),
-
+    ...mapGetters(["getLoggedUser"]),
   },
   created() {
-    this.projectEspecific = this.getProjectSpecific(this.$route.params.id)
-    this.projects = this.getProjects
-    this.allProjectImages = this.getProjectImages
-    this.users = this.getUsers
-    this.favs = this.getFavs
-
-    for (const project of this.projects) {
-      for (const image of this.allProjectImages) {
-        if(project.id == image.project_id && project.id == this.$route.params.id) {
-          this.thisProjectImages.push(image)
-        }
-      }
-    }
-
+    this.getUsersData()
+    this.getProjectFavsData()
     if(this.getLoggedUser) {
       this.loggedUser = this.getLoggedUser
     }
-
-    this.SET_ACTIVE_PROFILE(this.projectEspecific.email);
-    
-    this.SET_ACTIVE_AD(this.projectEspecific.id)
   },
   methods: {
-    ...mapMutations(["ADD_FAV","REMOVE_FAV", "SET_ACTIVE_PROFILE", "SET_ACTIVE_AD"]),
+    ...mapActions(["getProjectImages","getUsers","getProjects","getEspecificProject","getUser","getCourses","getProjectImages","getProjectFavs", "postProjectFavs", "removeProjectFavs"]),
 
-    addFavourite () {
-      const favData = {
-        userEmail: this.loggedUser.email,
-        adId: parseInt(this.$route.params.id),
-        activeProfile : this.getActiveProfile
+    async getUsersData() {
+      try {
+        this.loadingUser = true
+        this.users = await this.getUsers();
+        this.loadingUser = false
+        this.getProjectsData()
+        this.getDataEspecificProject()
+        this.getProjectImagesData()
+      } catch (err) {
+        this.$swal('Erro ao requisitar utilizadores')
+        console.log(err)
       }
-      this.ADD_FAV(favData)
-    },
-    removeFavourite() {
-      let idx = this.favs.indexOf(this.favs.find((fav) => fav.userEmail == this.loggedUser.email && fav.adId == this.projectEspecific.id))
-      this.REMOVE_FAV(idx)
     },
 
-    goProfileOtherPerson(){
-      this.SET_ACTIVE_PROFILE(this.projectEspecific.email);
-      this.$router.push({name: 'perfil'}) 
+    async getProjectsData() {
+      try {
+        this.projects = await this.getProjects();
+      } catch (err) {
+        this.$swal('Erro ao requisitar projetos')
+        console.log(err)
+      }
     },
-
     
+    async getDataEspecificProject() {
+      try {
+        this.loadingEspecificProjectData = true
+        this.especificProjectData = await this.getEspecificProject(this.$route.params.id);
+        this.loadingEspecificProjectData = false
+        this.getDataUser()
+      } catch (err) {
+         this.$swal('Erro ao requisitar Projeto Especifico')
+         console.log(err)
+      }
+    },
+
+    getEspecificCourseData() {
+      this.userCourse = this.courses.find((course) => course.id == this.userData.courseId)
+    },
+
+    async getCoursesData() {
+      try {
+        this.courses = await this.getCourses();
+        this.getEspecificCourseData()
+      } catch (err) {
+        this.$swal('Erro ao requisitar cursos')
+        console.log(err)
+      }
+    },
+
+    async getDataUser() {
+      try {
+        let userID = this.especificProjectData.utilizadorId
+        this.userData = await this.getUser(userID);
+        this.getCoursesData()
+      } catch (err) {
+        this.$swal('Erro ao requisitar Utilizador')
+      }
+    },
+
+    async getProjectImagesData() {
+      try {
+        this.allProjectImages = await this.getProjectImages();
+        this.getThisProjectImages()
+      } catch (err) {
+        this.$swal('Erro ao requisitar imagens de projetos')
+        console.log(err)
+      }
+    },
+
+    getThisProjectImages () {
+      this.thisProjectImages = this.allProjectImages.filter((image) => image.projetoID == this.$route.params.id)
+    },
+
+
+    async getProjectFavsData() {
+      try {
+        this.favs = await this.getProjectFavs();
+      } catch (err) {
+        this.$swal('Erro ao requisitar favoritos')
+        console.log(err)
+      }
+    },
+
+    didUserLikeThisProject () {
+      let did_user_like = false
+      for(const fav of this.favs) {
+        if(fav.id_utilizador_dado == this.loggedUser.id && fav.id_utilizador_recebido == this.userData.id) {
+          did_user_like = true
+        }
+      }
+      return did_user_like
+    },
+
+    favsCount() {
+      return this.favs.filter((fav) => fav.id_utilizador_recebido == this.userData.id).length
+    },
+
+    async postProjectFavById() {
+      try {
+        if (!this.didUserLikeThisProject()) {
+          const response = await this.postProjectFavs({
+            id_utilizador_recebido: this.userData.id,
+            id_utilizador_dado: this.loggedUser.id
+          });
+          if (response.data.success) {
+            this.$swal('','Projeto adicionado aos favoritos!')
+            this.getProjectFavsData()
+          }
+        }
+      } catch (err) {
+        this.$swal('Erro ao adicionar aos favoritos!')
+        console.log(err)
+      }
+    },
+
+    async removeProjectFavById() {
+      try {
+        let idx 
+        for(const fav of this.favs) {
+          if(fav.id_utilizador_dado == this.loggedUser.id && fav.id_utilizador_recebido == this.userData.id) {
+            idx = fav.id
+            console.log(idx)
+          }
+        }
+        const response = await this.removeProjectFavs(idx)
+        if (response.data.success) {
+          this.$swal('','Projeto removido dos favoritos!')
+          this.getProjectFavsData()
+        }
+      } catch (err) {
+        this.$swal('Erro ao remover dos favoritos')
+        console.log(err)
+      }
+    },
   }
 };
 </script>
@@ -225,12 +326,16 @@ button {
   cursor: pointer;
 }
 
+
+
 .containerFavourites a:hover i {
   text-decoration: none;
   color: var(--orange);
 }
 
 .containerFavourites p {
+  margin-right: 10px !important;
+  margin-bottom: 3px !important;
   font-weight: bold;
   margin: 0;
   cursor:default;
@@ -283,9 +388,8 @@ button {
 }
 
 .slideBg {
-  background: rgb(255,231,219);
-  background: linear-gradient(90deg, rgba(255,231,219,1) 0%, rgba(255,144,92,1) 100%);
-  color: rgb(83, 83, 83);
+  background: var(--black);
+  color: white;
   border-radius: 15px;
   height: 135px;
   display: flex;
@@ -316,6 +420,7 @@ button {
 .userInfo .header h3 {
   font-size: 24px;
   font-weight: bold;
+  color: var(--orange);
 }
 
 .userInfo .content p {

@@ -7,7 +7,6 @@ import login from '../views/login.vue'
 import registo from '../views/registo.vue'
 import gestaoUtilizadores from '../views/adminUsers.vue'
 import gestaoAnuncios from '../views/adminAds.vue'
-import chat from '../views/chat.vue'
 import store from '../store/index.js'
 import perfil from '../views/perfil2.vue'
 import sobre from '../views/sobre.vue'
@@ -84,14 +83,6 @@ const routes = [
       requiresAuth: true,
       requiresAdmin: true
     },
-  },
-  {
-    path: '/chat',
-    name: 'chat',
-    component: chat,
-    meta: {
-      requiresAuth: true,
-    }
   },
   {
     path: '/sobre',

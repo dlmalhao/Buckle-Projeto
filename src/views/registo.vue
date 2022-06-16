@@ -145,7 +145,7 @@ export default {
             });
             
             if (response.data.success) {
-              this.$swal({
+              Swal.fire({
                 icon: "success",
                 title: "Sucesso",
                 text: "Registado com sucesso!",
@@ -156,7 +156,7 @@ export default {
               throw new Error(response.data.message);
             }
           } else {
-            this.$swal({
+            Swal.fire({
               icon: "error",
               title: "Oops...",
               text: "A tua password tem de ter pelo menos 8 carateres!",
@@ -164,7 +164,7 @@ export default {
             });
           }
         } else {
-          this.$swal({
+          Swal.fire({
             icon: "error",
             title: "Oops...",
             text: "As passwords não coincidem!",
@@ -172,7 +172,7 @@ export default {
           });
         }
       } catch (err) {
-        this.$swal({
+        Swal.fire({
           icon: "error",
           title: "Error",
           text: err.message,

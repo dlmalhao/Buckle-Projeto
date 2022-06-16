@@ -29,14 +29,14 @@
             <b-col cols="2">
               <div class="pesquisa">
                 <p>Pesquisa</p>
-                <b-form-input type="text" ></b-form-input>
+                <b-form-input type="text" v-model="search" ></b-form-input>
               </div>
             </b-col>
             <b-col cols="2">
               <div class="licenciatura">
                 <p>Licenciatura</p>
                 <div class="form-selects">
-                  <b-form-select  class="form-select cursos"></b-form-select>
+                  <b-form-select  v-model="graduation.selected" :options="graduation.options" class="form-select cursos"></b-form-select>
                 </div>
               </div>
             </b-col>
@@ -44,7 +44,7 @@
               <div class="ordenar">
                 <p>Ordenar</p>
                 <div class="form-selects">
-                  <b-form-select  class="form-select cursos"></b-form-select>
+                  <b-form-select v-model="order.selected" :options="order.options" class="form-select cursos"></b-form-select>
                 </div>
               </div>
             </b-col>
@@ -52,11 +52,11 @@
               <div class="tipo">
                 <p>Tipo</p>
                 <div class="buttons">
-                  <!-- <b-button class="btn-procura" v-if="type.isProcura == false" @click="type.isProcura = true; type.isOferta = false" :class="{ active: type.isProcura }" >Procura</b-button>
+                  <b-button class="btn-procura" v-if="type.isProcura == false" @click="type.isProcura = true; type.isOferta = false" :class="{ active: type.isProcura }" >Procura</b-button>
                   <b-button class="btn-procura" v-if="type.isProcura == true" @click="type.isProcura = false" :class="{ active: type.isProcura }" >Procura</b-button>
                   <b-button class="btn-oferta" v-if="type.isOferta == false" @click="type.isProcura = false; type.isOferta = true" :class="{ active: type.isOferta }" >Oferta</b-button>
                   <b-button class="btn-oferta" v-if="type.isOferta == true" @click="type.isOferta = false" :class="{ active: type.isOferta }" >Oferta</b-button>
-                  -->
+                 
                 </div>
               </div>
             </b-col>
@@ -65,7 +65,7 @@
       </b-row>
     
       <b-row style="padding:0;">
-        <b-col xl="4" lg="4" cols="6" style="margin-bottom: 20px;" v-for="(ad, index) in announcementsData" :key="index" >
+        <b-col xl="4" lg="4" cols="6" style="margin-bottom: 20px;" v-for="(ad, index) in this.filteredAds" :key="index" >
           <router-link :to="{ name: 'anuncioEspecifico', params: { id: ad.id }}">
             <div class="cardContainer">
               <div class="cardImage">
@@ -74,13 +74,13 @@
               <div class="cardContent">
                 <div class="adData">
                   <div class="profileImage">
-                    <img :src="users.find((user) => user.id == ad.utilizadorId).img" alt="">
+                    <!-- <img :src="users.find((user) => user.id == ad.utilizadorId).img" alt=""> --><img :src="users.find((user) => user.id == ad.utilizadorId).img" alt="">
                   </div>
                   <div class="nome_curso">
-                    <!-- <h4>{{users.find((user) => user.email == ad.utilizadorId).first_name + " " + users.find((user) => user.email == ad.email).last_name}}</h4> -->
+                    <h4>{{users.find((user) => user.id == ad.utilizadorId).nome + " " + users.find((user) => user.id == ad.utilizadorId).sobrenome}}</h4>
                     <div class="curso">
                       <p>de&nbsp;</p>
-                      <!-- <p>{{users.find((user) => user.email == ad.utilizadorId).course}}</p> -->
+                      <p>{{users.find((user) => user.id == ad.utilizadorId).course.descricao_curso}}</p>
                     </div>
                   </div>
                 </div>
@@ -103,77 +103,78 @@ export default {
   data() {
     return {
       users: [],
-      // graduation: {
-      //   selected: null,
-      //   options: [
-      //     { value: null, text: "Tudo" },
-      //     { value: "tsiw", text: "TSIW" },
-      //     { value: "tcav", text: "TCAV" },
-      //     { value: "design-grafico", text: "Design Gráfico" },
-      //     { value: "design-industrial", text: "Design Industrial" },
-      //     { value: "fotografia", text: "Fotografia" },
-      //     { value: "multimedia", text: "Multimédia" },
-      //   ],
-      // },
-      // order: {
-      //   selected: null,
-      //   options: [
-      //     { value: null, text: "Tudo" },
-      //     { value: "recentes", text: "Mais recentes" },
-      //     { value: "antigos", text: "Mais antigos" },
-      //   ],
-      // },
-      // type: {
-      //   isOferta: false,
-      //   isProcura: false,
-      // },
-      // search: "",
+      courses: [],
+      graduation: {
+        selected: null,
+        options: []
+      },
+      order: {
+        selected: null,
+        options: [
+          { value: null, text: "Tudo" },
+          { value: "recentes", text: "Mais recentes" },
+          { value: "antigos", text: "Mais antigos" },
+        ],
+      },
+      type: {
+        isOferta: false,
+        isProcura: false,
+      },
+      search: "",
       announcementsData: []
     }
   },
   computed : {
     ...mapGetters(["getAds"]),
 
-  //   filteredAds () {
-  //     let filterAds = this.announcementsData.slice(0)
-  //     for(let ad of filterAds) {
-  //       console.log((this.users.find((user) => user.email == ad.email)).first_name.toLowerCase().includes(this.search.toLowerCase()));
-  //     }
-  //     if(this.graduation.selected != null) {
-  //       filterAds = filterAds.filter((ad)=> ad.course == this.graduation.selected)
-  //     }
-  //     if(this.type.isOferta) {
-  //       filterAds = filterAds.filter((ad)=> ad.typeAd.text == "Oferta")
-  //     }
-  //     if(this.type.isProcura) {
-  //       filterAds = filterAds.filter((ad)=> ad.typeAd.text == "Procura")
-  //     }
-  //     if(this.search != "") {
-  //       filterAds = filterAds.filter((ad)=> ad.description.toLowerCase().replace(/\s/g, '').includes(this.search.toLowerCase().replace(/\s/g, '')) || this.users.find((user) => user.email == ad.email).first_name.toLowerCase().includes(this.search.toLowerCase().replace(/\s/g, '')) || this.users.find((user) => user.email == ad.email).last_name.toLowerCase().includes(this.search.toLowerCase().replace(/\s/g, '')) )
-  //     //   // filterAds = filterAds.filter((ad)=> this.users.find((user) => user.email == ad.email).first_name.toLowerCase().includes(this.search.toLowerCase()))
-  //     //   // filterAds = this.$store.state.ads.filter((ad) => this.users.find((user)=>user.email == ad.email).first_name.toLowerCase().includes(this.search.toLowerCase()))
-  //     //   // filterAds = this.$store.state.ads.filter((ad) => this.users.find((user)=>user.email == ad.email).last_name.toLowerCase().includes(this.search.toLowerCase()))
-  //     // }
-  //     // // for(let user of this.users){
-  //     // //   filterAds = filterAds.filter((ad) => ad.email == user.email)
-  //     // // }
-  //     return filterAds
-  //   }
-  // },
+    filteredAds () {
+      let filterAds = this.announcementsData.slice(0)
+      let filterAdsCopy = []
+      if(this.graduation.selected != null) {
+        for(let ad of filterAds) {
+          let utilizadorID = ad.utilizadorId
+          // Utilizador que criou o anuncio
+          let utilizador = this.users.find((user) => user.id == utilizadorID)
+
+          // Filtro por Curso
+          if(utilizador.course.value == this.graduation.selected) {
+            filterAdsCopy.push(ad) 
+          }
+        }
+        filterAds = filterAdsCopy
+      }
+
+      // Filtro por Tipo de Anuncio
+      if(this.type.isOferta) {
+        filterAds = filterAds.filter((ad)=> ad.tipo == "Oferta")
+      }
+      if(this.type.isProcura) {
+        filterAds = filterAds.filter((ad)=> ad.tipo == "Procura")
+      }
+
+      // Filtro por pesquisa
+      if(this.search != "") {
+        filterAds = filterAds.filter((ad)=> ad.descricao.toLowerCase().replace(/\s/g, '').includes(this.search.toLowerCase().replace(/\s/g, '')) || this.users.find((user) => user.id == ad.utilizadorId).nome.toLowerCase().includes(this.search.toLowerCase().replace(/\s/g, '')) || this.users.find((user) => user.id == ad.utilizadorId).sobrenome.toLowerCase().includes(this.search.toLowerCase().replace(/\s/g, '')) )
+      }
+      return filterAds
+    }
   },
+
   mounted () {
     this.getUsersData()
     this.getAnnouncementsData()
+    this.getCoursesData()
   },
 
    methods: {
-    ...mapActions(["getAnnouncements","getUsers"]),
+    ...mapActions(["getAnnouncements","getUsers", "getCourses"]),
 
     async getAnnouncementsData() {
       try {
         this.announcementsData = await this.getAnnouncements();
+
       } catch (err) {
-        this.$swal('Erro')
+        this.$swal('Erro ao requisitar anúncios')
         console.log(err)
       }
     },
@@ -183,10 +184,29 @@ export default {
         this.users = await this.getUsers();
         console.log(this.users)
       } catch (err) {
-        this.$swal('Erro')
+        this.$swal('Erro ao requisitar utilizadores')
         console.log(err)
       }
     },
+
+    async getCoursesData() {
+      try {
+        this.courses = await this.getCourses();
+        this.getCoursesOptions()
+      } catch (err) {
+        this.$swal('Erro ao requisitar cursos')
+        console.log(err)
+      }
+    },
+
+    getCoursesOptions () {
+      let optionsData = []
+      for(let course of this.courses) {
+        let opt = {value: course.value, text: course.descricao_curso}
+        optionsData.push(opt)
+      }
+      this.graduation.options = optionsData
+    }
   },
 }
 

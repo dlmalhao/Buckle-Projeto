@@ -291,12 +291,12 @@ export default new Vuex.Store({
       state.ads ? state.ads[state.ads.length - 1].id + 1 : 0,
     getId: (state) => state.activeAd,
     getActiveProfile: (state) => state.activeProfile,
-    getAdSpecific: (state) => (id) => state.ads.find((ad) => ad.id == id),
+    // getAdSpecific: (state) => (id) => state.ads.find((ad) => ad.id == id),
     getProjectSpecific: (state) => (id) =>
       state.projects.find((project) => project.id == id),
-    getFavs: (state) => state.favs,
-    getThisAdFav: (state) => (id) => state.favs.find((fav) => fav.adId == id),
-    ads: (state) => state.users,
+    // getFavs: (state) => state.favs,
+    // getThisAdFav: (state) => (id) => state.favs.find((fav) => fav.adId == id),
+    // ads: (state) => state.users,
     getAvaliacoes: (state) => state.avaliacoes,
   },
   mutations: {
@@ -414,6 +414,16 @@ export default new Vuex.Store({
       }
     },
 
+    async getProjects({ context, state }){
+      try{
+        const response = await axios.get(`http://127.0.0.1:3000/projects`)        
+          return response.data.projects;
+      }
+      catch(err){
+        throw Error(err.response.data.message);
+      }
+    },
+
     async getUsers({ context, state }){
       try{
         const response = await axios.get(`http://127.0.0.1:3000/users`)        
@@ -424,37 +434,226 @@ export default new Vuex.Store({
       }
     },
 
-    async getCourses({ context, state }){
+    async editUserInfo({ context, state }, user) {
+      try {
+        const response = await axios.put(`http://127.0.0.1:3000/users/${user.id}`, {
+          email_utilizador: user.email_utilizador,
+          nome: user.nome,
+          sobrenome: user.sobrenome,
+          descricao : user.descricao,
+          img : user.img,
+          bgImg: user.bgImg
+        }, {headers: {Authorization: 'Bearer ' + localStorage.token}});
+        
+        return response;
+
+      } catch (err) {
+        throw Error(err.response.data.message);
+      }
+    },
+
+    async deleteUser({ context, state }, user) {
+      try {
+        const response = await axios.delete(`http://127.0.0.1:3000/users/${user.id}`, 
+          {headers: {Authorization: 'Bearer ' + localStorage.token}});
+        
+        return response.data.user;
+
+      } catch (err) {
+        throw Error(err.response.data.message);
+      }
+    },
+
+    async getProjectImages({ context, state }){
       try{
-        const response = await axios.get(`http://127.0.0.1:3000/users`)        
-          return response.data.users;
+        const response = await axios.get(`http://127.0.0.1:3000/projectImages`)        
+          return response.data.projectImages;
       }
       catch(err){
         throw Error(err.response.data.message);
       }
     },
-    // async loadUsers(context) {
-    //   try {
-    //     const response = await fetch("http://127.0.0.1:3000/users/", {
-    //       method: "GET",
-    //       headers: {
-    //         Accept: "*/*",
-    //         "Content-Type": "application/json",
-    //         // 'Authorization': 'Bearer ' + state.loggedUser.auth_key
-    //       },
-    //     });
 
-    //     if (response.ok) {
-    //       // return await response.json();
-    //       context.commit("SET_USERS", await response.json());
-    //     } else {
-    //       const data = await response.json();
-    //       throw Error(data.msg);
-    //     }
-    //   } catch (e) {
-    //     throw Error(e.message);
-    //   }
-    // },
+    async getCourses({ context, state }){
+      try{
+        const response = await axios.get(`http://127.0.0.1:3000/courses`)        
+          return response.data.courses;
+      }
+      catch(err){
+        throw Error(err.response.data.message);
+      }
+    },
+
+    async getEspecificAnnouncement({ context, state }, id){
+      try{
+        const response = await axios.get(`http://127.0.0.1:3000/announcements/${id}`)
+          return response.data.announcement;
+      }
+      catch(err){
+        throw Error(err.response.data.message);
+      }
+    },
+
+    async getEspecificProject({ context, state }, id){
+      try{
+        const response = await axios.get(`http://127.0.0.1:3000/projects/${id}`)
+          return response.data.project;
+      }
+      catch(err){
+        throw Error(err.response.data.message);
+      }
+    },
+
+    async getAnnouncementFavs({ context, state }){
+      try{
+        const response = await axios.get(`http://127.0.0.1:3000/favsAnnouncement`)        
+          return response.data.favAnnouncements;
+      }
+      catch(err){
+        throw Error(err.response.data.message);
+      }
+    },
+
+    async postAnnouncementFavs({ context, state },fav){
+      try {
+        const response = await axios.post(`http://127.0.0.1:3000/favsAnnouncement`, {
+          id_utilizador_recebido: fav.id_utilizador_recebido,
+          id_utilizador_dado: fav.id_utilizador_dado,
+        },{headers: {Authorization: 'Bearer ' + localStorage.token}});
+        
+        return response;
+
+      } catch (err) {
+        throw Error(err.response.data.message);
+      }
+    },
+
+    async addComments({ context, state }, comment) {
+      try {
+        const response = await axios.post(`http://127.0.0.1:3000/users/${comment.id}/comments`, {
+          desc_comentario: comment.desc_comentario,
+          rating: comment.rating,
+          tipo_comentario: comment.tipo_comentario,
+          id_quem_comentou: comment.id_quem_comentou,
+          id_a_quem_comentou: comment.id_a_quem_comentou,
+        },{headers: {Authorization: 'Bearer ' + localStorage.token}});
+        
+        return response;
+
+      } catch (err) {
+        throw Error(err.response.data.message);
+      }
+    },
+
+    async getCommentsByID({ context, state }, comment) {
+      try {
+        const response = await axios.get(`http://127.0.0.1:3000/users/${comment.id}/comments`,
+          {headers: {Authorization: 'Bearer ' + localStorage.token}});
+        
+          return response.data.comments;
+
+      } catch (err) {
+        throw Error(err.response.data.message);
+      }
+    },
+
+    async addChat({ context, state }, chat) {
+      try {
+        const response = await axios.post(`http://127.0.0.1:3000/users/${chat.id}/chats`, {
+          id_user1 : chat.id_user1,
+          id_user2 : chat.id_user2
+        },{headers: {Authorization: 'Bearer ' + localStorage.token}});
+        
+        return response;
+
+      } catch (err) {
+        throw Error(err.response.data.message);
+      }
+    },
+
+    async getChatsByID({ context, state }, chat) {
+      try {
+        const response = await axios.get(`http://127.0.0.1:3000/users/${chat.id}/chats`,
+          {headers: {Authorization: 'Bearer ' + localStorage.token}});
+        
+          return response.data.chats;
+
+      } catch (err) {
+        throw Error(err.response.data.message);
+      }
+    },
+
+    async addMessage({ context, state }, message) {
+      try {
+        const response = await axios.post(`http://127.0.0.1:3000/users/${message.userID}/chats/${message.chatID}/messages`, {
+          id_chat : message.id_chat,
+          id_user : message.id_user,
+          text : message.text,
+        },{headers: {Authorization: 'Bearer ' + localStorage.token}});
+        
+        return response;
+
+      } catch (err) {
+        throw Error(err.response.data.message);
+      }
+    },
+
+    async getMessagesByID({ context, state }, message) {
+      try {
+        const response = await axios.get(`http://127.0.0.1:3000/users/${message.userID}/chats/${message.chatID}/messages`,
+          {headers: {Authorization: 'Bearer ' + localStorage.token}});
+        
+          return response.data.messages;
+
+      } catch (err) {
+        throw Error(err.response.data.message);
+      }
+    },
+
+    async removeAnnouncementFavs({ context, state },id){
+      try{
+        const response = await axios.delete(`http://127.0.0.1:3000/favsAnnouncement/${id}`)        
+          return response;
+      }
+      catch(err){
+        throw Error(err.response.data.message);
+      }
+    },
+
+    async getProjectFavs({ context, state }){
+      try{
+        const response = await axios.get(`http://127.0.0.1:3000/favsProject`)        
+          return response.data.favProjects;
+      }
+      catch(err){
+        throw Error(err.response.data.message);
+      }
+    },
+
+    async postProjectFavs({ context, state },fav){
+      try {
+        const response = await axios.post(`http://127.0.0.1:3000/favsProject`, {
+          id_utilizador_recebido: fav.id_utilizador_recebido,
+          id_utilizador_dado: fav.id_utilizador_dado,
+        },{headers: {Authorization: 'Bearer ' + localStorage.token}});
+        
+        return response;
+
+      } catch (err) {
+        throw Error(err.response.data.message);
+      }
+    },
+
+    async removeProjectFavs({ context, state },id){
+      try{
+        const response = await axios.delete(`http://127.0.0.1:3000/favsProject/${id}`)        
+          return response;
+      }
+      catch(err){
+        throw Error(err.response.data.message);
+      }
+    },
+
     async login({ context, state }, user) {
       try {
         const response = await axios.post("http://127.0.0.1:3000/auth/signin", {

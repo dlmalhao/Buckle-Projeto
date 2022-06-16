@@ -130,28 +130,28 @@
         <div class="recentAdsDiv">
           <h2 class="text-center regularFont recentAdsHeader mainHeaders">Os anúncios mais recentes</h2>
         </div>
-        <b-row class="adRow">
+        <b-row class="adRow" v-if="!loadingAnnouncements">
           <b-col class="adCol" xl="4" lg="4" cols="6" style="margin-bottom: 20px;" v-for="(index) in 3" :key="index" >
-            <router-link :to="{ name: 'anuncioEspecifico', params: { id: ads[index].id }}">
+            <router-link :to="{ name: 'anuncioEspecifico', params: { id: announcementsData[index].id }}">
               <div class="cardContainer">
                 <div class="cardImage">
-                  <img :src="ads[index].imgBg" alt="">
+                  <img :src="announcementsData[index].img" alt="">
                 </div>
                 <div class="cardContent">
                   <div class="adData">
                     <div class="profileImage">
-                      <img :src="users.find((user) => user.email == ads[index].email).profileImg" alt="">
+                      <img :src="users.find((user) => user.id == announcementsData[index].utilizadorId).img" alt="">
                     </div>
                     <div class="nome_curso">
-                      <h4>{{users.find((user) => user.email == ads[index].email).first_name + " " + users.find((user) => user.email == ads[index].email).last_name}}</h4>
+                      <h4>{{users.find((user) => user.id == announcementsData[index].utilizadorId).nome + " " + users.find((user) => user.id == announcementsData[index].utilizadorId).sobrenome}}</h4>
                       <div class="curso">
                         <p>de&nbsp;</p>
-                        <p>{{ads[index].course}}</p>
+                        <p>{{users.find((user) => user.id == announcementsData[index].utilizadorId).course.descricao_curso}}</p>
                       </div>
                     </div>
                   </div>
                   <div class="descricao">
-                    <p>{{ads[index].description}}</p>
+                    <p>{{announcementsData[index].descricao}}</p>
                   </div>
                 </div>
               </div>
@@ -169,28 +169,28 @@
         <div class="recentProjectsDiv">
           <h2 class="regularFont recentProjectsHeader mainHeaders">Os projetos mais recentes</h2>
         </div>
-        <b-row class="adRowRecent">
-          <b-col class="adCol" xl="4" lg="4" cols="6" style="margin-bottom: 20px;" v-for="index in 3" :key="index" >
-            <router-link :to="{ name: 'projetoEspecifico', params: { id: projects[index].id }}">
+        <b-row class="adRowRecent" v-if="!loadingProjects">
+          <b-col class="adCol" xl="4" lg="4" cols="6" style="margin-bottom: 20px;" v-for="index in (projects.length > 3 ? 3 : projects.length)" :key="index" >
+            <router-link :to="{ name: 'projetoEspecifico', params: { id: projects[index-1].id }}">
               <div class="cardContainer">
                 <div class="cardImage">
-                  <img :src="projects[index].cover_image" alt="">
+                  <img :src="allProjectImages.filter((image) => image.projetoID == projects[index-1].id)[0].descricao" alt="">
                 </div>
                 <div class="cardContent">
                   <div class="adData">
                     <div class="profileImage">
-                      <img :src="users.find((user) => user.email == projects[index].email).profileImg" alt="">
+                      <img :src="users.find((user) => user.id == projects[index-1].id).img" alt="">
                     </div>
                     <div class="nome_curso">
-                      <h4>{{users.find((user) => user.email == projects[index].email).first_name + " " + users.find((user) => user.email == projects[index].email).last_name}}</h4>
+                      <h4>{{users.find((user) => user.id == projects[index-1].id).nome + " " + users.find((user) => user.id == projects[index-1].utilizadorId).sobrenome}}</h4>
                       <div class="curso">
                         <p>de&nbsp;</p>
-                        <p>{{users.find((user) => user.email == projects[index].email).course}}</p>
+                        <p>{{users.find((user) => user.id == projects[index-1].utilizadorId).course.descricao_curso}}</p>
                       </div>
                     </div>
                   </div>
                   <div class="descricao">
-                    <p>{{projects[index].description}}</p>
+                    <p>{{projects[index-1].descricao}}</p>
                   </div>
                 </div>
               </div>
@@ -206,25 +206,89 @@
 </template>
 
 <script>
-import {mapGetters} from "vuex"
+import {mapActions} from "vuex"
 
 export default {
   name: "Home",
   data() {
     return {
-      ads: [],
+      announcementsData: [],
       projects: [],
       users: [],
+      courses: [],
+      allProjectImages: [],
+      loadingProjects : true,
+      loadingAnnouncements: true
     }
   },
-  computed : {
-    ...mapGetters(["getUsers","getAds", "getProjects"]),
-  },
+  // computed : {
+  //   ...mapGetters(["getUsers","getAds", "getProjects"]),
+  // },
   created () {
-   this.ads = this.getAds
-   this.users = this.getUsers
-   this.projects = this.getProjects
+    this.getProjectsData()
+    this.getUsersData()
+    this.getAnnouncementsData()
+    this.getCoursesData()
   },
+  methods : {
+    ...mapActions(["getProjects","getUsers", "getAnnouncements","getCourses","getProjectImages"]),
+
+    async getAnnouncementsData() {
+      try {
+        this.loadingAnnouncements = true
+        this.announcementsData = await this.getAnnouncements();
+        this.loadingAnnouncements = false
+      } catch (err) {
+        this.$swal('Erro ao requisitar anúncios')
+        console.log(err)
+      }
+    },
+
+    async getUsersData() {
+      try {
+        this.users = await this.getUsers();
+        console.log(this.users)
+      } catch (err) {
+        this.$swal('Erro ao requisitar utilizadores')
+        console.log(err)
+      }
+    },
+
+    async getCoursesData() {
+      try {
+        this.courses = await this.getCourses();
+      } catch (err) {
+        this.$swal('Erro ao requisitar cursos')
+        console.log(err)
+      }
+    },
+
+    async getProjectsData() {
+      try {
+        this.loadingProjects = true
+        this.projects = await this.getProjects();
+        await this.getProjectImagesData()
+        this.loadingProjects = false
+        console.log(this.projects);
+      } catch (err) {
+        this.$swal('Erro ao requisitar projetos')
+        console.log(err)
+      }
+    },
+
+    async getProjectImagesData() {
+      try {
+        this.loadingImagensProjetos = true
+        this.allProjectImages = await this.getProjectImages();
+        this.loadingImagensProjetos = false
+        console.log(this.allProjectImages)
+      } catch (err) {
+        this.$swal('Erro ao requisitar imagens de projetos')
+        console.log(err)
+      }
+    },
+
+  }
 
 };
 </script>

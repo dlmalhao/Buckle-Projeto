@@ -3,39 +3,39 @@
     <b-container>
       <b-row>
         <b-col col lg="7">
-          <img class="adImage" :src="getActiveProfile.imgBg" />
+          <img class="adImage" :src="especificAnnouncementData.img" />
         </b-col>
         <b-col col lg="5">
           <div class="specificAdInfo">
             <div class="text">
-              <p class="adType">Anúncio {{adEspecific.typeAd.text}}</p>
-              <h3 class="specificAdTitle">{{adEspecific.title}}</h3>
+              <p class="adType">Anúncio {{especificAnnouncementData.tipo}}</p>
+              <h3 class="specificAdTitle">{{especificAnnouncementData.titulo}}</h3>
               <div class="secondLine">
-                <p class="announcerName">{{users.find((user) => user.email == adEspecific.email).first_name + " " + users.find((user) => user.email == adEspecific.email).last_name}}</p>
-                <div class="containerFavourites" v-if="getLoggedUser">
-                  <a @click="removeFavourite()"  v-if="favs.find((fav) => fav.userEmail == loggedUser.email && fav.adId == adEspecific.id)"><i class="fas fa-bookmark" style="color: var(--orange);"></i></a>
-                  <a v-else @click="addFavourite()"><i class="far fa-bookmark"></i></a>
+                <p class="announcerName">{{userData.nome + " " + userData.sobrenome}}</p>
+                <div class="containerFavourites" v-if="getLoggedUser && this.userData.id != this.loggedUser.id">
+                  <a @click="removeAnnouncementFavById()" v-if="didUserLikeThisAnnouncement()" ><i class="fas fa-bookmark" style="color: var(--orange);"></i></a>
+                  <a @click="postAnnouncementFavById()" v-if="!didUserLikeThisAnnouncement()"><i class="far fa-bookmark"></i></a>
                 </div>
               </div>
               <div class="userContent">
                 <div class="adSpecificSummary">
                   <p class="announcerDescription">Descrição</p>
                   <p>
-                    {{adEspecific.description}}
+                    {{especificAnnouncementData.descricao}}
                   </p>
                 </div>
                 <div class="announcerCourse">
                   <p class="courseWritten">Curso</p>
-                  <p class="courseName">{{adEspecific.course}}</p>
+                  <p class="courseName">{{userCourse.descricao_curso}}</p>
                 </div>
                 <div class="announcerTime">
-                  <p class="timeWritten">Tempo disponível</p>
-                  <p class="timeNeeded">{{adEspecific.time}}</p>
+                  <p class="timeWritten">Data</p>
+                  <p class="timeNeeded">{{especificAnnouncementData.data}}</p>
                 </div>
               </div>
             </div>
             <div class="button">
-              <b-button type="button" @click="goProfileOtherPerson">Contactar</b-button>
+              <!-- <b-button type="button" @click="goProfileOtherPerson">Contactar</b-button> -->
             </div>
           </div>
         </b-col>
@@ -44,14 +44,15 @@
     <b-container>
       <div class="slideBg">
         <div class="userImg">
-          <img :src="users.find((user) => user.email == adEspecific.email).profileImg" alt="">
+          <img :src="userData.img" alt="">
         </div>
         <div class="userInfo">
           <div class="header">
             <h3>Sobre o criador</h3>
           </div>
           <div class="content">
-            <p>{{users.find((user) => user.email == adEspecific.email).description}}</p>
+            <p v-if="userData.descricao == '' || userData.descricao == null ">{{userData.nome + ' ' + userData.sobrenome + ' não tem descrição.'}}</p>
+            <p v-else>{{userData.descricao}}</p>
           </div>
         </div>
       </div>
@@ -60,56 +61,164 @@
 </template>
 
 <script>
-import {mapGetters,mapMutations} from "vuex"
+import {mapGetters,mapMutations, mapActions} from "vuex"
 
 export default {
   data () {
     return {
-      adEspecific: {},
+      especificAnnouncementData: {},
       loggedUser: {},
-      users: [],
+      userData: {},
+      userCourse: {},
+      courses: {},
+      // users: [],
       favs: [],
-      userEmail: "",
-      idAd: ""
+      // userEmail: "",
+      // idAd: ""
     }
   },
   computed: {
-    ...mapGetters(["getAdSpecific", "getUsers","getFavs","getLoggedUser", "getActiveProfile"]),
+    ...mapGetters(["getLoggedUser"]),
   },
-  created() {
-    this.adEspecific = this.getAdSpecific(this.$route.params.id)
-    this.users = this.getUsers
-    this.favs = this.getFavs
+  mounted () {
+    this.getDataEspecificAnnouncement()
+    this.getAnnouncementFavsData()
     if(this.getLoggedUser) {
       this.loggedUser = this.getLoggedUser
     }
-    this.SET_ACTIVE_PROFILE(this.adEspecific.email);
-    
-    this.SET_ACTIVE_AD(this.adEspecific.id)
   },
+  // created() {
+  //   this.adEspecific = this.getAdSpecific(this.$route.params.id)
+  //   this.users = this.getUsers
+  //   this.favs = this.getFavs
+  //   if(this.getLoggedUser) {
+  //     this.loggedUser = this.getLoggedUser
+  //   }
+  //   this.SET_ACTIVE_PROFILE(this.adEspecific.email);
+    
+  //   this.SET_ACTIVE_AD(this.adEspecific.id)
+  // },
   methods: {
     ...mapMutations(["ADD_FAV","REMOVE_FAV", "SET_ACTIVE_PROFILE", "SET_ACTIVE_AD"]),
+    ...mapActions(["getEspecificAnnouncement","getUser","getCourses","getAnnouncementFavs", "postAnnouncementFavs", "removeAnnouncementFavs"]),
+    
 
-    addFavourite () {
-      const favData = {
-        userEmail: this.loggedUser.email,
-        adId: parseInt(this.$route.params.id),
-        activeProfile : this.getActiveProfile
+    // addFavourite () {
+    //   const favData = {
+    //     userEmail: this.loggedUser.email,
+    //     adId: parseInt(this.$route.params.id),
+    //     activeProfile : this.getActiveProfile
+    //   }
+    //   this.ADD_FAV(favData)
+    //   console.log(this.favs);
+    // },
+    // removeFavourite() {
+    //   let idx = this.favs.indexOf(this.favs.find((fav) => fav.userEmail == this.loggedUser.email && fav.adId == this.adEspecific.id))
+    //   this.REMOVE_FAV(idx)
+    // },
+
+    // goProfileOtherPerson(){
+    //   this.SET_ACTIVE_PROFILE(this.adEspecific.email);
+    //   this.$router.push({name: 'perfil'}) 
+    // }
+
+    async getDataEspecificAnnouncement() {
+      try {
+        this.especificAnnouncementData = await this.getEspecificAnnouncement(this.$route.params.id);
+        console.log(this.especificAnnouncementData)
+        this.getDataUser()
+      } catch (err) {
+         this.$swal('Erro ao requisitar Anuncio Especifico')
+         console.log(err)
       }
-      this.ADD_FAV(favData)
-      console.log(this.favs);
-    },
-    removeFavourite() {
-      let idx = this.favs.indexOf(this.favs.find((fav) => fav.userEmail == this.loggedUser.email && fav.adId == this.adEspecific.id))
-      this.REMOVE_FAV(idx)
     },
 
-    goProfileOtherPerson(){
-      this.SET_ACTIVE_PROFILE(this.adEspecific.email);
-      this.$router.push({name: 'perfil'}) 
-    }
-  }
-};
+    async getDataUser() {
+      try {
+        let userID = this.especificAnnouncementData.utilizadorId
+        this.userData = await this.getUser(userID);
+        this.getCoursesData()
+        console.log(this.userData)
+      } catch (err) {
+        this.$swal('Erro ao requisitar Utilizador')
+      }
+    },
+
+    getEspecificCourseData() {
+      this.userCourse = this.courses.find((course) => course.id == this.userData.courseId)
+    },
+
+    async getCoursesData() {
+      try {
+        this.courses = await this.getCourses();
+        this.getEspecificCourseData()
+      } catch (err) {
+        this.$swal('Erro ao requisitar cursos')
+        console.log(err)
+      }
+    },
+
+    async getAnnouncementFavsData() {
+      try {
+        this.favs = await this.getAnnouncementFavs();
+        console.log(this.favs)
+      } catch (err) {
+        this.$swal('Erro ao requisitar favoritos')
+        console.log(err)
+      }
+    },
+
+    didUserLikeThisAnnouncement () {
+      let did_user_like = false
+      for(const fav of this.favs) {
+        if(fav.id_utilizador_dado == this.loggedUser.id && fav.id_utilizador_recebido == this.userData.id) {
+          did_user_like = true
+        }
+      }
+      return did_user_like
+    },
+
+    async postAnnouncementFavById() {
+      try {
+        if (!this.didUserLikeThisAnnouncement()) {
+          const response = await this.postAnnouncementFavs({
+            id_utilizador_recebido: this.userData.id,
+            id_utilizador_dado: this.loggedUser.id
+          });
+          console.log(response);
+          if (response.data.success) {
+            this.$swal('','Anúncio adicionado aos favoritos!')
+            this.getAnnouncementFavsData()
+          }
+        }
+      } catch (err) {
+        this.$swal('Erro ao adicionar aos favoritos!')
+        console.log(err)
+      }
+    },
+
+    async removeAnnouncementFavById() {
+      try {
+        let idx 
+        for(const fav of this.favs) {
+          if(fav.id_utilizador_dado == this.loggedUser.id && fav.id_utilizador_recebido == this.userData.id) {
+            idx = fav.id
+          }
+        }
+        const response = await this.removeAnnouncementFavs(idx)
+        console.log(idx);
+        if (response.data.success) {
+          this.$swal('','Anúncio removido dos favoritos!')
+          this.getAnnouncementFavsData()
+        }
+      } catch (err) {
+        this.$swal('Erro ao remover dos favoritos')
+        console.log(err)
+      }
+    },
+  },
+}
+
 </script>
 
 <style scoped>
@@ -241,9 +350,8 @@ button {
 }
 
 .slideBg {
-  background: rgb(255,231,219);
-  background: linear-gradient(90deg, rgba(255,231,219,1) 0%, rgba(255,144,92,1) 100%);
-  color: rgb(83, 83, 83);
+  background: var(--black);
+  color: white;
   border-radius: 15px;
   height: 135px;
   display: flex;
@@ -274,6 +382,7 @@ button {
 .userInfo .header h3 {
   font-size: 24px;
   font-weight: bold;
+  color: var(--orange);
 }
 
 .userInfo .content p {
