@@ -121,9 +121,7 @@ export default {
     };
   },
 
-  mounted() {
-    
-  },
+  mounted() {},
   computed: {
     ...mapGetters(["getLoggedUser"]),
   },
@@ -137,51 +135,23 @@ export default {
     loggedUser() {
       return this.getLoggedUser;
     },
-    // logOut() {
-    //   Swal.fire({
-    //   title: 'Atenção!',
-    //   text: "Tens a certeza que queres sair da tua conta?",
-    //   icon: 'warning',
-    //   showCancelButton: true,
-    //   confirmButtonColor: '#3085d6',
-    //   cancelButtonColor: '#d33',
-    //   confirmButtonText: 'Sim',
-    //   cancelButtonText: 'Não'
-    //   }).then((result) => {
-    //   if (result.isConfirmed) {
-    //     Swal.fire({
-    //       title: 'Adeus!',
-    //       text: 'Foste deslogado com sucesso.',
-    //       confirmButtonColor: '#3085d6',
-    //       confirmButtonText: 'Ok'
-    //     }).then(() => {
-    //       this.$router.push({ name: "PaginaInicial"})
-    //     })
-    //     this.SIGNOUT_USER()
-    //   }
-    //   })
-    // },
 
     async logoutUser() {
       try {
         if (localStorage.token != null) {
-          Swal.fire({
-            title: "Atenção!",
-            text: "Tens a certeza que queres sair da tua conta?",
+          this.$swal({
+            title: "Logout?",
+            text: "Tem a certeza que prentende sair da conta?",
             icon: "warning",
+            confirmButtonText: 'Sim',
             showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Sim",
-            cancelButtonText: "Não",
+            cancelButtonText: 'Não',
+            dangerMode: true,
           }).then((result) => {
             if (result.isConfirmed) {
-              Swal.fire({
-                title: "Adeus!",
-                text: "Logout efetuado com sucesso.",
-                confirmButtonColor: "#3085d6",
-                confirmButtonText: "Ok",
-              })
+              this.$swal("Logout efetuado com sucesso!", {
+                icon: "success",
+              });
               this.$router.go();
               localStorage.removeItem("token");
               localStorage.removeItem("loggedUser");
@@ -207,8 +177,11 @@ export default {
 
     goProfile() {
       // this.SET_ACTIVE_PROFILE(this.getLoggedUser.email);
-      
-      this.$router.push({ name: "perfil", params: {id: this.getLoggedUser.id}});
+
+      this.$router.push({
+        name: "perfil",
+        params: { id: this.getLoggedUser.id },
+      });
     },
   },
 };

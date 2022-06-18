@@ -424,6 +424,22 @@ export default new Vuex.Store({
       }
     },
 
+    async postProject({ context, state },project){
+      try {
+        const response = await axios.post(`http://127.0.0.1:3000/projects`, {
+          titulo: project.titulo,
+          descricao: project.descricao,
+          utilizadorId: project.utilizadorId,
+          data: project.data,
+        },{headers: {Authorization: 'Bearer ' + localStorage.token}});
+        
+        return response;
+
+      } catch (err) {
+        throw Error(err.response.data.message);
+      }
+    },
+
     async getUsers({ context, state }){
       try{
         const response = await axios.get(`http://127.0.0.1:3000/users`)        
@@ -443,6 +459,25 @@ export default new Vuex.Store({
           descricao : user.descricao,
           img : user.img,
           bgImg: user.bgImg
+        }, {headers: {Authorization: 'Bearer ' + localStorage.token}});
+        
+        return response;
+
+      } catch (err) {
+        throw Error(err.response.data.message);
+      }
+    },
+
+    async editUserInfoAdmin({ context, state }, user) {
+      try {
+        const response = await axios.put(`http://127.0.0.1:3000/users/${user.id}`, {
+          email_utilizador: user.email_utilizador,
+          nome: user.nome,
+          sobrenome: user.sobrenome,
+          descricao : user.descricao,
+          img : user.img,
+          bgImg: user.bgImg,
+          role: user.role
         }, {headers: {Authorization: 'Bearer ' + localStorage.token}});
         
         return response;
@@ -517,8 +552,40 @@ export default new Vuex.Store({
     async postAnnouncementFavs({ context, state },fav){
       try {
         const response = await axios.post(`http://127.0.0.1:3000/favsAnnouncement`, {
-          id_utilizador_recebido: fav.id_utilizador_recebido,
+          adID: fav.adID,
           id_utilizador_dado: fav.id_utilizador_dado,
+        },{headers: {Authorization: 'Bearer ' + localStorage.token}});
+        
+        return response;
+
+      } catch (err) {
+        throw Error(err.response.data.message);
+      }
+    },
+
+    async postProjectImages({ context, state },image){
+      try {
+        const response = await axios.post(`http://127.0.0.1:3000/projectImages`, {
+          projetoID: image.projetoID,
+          descricao: image.descricao,
+        },{headers: {Authorization: 'Bearer ' + localStorage.token}});
+        
+        return response;
+
+      } catch (err) {
+        throw Error(err.response.data.message);
+      }
+    },
+
+    async postAnnouncement({ context, state },ad){
+      try {
+        const response = await axios.post(`http://127.0.0.1:3000/announcements`, {
+          titulo: ad.titulo,
+          descricao: ad.descricao,
+          utilizadorId: ad.utilizadorId,
+          img: ad.img,
+          tipo: ad.tipo,
+          data: ad.data,
         },{headers: {Authorization: 'Bearer ' + localStorage.token}});
         
         return response;
@@ -633,7 +700,7 @@ export default new Vuex.Store({
     async postProjectFavs({ context, state },fav){
       try {
         const response = await axios.post(`http://127.0.0.1:3000/favsProject`, {
-          id_utilizador_recebido: fav.id_utilizador_recebido,
+          projectID: fav.projectID,
           id_utilizador_dado: fav.id_utilizador_dado,
         },{headers: {Authorization: 'Bearer ' + localStorage.token}});
         
@@ -691,6 +758,36 @@ export default new Vuex.Store({
         throw Error(err.response.data.message);
       }
     },
+
+    async addCommentsProject({ context, state }, commentProject) {
+      try {
+        const response = await axios.post(`http://127.0.0.1:3000/projects/${commentProject.id}/commentsProject`, {
+          desc_comentario: commentProject.desc_comentario,
+          id_quem_comentou: commentProject.id_quem_comentou,
+          id_projeto: commentProject.id_projeto,
+        },{headers: {Authorization: 'Bearer ' + localStorage.token}});
+        
+        return response;
+
+      } catch (err) {
+        throw Error(err.response.data.message);
+      }
+    },
+
+    async getCommentsProject({ context, state }, commentProject) {
+      try {
+        const response = await axios.get(`http://127.0.0.1:3000/projects/${commentProject.id}/commentsProject`,
+          {headers: {Authorization: 'Bearer ' + localStorage.token}});
+        
+          return response.data.commentsProject;
+
+      } catch (err) {
+        throw Error(err.response.data.message);
+      }
+    },
+
+    
+
   },
   modules: {},
 });

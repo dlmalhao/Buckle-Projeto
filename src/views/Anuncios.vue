@@ -19,6 +19,9 @@
         </b-container>
       </div>
     </header>
+    <div class="addAnnouncementButton" @click="showModal = true" v-b-modal.modal-1>
+      <p>+</p>
+    </div>
     <section>
       <b-row class="filterRow">
         <div class="filterRectangle">
@@ -26,13 +29,13 @@
             <div class="filterHeader">
               <p>Filtrar por:</p>
             </div>
-            <b-col cols="2">
+            <b-col cols="4">
               <div class="pesquisa">
                 <p>Pesquisa</p>
                 <b-form-input type="text" v-model="search" ></b-form-input>
               </div>
             </b-col>
-            <b-col cols="2">
+            <b-col cols="4">
               <div class="licenciatura">
                 <p>Licenciatura</p>
                 <div class="form-selects">
@@ -40,15 +43,7 @@
                 </div>
               </div>
             </b-col>
-            <b-col cols="2">
-              <div class="ordenar">
-                <p>Ordenar</p>
-                <div class="form-selects">
-                  <b-form-select v-model="order.selected" :options="order.options" class="form-select cursos"></b-form-select>
-                </div>
-              </div>
-            </b-col>
-            <b-col cols="2">
+            <b-col cols="4">
               <div class="tipo">
                 <p>Tipo</p>
                 <div class="buttons">
@@ -93,6 +88,50 @@
         </b-col>
       </b-row>
     </section>
+    <div v-if="showModal">
+        <b-modal hide-footer id="modal-1" title="Adicionar anúncio">
+          <form @submit.prevent="addAnnouncement">
+            <b-form-group
+              label="Titulo"
+              label-for="titulo-input"
+              invalid-feedback="Titulo é obrigatório"
+            >
+              <b-form-input
+                id="titulo-input"
+                required
+                v-model="form.titulo"
+              ></b-form-input>
+            </b-form-group>
+            <b-form-group
+              label="Imagem"
+              label-for="img-input"
+              invalid-feedback="Imagem é obrigatória"
+            >
+              <b-form-input
+                id="img-input"
+                required
+                v-model="form.img"
+              ></b-form-input>
+            </b-form-group>
+            <b-form-group label="Descrição" label-for="descricao-input">
+              <b-form-textarea
+                id="descricao-input"
+                v-model="form.descricao"
+              ></b-form-textarea>
+            </b-form-group>
+            <b-form-group 
+              label="Tipo"
+              label-for="tipo-input"
+              invalid-feedback="Tipo é obrigatório"
+            >
+              <b-form-select  v-model="announcementTypes.selected" :options="announcementTypes.options" class="form-select"></b-form-select>
+            </b-form-group>
+            <div class="submitModalAddAnnouncement">
+              <input type="submit" class="btn btn-primary" value="Adicionar" />
+            </div>
+          </form>
+        </b-modal>
+      </div>
   </div>
 </template>
 
@@ -102,6 +141,7 @@ import {mapGetters, mapActions} from "vuex"
 export default {
   data() {
     return {
+      loggedUser: {},
       users: [],
       courses: [],
       graduation: {
@@ -116,16 +156,30 @@ export default {
           { value: "antigos", text: "Mais antigos" },
         ],
       },
+      announcementTypes: {
+        selected: null,
+        options: [
+          { value: null, text: "" , disabled: true },
+          { value: "Oferta", text: "Oferta" },
+          { value: "Procura", text: "Procura" },
+        ]
+      },
+      form: {
+        titulo: "",
+        descricao: "",
+        img: "",
+      },
       type: {
         isOferta: false,
         isProcura: false,
       },
       search: "",
-      announcementsData: []
+      announcementsData: [],
+      showModal : false
     }
   },
   computed : {
-    ...mapGetters(["getAds"]),
+    ...mapGetters(["getLoggedUser"]),
 
     filteredAds () {
       let filterAds = this.announcementsData.slice(0)
@@ -164,10 +218,13 @@ export default {
     this.getUsersData()
     this.getAnnouncementsData()
     this.getCoursesData()
+    if(this.getLoggedUser) {
+      this.loggedUser = this.getLoggedUser
+    }
   },
 
    methods: {
-    ...mapActions(["getAnnouncements","getUsers", "getCourses"]),
+    ...mapActions(["getAnnouncements","getUsers", "getCourses", "postAnnouncement"]),
 
     async getAnnouncementsData() {
       try {
@@ -206,7 +263,29 @@ export default {
         optionsData.push(opt)
       }
       this.graduation.options = optionsData
-    }
+    },
+
+    async addAnnouncement() {
+      try {
+        let today = new Date()
+        let ad = {
+          titulo: this.form.titulo,
+          descricao: this.form.descricao,
+          img: this.form.img,
+          tipo: this.announcementTypes.selected,
+          utilizadorId: this.loggedUser.id,
+          data: today.getFullYear()+'-'+( today.getMonth()+1)+'-'+ today.getDate(),
+        }
+        const response = await this.postAnnouncement(ad);
+        this.getAnnouncementsData()
+        if (response.data.success) {
+          this.$swal('','Anúncio criado com sucesso')
+        }
+      } catch (err) {
+        this.$swal('Erro ao criar anúncio!')
+        console.log(err)
+      }
+    },
   },
 }
 
@@ -244,6 +323,7 @@ html, body {
   padding: 0!important;
   width: auto !important;
   height: 440px!important;
+  margin-bottom: 50px !important;
 }
 
 .filterRectangle {
@@ -439,6 +519,40 @@ a {
   width: 100%;
   height: 120px;
 }
+.addAnnouncementButton {
+  position: fixed;
+  background-color: var(--orange);
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  bottom: 450px;
+  right: 20px;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.filterRectangle .col-4 {
+  width: 100%;
+}
+
+.addAnnouncementButton p {
+  margin-bottom: 0 !important;
+  cursor: pointer;
+  font-size: 25px;
+}
+
+.addAnnouncementButton:hover {
+  width: 58px;
+  height: 58px;
+  right: 16px;
+  bottom: 446px;
+}
+
 
 .descricao {
   padding: 0 15px;
@@ -495,6 +609,18 @@ a {
 .tipo .buttons .active {
   background: var(--orange);
   border: none;
+}
+
+.submitModalAddAnnouncement {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 2vh;
+}
+
+.submitModalAddAnnouncement input {
+  background-color: var(--orange);
+  border: none;
+  color: white;
 }
 
 /* .btnFilter {

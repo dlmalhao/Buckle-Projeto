@@ -65,10 +65,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["isLoginValid", "getUsers"]),
-  },
-  mounted() {
-    this.users = this.getUsers;
+    ...mapGetters(["isLoginValid"]),
   },
   methods: {
     ...mapMutations(["SET_LOGGED_USER", "SET_ACTIVE_PROFILE"]),
@@ -82,22 +79,13 @@ export default {
         password: this.form.password,
       });
       if (response.data.success) {
-        Swal.fire({
-          icon: "success",
-          title: "Sucesso",
-          text: "Login efetuado com sucesso!",
-          confirmButtonText: "Entrar",
-        });
+        this.$swal("Login!", "Login efetuado com sucesso!", "success")
         this.$router.push("/");
       } else {
         throw new Error(response.data.msg);
       }
       }catch (err){
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: err,
-        });
+        this.$swal("Error!", err.message, "error");
       }
       
     },

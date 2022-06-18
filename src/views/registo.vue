@@ -100,8 +100,8 @@ export default {
             { value: null, text: "Curso", disabled: true },
             { value: "tsiw", text: "TSIW" },
             { value: "tcav", text: "TCAV" },
-            { value: "design-grafico", text: "Design Gráfico" },
-            { value: "design-industrial", text: "Design Industrial" },
+            { value: "design grafico", text: "Design Gráfico" },
+            { value: "design industrial", text: "Design Industrial" },
             { value: "fotografia", text: "Fotografia" },
             { value: "multimedia", text: "Multimédia" },
           ],
@@ -145,38 +145,19 @@ export default {
             });
             
             if (response.data.success) {
-              Swal.fire({
-                icon: "success",
-                title: "Sucesso",
-                text: "Registado com sucesso!",
-                confirmButtonText: "Entrar",
-              });
+              this.$swal("Registo", "Registo efetuado com sucesso!", "success")
               this.$router.push('/login')
             } else {
               throw new Error(response.data.message);
             }
           } else {
-            Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: "A tua password tem de ter pelo menos 8 carateres!",
-              confirmButtonText: "Tentar outra vez..",
-            });
+            this.$swal("Error!", 'A tua password tem de ter pelo menos 8 carateres!', "error");
           }
         } else {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "As passwords não coincidem!",
-            confirmButtonText: "Tentar outra vez..",
-          });
+          this.$swal("Error!", 'As passwords não coincidem!', "error");
         }
       } catch (err) {
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: err.message,
-        });
+        this.$swal("Error!", err.message, "error");
       }
     },
   },

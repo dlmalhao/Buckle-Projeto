@@ -95,7 +95,7 @@ export default {
 
 .myTabs .col-auto ul {
   background-color: white;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  
   padding: 0;
 }
 
@@ -118,6 +118,12 @@ export default {
   margin-bottom: 10px;
   background-color: var(--orange);
 }
+
+.myTabs .col-auto ul {
+  background-color: #e4e4e4;
+  height: 100%;
+}
+
 
 .myTabs .tab-content {
   padding: 0;
@@ -146,6 +152,28 @@ export default {
   padding: 0 15px;
 }
 
+.settingsButton .dropdown-toggle::after {
+  display: none;
+}
+
+.settingsButton div button svg{
+  display: flex;
+  transition: all 0.4s ease;
+}
+
+.settingsButton div button:hover svg {
+  transform: rotateZ(180deg);
+  transition: all 0.4s ease;
+}
+
+.settingsButton .dropdown-item svg {
+  margin-right: 5px;
+}
+
+.settingsButton .btn.dropdown-toggle.btn-primary {
+  display: flex;
+}
+
 .projects-tab section{
   display: flex;
   justify-content: space-between;
@@ -155,10 +183,18 @@ export default {
   order: 2;
 }
 
+.myTabs .col-auto {
+  width: 300px;
+}
+
+.myTabs .tab-pane {
+  height: 100%;
+}
+
 .projects-tab section .projects-row{
   order: 1;
   margin: 10px 0 0 0;
-  padding: 0 15px;
+  margin: 15px;
 }
 
 .imagesCarousel div div div img {
@@ -202,8 +238,9 @@ export default {
   border-radius: 4px;
 }
 
-.modal .modal-dialog {
-  margin-top: 100px;
+
+.modal .modal-content {
+  border: none;
 }
 
 .modal .modal-header {
@@ -213,6 +250,54 @@ export default {
 
 .modal .modal-header h5 {
   color: white;
+}
+
+.outsideDiv div{
+  display: flex;
+  align-items: center;
+}
+
+.outsideDiv button {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.outsideDiv .buttonsModalDiv {
+  width: 25px;
+  height: 25px;
+  margin-left: 5px;
+}
+
+.removeButtonModal {
+  font-size: 13px;
+}
+
+.swal2-confirm {
+  background-color: var(--orange) !important;
+}
+
+.swal2-confirm:hover {
+  background-color: var(--black);
+}
+
+.adminModal .form-group {
+
+  margin-bottom: 10px;
+}
+
+.adminModal .form-group img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 5px; 
+  margin-left: 5px;
+}
+
+.adminModal .form-group div {
+  display: flex;
 }
 
 </style>

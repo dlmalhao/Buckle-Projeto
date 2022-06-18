@@ -19,6 +19,9 @@
         </b-container>
       </div>
     </header>
+    <div class="addProjectButton" @click="showModal = true" v-b-modal.modal-1>
+      <p>+</p>
+    </div>
     <section>
       <b-row class="filterRow">
         <div class="filterRectangle">
@@ -26,25 +29,17 @@
             <div class="filterHeader">
               <p>Filtrar por:</p>
             </div>
-            <b-col cols="2">
+            <b-col cols="6">
               <div class="pesquisa">
                 <p>Pesquisa</p>
                 <b-form-input type="text" v-model="search"></b-form-input>
               </div>
             </b-col>
-            <b-col cols="2">
+            <b-col cols="6">
               <div class="licenciatura">
                 <p>Licenciatura</p>
                 <div class="form-selects">
                   <b-form-select v-model="graduation.selected" :options="graduation.options" class="form-select cursos"></b-form-select>
-                </div>
-              </div>
-            </b-col>
-            <b-col cols="2">
-              <div class="ordenar">
-                <p>Ordenar</p>
-                <div class="form-selects">
-                  <b-form-select v-model="order.selected" :options="order.options" class="form-select cursos"></b-form-select>
                 </div>
               </div>
             </b-col>
@@ -81,6 +76,49 @@
         </b-col>
       </b-row>
     </section>
+    <div v-if="showModal">
+        <b-modal hide-footer id="modal-1" title="Adicionar projeto">
+          <form @submit.prevent="addProject">
+            <b-form-group
+              label="Titulo"
+              label-for="titulo-input"
+              invalid-feedback="Titulo é obrigatório"
+            >
+              <b-form-input
+                id="titulo-input"
+                required
+                v-model="form.titulo"
+              ></b-form-input>
+            </b-form-group>
+            <b-form-group v-for="(image, index) in this.images" :key="index"
+              label="Imagem"
+              label-for="img-input"
+              class="outsideDiv"
+            >
+              <b-form-input
+                id="img-input"
+                required
+                v-model="image.img"
+              ></b-form-input>
+              <div class="buttonsModalDiv">
+                <b-button variant="success" v-if="index == images.length-1" @click="addInput">+</b-button>
+              </div>
+              <div class="buttonsModalDiv">
+                <b-button variant="danger" class="removeButtonModal" v-if="index != 0" @click="removeInput(index)">x</b-button>
+              </div>
+            </b-form-group>
+            <b-form-group label="Descrição" label-for="descricao-input">
+              <b-form-textarea
+                id="descricao-input"
+                v-model="form.descricao"
+              ></b-form-textarea>
+            </b-form-group>
+            <div class="submitModalAddProject">
+              <input type="submit" class="btn btn-primary" value="Adicionar" />
+            </div>
+          </form>
+        </b-modal>
+      </div>
   </div>
 </template>
 
@@ -90,11 +128,16 @@ import {mapGetters,mapActions} from "vuex"
 export default {
   data() {
     return {
+      loggedUser: {},
       projects: [],
       allProjectImages: [],
       loadingProjetos: false,
       loadingImagensProjetos: false,
       users: [],
+      form : {
+        titulo: "",
+        descricao: "",
+      },
       graduation: {
         selected: null,
         options: [
@@ -119,11 +162,13 @@ export default {
         isOferta: false,
         isProcura: false,
       },
-      search: ""
+      search: "",
+      showModal : false,
+      images: [{img: ""}]
     }
   },
   computed : {
-    ...mapGetters([""]),
+    ...mapGetters(["getLoggedUser"]),
 
     filteredProjects () {
       let filterProjects = this.projects.slice(0)
@@ -153,10 +198,23 @@ export default {
   mounted () {
     this.getUsersData()
     this.getProjectImagesData()
+    if(this.getLoggedUser) {
+      this.loggedUser = this.getLoggedUser
+    }
   },
 
    methods: {
-    ...mapActions(["getProjects","getUsers", "getCourses","getProjectImages"]),
+    ...mapActions(["getProjects","getUsers", "getCourses","getProjectImages","addProject","postProjectImages","postProject"]),
+
+    addInput() {
+      this.images.push({
+          img: ""
+      });
+    },
+
+    removeInput(index) {
+      this.images.splice(index, 1);
+    },
 
     async getProjectsData() {
       try {
@@ -165,6 +223,46 @@ export default {
         this.loadingProjetos = false
       } catch (err) {
         this.$swal('Erro ao requisitar projetos')
+        console.log(err)
+      }
+    },
+
+    async addProject() {
+      try {
+        let today = new Date()
+        let project = {
+          titulo: this.form.titulo,
+          descricao: this.form.descricao,
+          utilizadorId: this.loggedUser.id,
+          data: today.getFullYear()+'-'+( today.getMonth()+1)+'-'+ today.getDate(),
+        }
+        console.log(project)
+        const response = await this.postProject(project);
+
+        await this.getProjectsData()
+        if (response.data.success) {
+          this.$swal('','Projeto criado com sucesso')
+        }
+      } catch (err) {
+        this.$swal('Erro ao criar projeto!')
+        console.log(err)
+      }
+      try {
+        console.log(this.images)
+        console.log(this.projects)
+        for(let image of this.images) {
+          let imageData = {
+            projetoID : this.projects[this.projects.length - 1].id ,
+            descricao : image.img
+          }
+          console.log(this.projects)
+          console.log(imageData)
+          const response2 = await this.postProjectImages(imageData)
+          if(response2.data.success) {
+            location.reload()
+          }
+        }
+      } catch (err) {
         console.log(err)
       }
     },
@@ -344,6 +442,48 @@ html, body {
   font-weight: bold;
 }
 
+.addProjectButton {
+  position: fixed;
+  background-color: var(--orange);
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  bottom: 450px;
+  right: 20px;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.addProjectButton p {
+  margin-bottom: 0 !important;
+  cursor: pointer;
+  font-size: 25px;
+}
+
+.addProjectButton:hover {
+  width: 58px;
+  height: 58px;
+  right: 16px;
+  bottom: 446px;
+}
+
+.submitModalAddProject {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 2vh;
+}
+
+.submitModalAddProject input {
+  background-color: var(--orange);
+  border: none;
+  color: white;
+}
+
 .btn-procura {
   margin-right: 5px;
 }
@@ -375,7 +515,7 @@ line-height: 43px;
 }
 
 .cardImage img {
-  width: 490px;
+  width: 100%;
   height: 220px;
   border-radius: 5px 5px 0 0;
   object-fit: cover;
@@ -481,6 +621,15 @@ a {
   padding-top: 10px;
 }
 
+.filterRow {
+  margin-bottom: 50px;
+}
+
+.filterRectangle .col-6 {
+  width: 100%;
+}
+
+
 .cardContent .adData .nome_curso h4{
   font-weight: bold;
   font-size: 14px;
@@ -499,6 +648,7 @@ a {
   background: var(--orange);
   border: none;
 }
+
 
 </style>
 

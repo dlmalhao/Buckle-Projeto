@@ -74,7 +74,7 @@
       </div>
       <div class="main">
         <div class="left-side">
-          <div>
+          <div id="left-side2">
             <b-card no-body>
               <b-tabs pills card vertical class="myTabs">
                 <template #tabs-start>
@@ -82,7 +82,6 @@
                     <div class="sector1">
                       <img :src="userData.img" alt="" />
                       <h3>{{ userData.nome }} {{ userData.sobrenome }}</h3>
-                      <b-icon icon="gear"></b-icon>
                     </div>
                   </li>
                 </template>
@@ -103,7 +102,7 @@
                             </h3>
                           </div>
                           <div class="curso">
-                            <h3>TSIW</h3>
+                            <h3>{{ loggedCourse }}</h3>
                           </div>
                           <div class="data">
                             <h3>{{ userData.date }}</h3>
@@ -157,7 +156,7 @@
                             <div class="cursoLabel">
                               <h3>Curso:</h3>
                             </div>
-                            <h3 id="curso">TSIW</h3>
+                            <h3 id="curso">{{ loggedCourse }}</h3>
                           </div>
                           <div class="descricao">
                             <div class="descricaoLabel">
@@ -170,7 +169,7 @@
                         </div>
                         <div class="right">
                           <div class="container1">
-                            <b-icon icon="gear"></b-icon>
+                            <b-icon icon="journal-bookmark-fill"></b-icon>
                             <div class="containerTexto">
                               <div class="title">
                                 <h3>Anúncios</h3>
@@ -181,7 +180,7 @@
                             </div>
                           </div>
                           <div class="container2">
-                            <b-icon icon="gear"></b-icon>
+                            <b-icon icon="filter-square-fill"></b-icon>
                             <div class="containerTexto">
                               <div class="title">
                                 <h3>Anúncios</h3>
@@ -192,18 +191,7 @@
                             </div>
                           </div>
                           <div class="container3">
-                            <b-icon icon="gear"></b-icon>
-                            <div class="containerTexto">
-                              <div class="title">
-                                <h3>Anúncios</h3>
-                              </div>
-                              <div class="description">
-                                <h3>3</h3>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="container4">
-                            <b-icon icon="gear"></b-icon>
+                            <b-icon icon="heart-fill"></b-icon>
                             <div class="containerTexto">
                               <div class="title">
                                 <h3>Anúncios</h3>
@@ -218,68 +206,16 @@
                     </div>
                   </div>
                 </b-tab>
-                <b-tab title="Anúncios" class="ads-tab">
+                <b-tab title="Anúncios" class="projects-tab">
                   <section>
-                    <b-row class="filterRow">
-                      <div class="filterRectangle">
-                        <div class="addAnnouncement">
-                          <div class="addButton">
-                            <b-button>+</b-button>
-                          </div>
-                          <div class="addText">
-                            <h3>Novo</h3>
-                          </div>
-                        </div>
-                        <div class="div">
-                          <div class="filterHeader">
-                            <p>Filtrar por:</p>
-                          </div>
-                          <b-col cols="2">
-                            <div class="pesquisa">
-                              <p>Pesquisa</p>
-                              <b-form-input type="text"></b-form-input>
-                            </div>
-                          </b-col>
-                          <b-col cols="2">
-                            <div class="licenciatura">
-                              <p>Licenciatura</p>
-                              <div class="form-selects">
-                                <b-form-select
-                                  class="form-select cursos"
-                                ></b-form-select>
-                              </div>
-                            </div>
-                          </b-col>
-                          <b-col cols="2">
-                            <div class="ordenar">
-                              <p>Ordenar</p>
-                              <div class="form-selects">
-                                <b-form-select
-                                  class="form-select cursos"
-                                ></b-form-select>
-                              </div>
-                            </div>
-                          </b-col>
-                          <b-col cols="2">
-                            <div class="tipo">
-                              <p>Tipo</p>
-                              <div class="buttons">
-                                <b-button class="btn-procura">Procura</b-button>
-                                <b-button class="btn-oferta">Oferta</b-button>
-                              </div>
-                            </div>
-                          </b-col>
-                        </div>
-                      </div>
-                    </b-row>
-
-                    <b-row style="padding: 0" class="ads-row">
-                      <b-col cols="4" style="margin-bottom: 20px">
-                        <router-link :to="{ name: 'PaginaInicial' }">
-                          <div class="cardContainer">
-                            <div class="cardImage">
+                    <b-row style="padding: 0" class="projects-row">
+                      <b-col cols="6" lg="4" style="margin-bottom: 20px" class="cardContainer" v-for="(ad, index) in getOwnAds"
+                            :key="index">
+                        <router-link :to="{ name: 'anuncioEspecifico', params: { id: ad.id }}">
+                          <div >
+                            <div class="cardImage" >
                               <img
-                                src="../assets/img/esmad.jpg"
+                                :src="ad.img"
                                 class="imageBox"
                               />
                             </div>
@@ -287,148 +223,20 @@
                               <div class="adData">
                                 <div class="profileImage">
                                   <img
-                                    src="../assets/img/ireneCosta.jpg"
+                                    :src="getLoggedUser.img"
                                     class="imageBox"
                                   />
                                 </div>
                                 <div class="nome_curso">
-                                  <h4>Irene Costa</h4>
+                                  <h4>{{getLoggedUser.nome}} {{ getLoggedUser.sobrenome }}</h4>
                                   <div class="curso">
                                     <p>de&nbsp;</p>
-                                    <p>TCAV</p>
+                                    <p>{{loggedCourse}}</p>
                                   </div>
                                 </div>
                               </div>
                               <div class="descricao">
-                                <p>Descrição 1 2 3</p>
-                              </div>
-                            </div>
-                          </div>
-                        </router-link>
-                      </b-col>
-                      <b-col cols="4" style="margin-bottom: 20px">
-                        <router-link :to="{ name: 'PaginaInicial' }">
-                          <div class="cardContainer">
-                            <div class="cardImage">
-                              <img
-                                src="../assets/img/esmad.jpg"
-                                class="imageBox"
-                              />
-                            </div>
-                            <div class="cardContent">
-                              <div class="adData">
-                                <div class="profileImage">
-                                  <img
-                                    src="../assets/img/ireneCosta.jpg"
-                                    class="imageBox"
-                                  />
-                                </div>
-                                <div class="nome_curso">
-                                  <h4>Irene Costa</h4>
-                                  <div class="curso">
-                                    <p>de&nbsp;</p>
-                                    <p>TCAV</p>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="descricao">
-                                <p>Descrição 1 2 3</p>
-                              </div>
-                            </div>
-                          </div>
-                        </router-link>
-                      </b-col>
-                      <b-col cols="4" style="margin-bottom: 20px">
-                        <router-link :to="{ name: 'PaginaInicial' }">
-                          <div class="cardContainer">
-                            <div class="cardImage">
-                              <img
-                                src="../assets/img/esmad.jpg"
-                                class="imageBox"
-                              />
-                            </div>
-                            <div class="cardContent">
-                              <div class="adData">
-                                <div class="profileImage">
-                                  <img
-                                    src="../assets/img/ireneCosta.jpg"
-                                    class="imageBox"
-                                  />
-                                </div>
-                                <div class="nome_curso">
-                                  <h4>Irene Costa</h4>
-                                  <div class="curso">
-                                    <p>de&nbsp;</p>
-                                    <p>TCAV</p>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="descricao">
-                                <p>Descrição 1 2 3</p>
-                              </div>
-                            </div>
-                          </div>
-                        </router-link>
-                      </b-col>
-                      <b-col cols="4" style="margin-bottom: 20px">
-                        <router-link :to="{ name: 'PaginaInicial' }">
-                          <div class="cardContainer">
-                            <div class="cardImage">
-                              <img
-                                src="../assets/img/esmad.jpg"
-                                class="imageBox"
-                              />
-                            </div>
-                            <div class="cardContent">
-                              <div class="adData">
-                                <div class="profileImage">
-                                  <img
-                                    src="../assets/img/ireneCosta.jpg"
-                                    class="imageBox"
-                                  />
-                                </div>
-                                <div class="nome_curso">
-                                  <h4>Irene Costa</h4>
-                                  <div class="curso">
-                                    <p>de&nbsp;</p>
-                                    <p>TCAV</p>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="descricao">
-                                <p>Descrição 1 2 3</p>
-                              </div>
-                            </div>
-                          </div>
-                        </router-link>
-                      </b-col>
-                      <b-col cols="4" style="margin-bottom: 20px">
-                        <router-link :to="{ name: 'PaginaInicial' }">
-                          <div class="cardContainer">
-                            <div class="cardImage">
-                              <img
-                                src="../assets/img/esmad.jpg"
-                                class="imageBox"
-                              />
-                            </div>
-                            <div class="cardContent">
-                              <div class="adData">
-                                <div class="profileImage">
-                                  <img
-                                    src="../assets/img/ireneCosta.jpg"
-                                    class="imageBox"
-                                  />
-                                </div>
-                                <div class="nome_curso">
-                                  <h4>Irene Costa</h4>
-                                  <div class="curso">
-                                    <p>de&nbsp;</p>
-                                    <p>TCAV</p>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="descricao">
-                                <p>Descrição 1 2 3</p>
+                                <p>{{ad.descricao}}</p>
                               </div>
                             </div>
                           </div>
@@ -440,66 +248,14 @@
 
                 <b-tab title="Projetos" class="projects-tab">
                   <section>
-                    <b-row class="filterRow">
-                      <div class="filterRectangle">
-                        <div class="addAnnouncement">
-                          <div class="addButton">
-                            <b-button>+</b-button>
-                          </div>
-                          <div class="addText">
-                            <h3>Novo</h3>
-                          </div>
-                        </div>
-                        <div class="div">
-                          <div class="filterHeader">
-                            <p>Filtrar por:</p>
-                          </div>
-                          <b-col cols="2">
-                            <div class="pesquisa">
-                              <p>Pesquisa</p>
-                              <b-form-input type="text"></b-form-input>
-                            </div>
-                          </b-col>
-                          <b-col cols="2">
-                            <div class="licenciatura">
-                              <p>Licenciatura</p>
-                              <div class="form-selects">
-                                <b-form-select
-                                  class="form-select cursos"
-                                ></b-form-select>
-                              </div>
-                            </div>
-                          </b-col>
-                          <b-col cols="2">
-                            <div class="ordenar">
-                              <p>Ordenar</p>
-                              <div class="form-selects">
-                                <b-form-select
-                                  class="form-select cursos"
-                                ></b-form-select>
-                              </div>
-                            </div>
-                          </b-col>
-                          <b-col cols="2">
-                            <div class="tipo">
-                              <p>Tipo</p>
-                              <div class="buttons">
-                                <b-button class="btn-procura">Procura</b-button>
-                                <b-button class="btn-oferta">Oferta</b-button>
-                              </div>
-                            </div>
-                          </b-col>
-                        </div>
-                      </div>
-                    </b-row>
 
                     <b-row style="padding: 0" class="projects-row">
-                      <b-col cols="4" style="margin-bottom: 20px">
-                        <router-link :to="{ name: 'PaginaInicial' }">
-                          <div class="cardContainer">
-                            <div class="cardImage">
-                              <img
-                                src="../assets/img/esmad.jpg"
+                      <b-col cols="6" lg="4" style="margin-bottom: 20px" class="cardContainer" v-for="(project, index) in getOwnProjects" :key="index">
+                        <router-link :to="{ name: 'projetoEspecifico', params: { id: project.id }}">
+                          <div >
+                            <div class="cardImage" >
+                             <img v-if="!loadingImagensProjetos"
+                                :src="allProjectImages.filter((image) => image.projetoID == project.id)[0].descricao"
                                 class="imageBox"
                               />
                             </div>
@@ -507,148 +263,20 @@
                               <div class="adData">
                                 <div class="profileImage">
                                   <img
-                                    src="../assets/img/ireneCosta.jpg"
+                                    :src="getLoggedUser.img"
                                     class="imageBox"
                                   />
                                 </div>
                                 <div class="nome_curso">
-                                  <h4>Irene Costa</h4>
+                                  <h4>{{getLoggedUser.nome}} {{ getLoggedUser.sobrenome }}</h4>
                                   <div class="curso">
                                     <p>de&nbsp;</p>
-                                    <p>TCAV</p>
+                                    <p>{{loggedCourse}}</p>
                                   </div>
                                 </div>
                               </div>
                               <div class="descricao">
-                                <p>Descrição 1 2 3</p>
-                              </div>
-                            </div>
-                          </div>
-                        </router-link>
-                      </b-col>
-                      <b-col cols="4" style="margin-bottom: 20px">
-                        <router-link :to="{ name: 'PaginaInicial' }">
-                          <div class="cardContainer">
-                            <div class="cardImage">
-                              <img
-                                src="../assets/img/esmad.jpg"
-                                class="imageBox"
-                              />
-                            </div>
-                            <div class="cardContent">
-                              <div class="adData">
-                                <div class="profileImage">
-                                  <img
-                                    src="../assets/img/ireneCosta.jpg"
-                                    class="imageBox"
-                                  />
-                                </div>
-                                <div class="nome_curso">
-                                  <h4>Irene Costa</h4>
-                                  <div class="curso">
-                                    <p>de&nbsp;</p>
-                                    <p>TCAV</p>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="descricao">
-                                <p>Descrição 1 2 3</p>
-                              </div>
-                            </div>
-                          </div>
-                        </router-link>
-                      </b-col>
-                      <b-col cols="4" style="margin-bottom: 20px">
-                        <router-link :to="{ name: 'PaginaInicial' }">
-                          <div class="cardContainer">
-                            <div class="cardImage">
-                              <img
-                                src="../assets/img/esmad.jpg"
-                                class="imageBox"
-                              />
-                            </div>
-                            <div class="cardContent">
-                              <div class="adData">
-                                <div class="profileImage">
-                                  <img
-                                    src="../assets/img/ireneCosta.jpg"
-                                    class="imageBox"
-                                  />
-                                </div>
-                                <div class="nome_curso">
-                                  <h4>Irene Costa</h4>
-                                  <div class="curso">
-                                    <p>de&nbsp;</p>
-                                    <p>TCAV</p>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="descricao">
-                                <p>Descrição 1 2 3</p>
-                              </div>
-                            </div>
-                          </div>
-                        </router-link>
-                      </b-col>
-                      <b-col cols="4" style="margin-bottom: 20px">
-                        <router-link :to="{ name: 'PaginaInicial' }">
-                          <div class="cardContainer">
-                            <div class="cardImage">
-                              <img
-                                src="../assets/img/esmad.jpg"
-                                class="imageBox"
-                              />
-                            </div>
-                            <div class="cardContent">
-                              <div class="adData">
-                                <div class="profileImage">
-                                  <img
-                                    src="../assets/img/ireneCosta.jpg"
-                                    class="imageBox"
-                                  />
-                                </div>
-                                <div class="nome_curso">
-                                  <h4>Irene Costa</h4>
-                                  <div class="curso">
-                                    <p>de&nbsp;</p>
-                                    <p>TCAV</p>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="descricao">
-                                <p>Descrição 1 2 3</p>
-                              </div>
-                            </div>
-                          </div>
-                        </router-link>
-                      </b-col>
-                      <b-col cols="4" style="margin-bottom: 20px">
-                        <router-link :to="{ name: 'PaginaInicial' }">
-                          <div class="cardContainer">
-                            <div class="cardImage">
-                              <img
-                                src="../assets/img/esmad.jpg"
-                                class="imageBox"
-                              />
-                            </div>
-                            <div class="cardContent">
-                              <div class="adData">
-                                <div class="profileImage">
-                                  <img
-                                    src="../assets/img/ireneCosta.jpg"
-                                    class="imageBox"
-                                  />
-                                </div>
-                                <div class="nome_curso">
-                                  <h4>Irene Costa</h4>
-                                  <div class="curso">
-                                    <p>de&nbsp;</p>
-                                    <p>TCAV</p>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="descricao">
-                                <p>Descrição 1 2 3</p>
+                                <p>{{project.descricao}}</p>
                               </div>
                             </div>
                           </div>
@@ -688,7 +316,13 @@
                       </b-col>
                       <b-col cols="9" class="chatZone">
                         <div class="content">
-                          <div style="width:100%; overflow-y: scroll; overflow:hidden;">
+                          <div
+                            style="
+                              width: 100%;
+                              overflow-y: scroll;
+                              overflow: hidden;
+                            "
+                          >
                             <div
                               class="message"
                               v-bind:class="{
@@ -761,7 +395,7 @@
                             <p class="personComment">
                               <b>{{ comment.email }}</b>
                             </p>
-                            <p class="cursoAvaliacao">TSIW</p>
+                            <p class="cursoAvaliacao">{{ loggedCourse }}</p>
                           </div>
                         </div>
                       </div>
@@ -789,7 +423,7 @@
                       {{ userData.sobrenome }}
                     </h1>
                     <p style="text-transform: capitalize">
-                      {{ userData.courseId }}
+                      {{ userData.course }}
                     </p>
                   </div>
                 </b-col>
@@ -932,7 +566,7 @@
                     <p class="personComment">
                       <b>{{ comment.email }}</b>
                     </p>
-                    <p class="cursoAvaliacao">TSIW</p>
+                    <p class="cursoAvaliacao">{{ comment.course }}</p>
                   </div>
                 </div>
               </div>
@@ -963,7 +597,7 @@
                       <b-form-input
                         type="text"
                         class="camposAvaliacao"
-                        :value="getLoggedUser.courseId"
+                        :value="loggedCourse"
                         disabled
                       ></b-form-input>
                       <star-rating
@@ -1016,6 +650,7 @@ export default {
         descricao: "",
         img: "",
         bgImg: "",
+        course: "",
       },
       editUser: {
         email_utilizador: "",
@@ -1050,8 +685,8 @@ export default {
       getMessages: {},
       tab: "mensagens",
       user2: 0,
-      user2_img:'',
-      user2_nome:'',
+      user2_img: "",
+      user2_nome: "",
       msgTxt: "",
       messagesProfile: {
         id_chat: 0,
@@ -1059,6 +694,14 @@ export default {
         text: "",
       },
       chat_id: 0,
+      courses: [],
+      loggedCourse: "",
+      announcementsData:[],
+      getOwnAds : [],
+      projectsData:[],
+      getOwnProjects : [],
+      allProjectImages: [],
+      loadingImagensProjetos: false,
     };
   },
 
@@ -1067,6 +710,10 @@ export default {
     this.getCommentsProfile();
     this.getChatsProfile();
     this.getMessagesProfile();
+    this.getCoursesData();
+    this.getAnnouncementsData();
+    this.getProjectsData();
+    this.getProjectImagesData()
   },
   computed: {
     ...mapGetters(["getLoggedUser"]),
@@ -1081,18 +728,66 @@ export default {
       "getChatsByID",
       "addMessage",
       "getMessagesByID",
+      "getCourses",
+      "getAnnouncements",
+      "getProjects",
+      "getProjectImages"
     ]),
+
+    async getAnnouncementsData() {
+      try {
+        this.announcementsData = await this.getAnnouncements();
+        for (const announcement of this.announcementsData) {
+          if(announcement.utilizadorId == this.getLoggedUser.id){
+            this.getOwnAds.push(announcement)
+          }
+        }
+      } catch (err) {
+        this.$swal('Erro ao requisitar anúncios')
+        console.log(err)
+      }
+    },
+
+    async getProjectsData() {
+      try {
+        this.projectsData = await this.getProjects();
+        console.log(this.projectsData);
+        for (const project of this.projectsData) {
+          if(project.utilizadorId == this.getLoggedUser.id){
+            this.getOwnProjects.push(project)
+          }
+        }
+      } catch (err) {
+        this.$swal('Erro ao requisitar projetos')
+        console.log(err)
+      }
+    },
+
+    async getProjectImagesData() {
+      try {
+        this.loadingImagensProjetos = true
+        this.allProjectImages = await this.getProjectImages();
+        this.loadingImagensProjetos = false
+        console.log(this.allProjectImages)
+      } catch (err) {
+        this.$swal('Erro ao requisitar imagens de projetos')
+        console.log(err)
+      }
+    },
 
     async getDataUser() {
       try {
         this.userData = await this.getUser(this.$route.params.id);
         this.editUser = this.userData;
+        this.courses = await this.getCourses();
+        console.log(this.userData);
+        for (const course of this.courses) {
+          if (this.userData.courseId == course.id) {
+            this.userData.course = course.descricao_curso;
+          }
+        }
       } catch (err) {
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: err.message,
-        });
+        this.$swal("Error!", err.message, "error");
       }
     },
 
@@ -1122,41 +817,32 @@ export default {
           );
         }
         if (response.data.success) {
-          Swal.fire({
-            icon: "success",
-            title: "Sucesso",
-            text: "Atualizado com sucesso!",
-            confirmButtonText: "Ok",
-          });
+          this.$swal(
+            "Dados do Utilizador!",
+            "Atualizados com sucesso!",
+            "success"
+          );
         }
       } catch (err) {
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: err,
-        });
+        this.$swal("Error!", err.message, "error");
       }
     },
 
     async logoutUser() {
       try {
         if (localStorage.token != null) {
-          Swal.fire({
-            title: "Atenção!",
-            text: "Tens a certeza que queres sair da tua conta?",
+          this.$swal({
+            title: "Logout?",
+            text: "Tem a certeza que prentende sair da conta?",
             icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
             confirmButtonText: "Sim",
+            showCancelButton: true,
             cancelButtonText: "Não",
+            dangerMode: true,
           }).then((result) => {
             if (result.isConfirmed) {
-              Swal.fire({
-                title: "Adeus!",
-                text: "Logout efetuado com sucesso.",
-                confirmButtonColor: "#3085d6",
-                confirmButtonText: "Ok",
+              this.$swal("Logout efetuado com sucesso!", {
+                icon: "success",
               });
               this.$router.go();
               localStorage.removeItem("token");
@@ -1164,20 +850,10 @@ export default {
             }
           });
         } else {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            // text: response.msg,
-            confirmButtonColor: "#3085d6",
-            confirmButtonText: "Ok",
-          });
+          this.$swal("Opps!", response.msg, "error");
         }
       } catch (err) {
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: err,
-        });
+        this.$swal("Error!", err.message, "error");
       }
     },
 
@@ -1193,19 +869,15 @@ export default {
         });
 
         if (response.data.success) {
-          Swal.fire({
-            icon: "success",
-            title: "Sucesso",
-            text: "Comentário efetuado com sucesso!",
-            confirmButtonText: "Ok!",
-          });
+          this.$swal(
+            "Novo comentário!",
+            "Novo comentário efetuado com sucesso!",
+            "success"
+          );
         }
+        window.location.reload();
       } catch (err) {
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: err.message,
-        });
+        this.$swal("Error!", err.message, "error");
       }
     },
 
@@ -1218,15 +890,19 @@ export default {
               comment.id_quem_comentou
             );
             comment.email = this.getUserCommented.email_utilizador;
+            comment.courseId = this.getUserCommented.courseId;
+            for (const course of this.courses) {
+              if (comment.courseId == course.id) {
+                comment.course = course.descricao_curso;
+              }
+            }
+            // if(comment.courseId == )
+            // comment.course = this.getUserCommented.course;
             this.commentsLoggedProfile.push(comment);
           }
         }
       } catch (err) {
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: err.message,
-        });
+        this.$swal("Error!", err.message, "error");
       }
     },
 
@@ -1239,19 +915,15 @@ export default {
             id_user2: this.user2,
           });
           this.chatsLoggedProfile.push({
-          id: this.$route.params.id,
-          id_user1: this.getLoggedUser.id,
-          id_user2: this.user2,
-          img : this.user2_img,
-          nome : this.user2_nome
-        });
+            id: this.$route.params.id,
+            id_user1: this.getLoggedUser.id,
+            id_user2: this.user2,
+            img: this.user2_img,
+            nome: this.user2_nome,
+          });
         }
       } catch (err) {
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: err.message,
-        });
+        this.$swal("Error!", err.message, "error");
       }
     },
 
@@ -1287,17 +959,13 @@ export default {
             this.getChats = await this.getUser(chat.id_user1);
             chat.nome = this.getChats.nome;
             chat.img = this.getChats.img;
-            this.user2_img =  chat.img
-            this.user2_nome =  chat.nome
+            this.user2_img = chat.img;
+            this.user2_nome = chat.nome;
             this.chatsLoggedProfile.push(chat);
           }
         }
       } catch (err) {
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: err.message,
-        });
+        this.$swal("Error!", err.message, "error");
       }
     },
 
@@ -1317,13 +985,9 @@ export default {
           id_user: this.getLoggedUser.id,
           text: this.msgTxt,
         });
-        this.msgTxt = ''
+        this.msgTxt = "";
       } catch (err) {
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: err.message,
-        });
+        this.$swal("Error!", err.message, "error");
       }
     },
 
@@ -1339,11 +1003,7 @@ export default {
           }
         }
       } catch (err) {
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: err.message,
-        });
+        this.$swal("Error!", err.message, "error");
       }
     },
 
@@ -1393,6 +1053,20 @@ export default {
       event.currentTarget.classList.add("active");
       this.chat_id = id;
       this.getMessagesProfile();
+    },
+
+    async getCoursesData() {
+      try {
+        this.courses = await this.getCourses();
+        for (const course of this.courses) {
+          if (this.getLoggedUser.courseId == course.id) {
+            this.loggedCourse = course.descricao_curso;
+          }
+        }
+      } catch (err) {
+        this.$swal("Erro ao requisitar cursos");
+        console.log(err);
+      }
     },
   },
 };
@@ -1460,7 +1134,7 @@ export default {
   background-color: white;
   width: 100%;
   height: 100%;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  
   border-radius: 10px;
   display: flex;
   justify-content: center;
@@ -1742,6 +1416,10 @@ export default {
   margin: 20px;
 }
 
+.settingsButton {
+  margin-top: 15px;
+}
+
 .user-data-div .settings svg {
   color: var(--black);
   cursor: pointer;
@@ -1754,7 +1432,11 @@ export default {
 .main-div .content {
   display: flex;
   background-color: white;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+ 
+}
+
+.right-side {
+  height: 100%;
 }
 
 .main-div {
@@ -1773,7 +1455,7 @@ export default {
 .cursoLabel h3,
 .descricaoLabel h3 {
   font-weight: bold;
-  font-size: 18px;
+  font-size: 19px;
   margin: 0;
   color: var(--black);
 }
@@ -1786,7 +1468,7 @@ export default {
 .nome,
 .email,
 .curso {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   padding: 0 !important;
 }
 
@@ -1794,7 +1476,7 @@ export default {
 .email h3,
 .curso h3,
 .descricao h3 {
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .right {
@@ -1804,23 +1486,38 @@ export default {
 
 .container1,
 .container2,
-.container3,
-.container4 {
+.container3
+ {
   background-color: #f3f3f3;
   width: 100%;
   display: flex;
   margin: 15px 0;
   align-items: center;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
 }
+
+.main {
+  height: 100%;
+}
+
+.left-side {
+  height: 100%;
+}
+
+#left-side2 {
+  height: 100%;
+}
+
+.left-side .card {
+  height: 100%;
+}
+
+.myTabs { height: 100%;}
 
 .container1 {
   margin-top: 20px;
 }
 
-.container4 {
-  margin-bottom: 20px;
-}
 
 .main-div {
   margin-bottom: 20px;
@@ -1828,24 +1525,32 @@ export default {
 
 .container1 svg,
 .container2 svg,
-.container3 svg,
-.container4 svg {
+.container3 svg {
   font-size: 32px;
   margin-left: 20px;
 }
 
+.container3 svg {
+  color: rgb(209, 79, 79);
+}
+.container2 svg {
+  color: rgb(79, 120, 209);
+}
+.container1 svg {
+  color: rgb(81, 158, 66);
+}
+
 .container1 .containerTexto .title h3,
 .container2 .containerTexto .title h3,
-.container3 .containerTexto .title h3,
-.container4 .containerTexto .title h3 {
+.container3 .containerTexto .title h3{
   font-size: 18px;
   margin: 5px 0 0 0;
 }
 
 .container1 .containerTexto .description h3,
 .container2 .containerTexto .description h3,
-.container3 .containerTexto .description h3,
-.container4 .containerTexto .description h3 {
+.container3 .containerTexto .description h3
+{
   font-weight: bold;
   font-size: 22px;
   margin: 5px 0 0 0;
@@ -2069,6 +1774,18 @@ export default {
   border-radius: 50%;
 }
 
+.cardContainer .descricao p{
+  height: 45px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.cardContent .descricao {
+  margin: 0 ;
+}
+
 .col-4 {
   margin-bottom: 25px;
 }
@@ -2077,6 +1794,7 @@ export default {
 }
 
 .cardContainer {
+  padding: 0;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -2108,6 +1826,7 @@ h4 {
 }
 
 .cardContent {
+  padding: 10px;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -2150,7 +1869,6 @@ h4 {
   text-align: left;
   margin-left: 15px;
   margin-right: 15px;
-  padding-top: 10px;
 }
 
 .cardContent .adData .nome_curso h4 {
@@ -2170,6 +1888,10 @@ h4 {
 .tipo .buttons .active {
   background: var(--orange);
   border: none;
+}
+
+.projects-row {
+  width: 100%;
 }
 
 .addAnnouncement {
@@ -2205,8 +1927,8 @@ h4 {
 .left-side-container {
   height: 100vh;
 }
-.left-side-Content{
-  padding-top : 10px 
+.left-side-Content {
+  padding-top: 10px;
 }
 .left-side-Content > .card-container > .card-img > img {
   width: 50px;
@@ -2380,8 +2102,7 @@ h4 {
 
 .content {
   display: flex !important;
-  flex-direction: column;
-  align-items: end;
+  align-items: flex-start;
   justify-content: end;
 }
 

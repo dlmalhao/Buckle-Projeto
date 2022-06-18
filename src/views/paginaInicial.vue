@@ -131,7 +131,7 @@
           <h2 class="text-center regularFont recentAdsHeader mainHeaders">Os anúncios mais recentes</h2>
         </div>
         <b-row class="adRow" v-if="!loadingAnnouncements">
-          <b-col class="adCol" xl="4" lg="4" cols="6" style="margin-bottom: 20px;" v-for="(index) in 3" :key="index" >
+          <b-col class="adCol" xl="4" lg="4" cols="6" style="margin-bottom: 20px;" v-for="(index) in (announcementsData.length > 3 ? 3 : announcementsData.length)" :key="index" >
             <router-link :to="{ name: 'anuncioEspecifico', params: { id: announcementsData[index].id }}">
               <div class="cardContainer">
                 <div class="cardImage">

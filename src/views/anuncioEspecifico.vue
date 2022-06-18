@@ -171,7 +171,7 @@ export default {
     didUserLikeThisAnnouncement () {
       let did_user_like = false
       for(const fav of this.favs) {
-        if(fav.id_utilizador_dado == this.loggedUser.id && fav.id_utilizador_recebido == this.userData.id) {
+        if(fav.id_utilizador_dado == this.loggedUser.id && fav.adID == this.$route.params.id) {
           did_user_like = true
         }
       }
@@ -182,7 +182,7 @@ export default {
       try {
         if (!this.didUserLikeThisAnnouncement()) {
           const response = await this.postAnnouncementFavs({
-            id_utilizador_recebido: this.userData.id,
+            adID: this.adID.id,
             id_utilizador_dado: this.loggedUser.id
           });
           console.log(response);
@@ -201,7 +201,7 @@ export default {
       try {
         let idx 
         for(const fav of this.favs) {
-          if(fav.id_utilizador_dado == this.loggedUser.id && fav.id_utilizador_recebido == this.userData.id) {
+          if(fav.id_utilizador_dado == this.loggedUser.id && fav.adID == this.$route.params.id) {
             idx = fav.id
           }
         }
