@@ -3,9 +3,6 @@
     <div class="generalContainer">
       <div class="left-side">
         <div class="left-side-container">
-          <div class="text">
-            <p>Associação de Estudantes</p>
-          </div>
           <div class="filter">
             <b-row class="filterRow">
               <div class="filterRectangle">
@@ -43,35 +40,33 @@
         </div>
       </div>
       <div class="center">
+        <div class="text">
+          <p>Associação de Estudantes</p>
+        </div>
         <b-row style="padding:0;">
-          <b-col xl="12" lg="12" cols="12" v-for="(ad,index) in this.ae" :key="index">
+          <b-col xl="12" lg="12" md="12" sm="12"   v-for="(ad,index) in this.ae" :key="index">
             <div class="cardContainer">
               <div class="cardContent">
                 <div class="adData">
                   <div class="profileImage">
-                    <img :src="users.find((user) => user.email == ad.email).profileImg" alt="">
+                    <img :src="usersData.find((user) => user.id == ad.utilizadorId).img" alt="">
                   </div>
                   <div class="data">
                     <div class="header_data">
-                      <h4>{{users.find((user) => user.email == ad.email).first_name + " " + users.find((user) => user.email == ad.email).last_name}}</h4>
-                      <h5>{{ad.email}}</h5>
+                      <h4>{{usersData.find((user) => user.id == ad.utilizadorId).nome + " " + usersData.find((user) => user.id == ad.utilizadorId).sobrenome}}</h4>
+                      <h5>{{usersData.find((user) => user.id == ad.utilizadorId).email}}</h5>
                     </div>
                     <div class="texto_data">
-                      <p>{{formatTimeAndDate(ad.date)}}</p>
+                      <p>{{formatTimeAndDate(ad.data)}}</p>
                     </div>
                   </div>
                 </div>
                 <div class="descricao">
-                  <p>{{ad.description}}</p>
+                  <p>{{ad.descricao}}</p>
                 </div>
                 <div class="actions">
-                  <div class="like">
-                    <span v-if="ad.likes > 0">{{ad.likes}}</span>
-                    <a v-if="favs.find((fav) => fav.topicIdx == index && fav.userEmail == loggedUser.email)" @click="removeFavourite(index)"><b-icon icon="heart-fill" style="width: 20px; height: 20px; color: green;"></b-icon></a>
-                    <a v-else @click="addFavourite(index)"><b-icon icon="heart" style="width: 20px; height: 20px;"></b-icon></a>
-                  </div>
-                  <div class="delete" v-if="ad.email == loggedUser.email">
-                    <a @click="remove(index)"><b-icon icon="trash" style="width: 20px; height: 20px;"></b-icon></a>
+                  <div class="delete" v-if="ad.utilizadorId == loggedUser.id">
+                    <a @click="removeAe(ad.id)"><b-icon icon="trash" style="width: 20px; height: 20px;"></b-icon></a>
                   </div>
                 </div>
               </div>
@@ -87,11 +82,11 @@
         </div>
         <div class="right-side-ae-container">
           <div class="form">
-            <form @submit.prevent="addTopic">
+            <form @submit.prevent="addAe">
               <div class="data">
                 <div class="description">
                   <div class="form-group">
-                    <textarea placeholder="Escreva aqui..." v-model="formDescription" class="form-control" name="" id="" rows="10"></textarea>
+                    <textarea placeholder="Escreva aqui..." v-model="form.descricao" class="form-control" name="" id="" rows="10"></textarea>
                   </div>
                 </div>
               </div>
@@ -134,68 +129,77 @@
 </template>
 
 <script>
-import {mapGetters, mapMutations} from "vuex"
+import {mapGetters, mapMutations, mapActions} from "vuex"
 
 export default {
   data() {
     return {
       ae: [],
-      users: [],
+      usersData: [],
       loggedUser: [],
-      formDescription: "",
-      favs: []
+      form: {
+        descricao: ""
+      },
+      isAe: false
     }
   },
   computed : {
-    ...mapGetters(["getUsers","getAe","getLoggedUser","getAeFavs"]),
-    isAe() {
-      if(this.$store.getters.getLoggedUser) {
-        if(this.$store.getters.getLoggedUser.role == 'ae' || this.$store.getters.getLoggedUser.role == 'admin') {
-          return true
-        }
-        else {
-          return false
-        }
-      }
-    },
+    ...mapGetters(["getLoggedUser"]),
+    
   },
   mounted () {
-    this.ae = this.getAe
-    this.users = this.getUsers
     this.loggedUser = this.getLoggedUser
-    this.favs = this.getAeFavs
+    console.log(this.loggedUser)
+    this.getAllUsers()
+    this.getAeData()
+    if(this.loggedUser.role == "Admin" || this.loggedUser.role == "Ae") {
+      this.isAe = true
+    }
   },
   methods: {
-    ...mapMutations(["SET_NEW_AE_AD", "REMOVE_AE_AD","ADD_AE_FAV", "REMOVE_AE_FAV", "INCREASE_LIKES", "DECREASE_LIKES"]),
 
-    // formatDateAndTime (date) {
-    //   let currentDay = new Date().getDate()
-    //   let currentYear = new Date().getFullYear()
-    //   let currentMonth = new Date().getMonth()
-    //   let currentDate = currentYear + "/" + currentMonth + "/" + currentDay
-    //   let currentTime = new Date().getHours() + ":" + new Date().getMinutes()
-    //   let dateDay = date.getDate()
-    //   let dateMonth = date.getMonth()
-    //   let dateYear = date.getFullYear()
+    ...mapActions(["getUsers","getAe","postAe","deleteAe"]),
 
-    //   if(currentYear == dateYear) {
-    //     if((currentMonth) == dateMonth) {
-    //       if(currentDay == dateDay) {
+    
+    async getAllUsers() {
+      try {
+        this.usersData = await this.getUsers();
+      } catch (err) {
+        this.$swal("Error!", err.message, "error");
+      }
+    },
 
-    //         return currentTime
-    //       }
-    //       else {
-    //         return currentDate
-    //       }
-    //     }
-    //     else {
-    //         return currentDate
-    //       }
-    //   }
-    //   else {
-    //         return currentDate
-    //       }
-    // },
+    async addAe() {
+      try {
+        const today = new Date()
+        const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()
+        const time = today.getHours() + ":" + today.getMinutes()
+        let ad = {
+          descricao: this.form.descricao,
+          utilizadorId: this.loggedUser.id,
+          data: time + "?" + date,
+        }
+        const response = await this.postAe(ad);
+        // this.getAnnouncementsData()
+        if (response.data.success) {
+          this.$swal('','Tópico criado com sucesso')
+          this.getAeData()
+        }
+      } catch (err) {
+        this.$swal('Erro ao criar Tópico!')
+        console.log(err)
+      }
+    },
+
+    async getAeData() {
+      try {
+        this.ae = await this.getAe();
+        console.log(this.ae)
+      } catch (err) {
+        this.$swal('Erro ao requisitar Ae')
+        console.log(err)
+      }
+    },
 
     formatTimeAndDate (timeAndDate) {
       let timeAndDateArray = timeAndDate.split("?");
@@ -209,70 +213,35 @@ export default {
       // console.log(formatedDate)
     },
 
-    aeId() {
-      if(this.ae.length > 0) {
-        return this.ae[this.ae.length-1].id + 1
-      }
-      else {
-        return 0
-      }
-    },
-    
-
-    addTopic() {
-      const today = new Date()
-      const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()
-      const time = today.getHours() + ":" + today.getMinutes()
-      const formData = {
-        id: this.aeId(),
-        email: this.loggedUser.email,
-        description: this.formDescription,
-        date: time + "?" + date,
-        likes: 0
-      }
-      this.SET_NEW_AE_AD(formData)
-    },
-    remove(i) {
-      Swal.fire({
-      title: 'Atenção!',
-      text: "Tens a certeza que queres remover este tópico?",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sim',
-      cancelButtonText: 'Não'
-      }).then((result) => {
+    async removeAe(idx) {
+      this.$swal({
+            title: "Atenção",
+            text: `Tem a certeza que prentende eliminar este tópico ?`,
+            icon: "warning",
+            confirmButtonText: 'Sim',
+            showCancelButton: true,
+            cancelButtonText: 'Não',
+            dangerMode: true,
+          }).then((result) => {
         if (result.isConfirmed) {
-          Swal.fire(
-            'Informação!',
-            'Tópico removido com sucesso!',
-            'Ok'
-          ).then(() => {
-            this.REMOVE_AE_AD(i)
-          })
+          this.$swal({
+            title: "Informação!",
+            text: `Tópico removido com sucesso!`,
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "Ok",
+          }).then(() => {
+            this.deleteAe(idx);
+            this.getAeData();
+          });
         }
-      })
-    },
-    addFavourite (i) {
-      const favData = {
-        userEmail: this.loggedUser.email,
-        id: this.favs.length > 0 ? this.favs[this.favs.length - 1] + 1 : 0,
-        topicIdx: i
-      }  
-      this.ADD_AE_FAV(favData)
-      this.INCREASE_LIKES(i)
-    },
-    removeFavourite(i) {
-      let idx = this.favs.indexOf(this.favs.find((fav) => fav.topicIdx == i))
-      this.REMOVE_AE_FAV(idx)
-      this.DECREASE_LIKES(i)
+      });
     },
   }
 }
 </script>
 
 <style scoped>
+
 .main {
   background-color: #ebebeb;
 }
@@ -280,26 +249,28 @@ export default {
   .generalContainer {
     display: flex;
     width: 100%;
+    padding-bottom: 25px;
   }
 
   .center {
     width: 100%;
-    margin-top: 83px;
+    margin-top: 25px;
   }
 
   .left-side {
     width: 400px;
     border-radius: 15px;
-    margin: 25px 25px 0 100px;
+    margin: 25px 25px 0 350px;
   }
 
   .right-side, .right-side-ae {
     width: 600px;
     border-radius: 15px;
-    margin: 108px 100px 0 25px;
+    margin: 25px 350px 0 25px;
   }
 
-  .left-side .text {
+
+  .center .text {
     background-color: var(--orange);
     padding: 1px;
     margin-bottom: 15px;
@@ -307,7 +278,7 @@ export default {
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   }
 
-  .left-side .text p {
+  .center .text p {
     font-weight: bold;
     font-size: 20px;
     margin: 18px 0;
@@ -418,6 +389,27 @@ textarea {
   text-align: left;
   font-weight: bold;
 }
+
+#nav {
+  position: fixed !important;
+  width: 100%;
+}
+
+.left-side-container {
+  height: 100%;
+}
+
+/* .left-side-container .filter {
+  height: 100%;
+}
+
+.left-side-container .filter .filterRow {
+  height: 100% !important;
+}
+
+.left-side-container .filter .filterRow .filterRectangle {
+  height: 100%;
+} */
 
 .btn-procura {
   margin-right: 5px;
@@ -658,5 +650,42 @@ a {
   bottom: 12px;
   right: 86px;
 }
+
+
+@media only screen and (max-width: 1800px) {
+  .right-side, .right-side-ae {
+    margin: 25px 250px 0 25px;
+  }
+
+  .right-side .title h3, .right-side-ae .title h3 {
+    font-size: 18px;
+  }
+
+  .left-side {
+    margin: 25px 25px 0 250px;
+  }
+}
+
+  @media only screen and (max-width: 1500px) {
+  .right-side, .right-side-ae {
+    margin: 25px 150px 0 25px;
+  }
+
+  .left-side {
+    margin: 25px 25px 0 150px;
+  }
+}
+
+  @media only screen and (max-width: 1250px) {
+  .right-side, .right-side-ae {
+    margin: 25px 50px 0 25px;
+  }
+
+  .left-side {
+    margin: 25px 25px 0 50px;
+  }
+}
+
+
 
 </style>

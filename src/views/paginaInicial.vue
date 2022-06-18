@@ -131,27 +131,27 @@
           <h2 class="text-center regularFont recentAdsHeader mainHeaders">Os anúncios mais recentes</h2>
         </div>
         <b-row class="adRow" v-if="!loadingAnnouncements">
-          <b-col class="adCol" xl="4" lg="4" cols="6" style="margin-bottom: 20px;" v-for="(index) in (announcementsData.length > 3 ? 3 : announcementsData.length)" :key="index" >
-            <router-link :to="{ name: 'anuncioEspecifico', params: { id: announcementsData[index].id }}">
+          <b-col class="adCol" xl="4" lg="4" cols="6" style="margin-bottom: 20px;" v-for="index in (announcementsData.length > 3 ? 3 : announcementsData.length)" :key="index" >
+            <router-link :to="{ name: 'anuncioEspecifico', params: { id: announcementsData[index - 1].id }}">
               <div class="cardContainer">
                 <div class="cardImage">
-                  <img :src="announcementsData[index].img" alt="">
+                  <img :src="announcementsData[index - 1].img" alt="">
                 </div>
                 <div class="cardContent">
                   <div class="adData">
                     <div class="profileImage">
-                      <img :src="users.find((user) => user.id == announcementsData[index].utilizadorId).img" alt="">
+                      <img :src="users.find((user) => user.id == announcementsData[index - 1].utilizadorId).img" alt="">
                     </div>
                     <div class="nome_curso">
-                      <h4>{{users.find((user) => user.id == announcementsData[index].utilizadorId).nome + " " + users.find((user) => user.id == announcementsData[index].utilizadorId).sobrenome}}</h4>
+                      <h4>{{users.find((user) => user.id == announcementsData[index - 1].utilizadorId).nome + " " + users.find((user) => user.id == announcementsData[index - 1].utilizadorId).sobrenome}}</h4>
                       <div class="curso">
                         <p>de&nbsp;</p>
-                        <p>{{users.find((user) => user.id == announcementsData[index].utilizadorId).course.descricao_curso}}</p>
+                        <p>{{users.find((user) => user.id == announcementsData[index - 1].utilizadorId).course.descricao_curso}}</p>
                       </div>
                     </div>
                   </div>
                   <div class="descricao">
-                    <p>{{announcementsData[index].descricao}}</p>
+                    <p>{{announcementsData[index - 1].descricao}}</p>
                   </div>
                 </div>
               </div>

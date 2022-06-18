@@ -303,7 +303,6 @@ export default new Vuex.Store({
     SET_USERS: (state, payload) => {
       state.users = payload;
     },
-
     SET_NEW_USER(state, payload) {
       state.users.push(payload);
       localStorage.users = JSON.stringify(state.users);
@@ -364,22 +363,18 @@ export default new Vuex.Store({
       state.activeAd = null;
       localStorage.removeItem("activeAd");
     },
-
     SET_UPDATE_USER(state, payload) {
       state.users.push(payload);
       localStorage.users.setItem(getLoggedUser.email, payload);
     },
-
     SET_ACTIVE_PROFILE(state, payload) {
       state.activeProfile = state.users.find((user) => user.email === payload);
       localStorage.activeProfile = JSON.stringify(state.activeProfile);
     },
-
     SET_NEW_AE_AD(state, payload) {
       state.ae.push(payload);
       localStorage.ae = JSON.stringify(state.ae);
     },
-
     ADD_COMMENT(state, payload) {
       state.avaliacoes.push(payload);
       localStorage.avaliacoes = JSON.stringify(state.avaliacoes);
@@ -407,7 +402,60 @@ export default new Vuex.Store({
     async getAnnouncements({ context, state }){
       try{
         const response = await axios.get(`http://127.0.0.1:3000/announcements`)        
-          return response.data.announcements;
+          return response.data.announcements.reverse();
+      }
+      catch(err){
+        throw Error(err.response.data.message);
+      }
+    },
+
+    async postAnnouncement({ context, state },ad){
+      try {
+        const response = await axios.post(`http://127.0.0.1:3000/announcements`, {
+          titulo: ad.titulo,
+          descricao: ad.descricao,
+          utilizadorId: ad.utilizadorId,
+          img: ad.img,
+          tipo: ad.tipo,
+          data: ad.data,
+        },{headers: {Authorization: 'Bearer ' + localStorage.token}});
+        
+        return response;
+
+      } catch (err) {
+        throw Error(err.response.data.message);
+      }
+    },
+
+    async getAe({ context, state }){
+      try{
+        const response = await axios.get(`http://127.0.0.1:3000/aeAnnouncements`)        
+          return response.data.aes.reverse();
+      }
+      catch(err){
+        throw Error(err.response.data.message);
+      }
+    },
+
+    async postAe({ context, state },ad){
+      try {
+        const response = await axios.post(`http://127.0.0.1:3000/aeAnnouncements`, {
+          descricao: ad.descricao,
+          utilizadorId: ad.utilizadorId,
+          data: ad.data,
+        },{headers: {Authorization: 'Bearer ' + localStorage.token}});
+        
+        return response;
+
+      } catch (err) {
+        throw Error(err.response.data.message);
+      }
+    },
+
+    async deleteAe({ context, state },id){
+      try{
+        const response = await axios.delete(`http://127.0.0.1:3000/aeAnnouncements/${id}`)        
+          return response;
       }
       catch(err){
         throw Error(err.response.data.message);
@@ -417,7 +465,7 @@ export default new Vuex.Store({
     async getProjects({ context, state }){
       try{
         const response = await axios.get(`http://127.0.0.1:3000/projects`)        
-          return response.data.projects;
+          return response.data.projects.reverse();
       }
       catch(err){
         throw Error(err.response.data.message);
@@ -568,24 +616,6 @@ export default new Vuex.Store({
         const response = await axios.post(`http://127.0.0.1:3000/projectImages`, {
           projetoID: image.projetoID,
           descricao: image.descricao,
-        },{headers: {Authorization: 'Bearer ' + localStorage.token}});
-        
-        return response;
-
-      } catch (err) {
-        throw Error(err.response.data.message);
-      }
-    },
-
-    async postAnnouncement({ context, state },ad){
-      try {
-        const response = await axios.post(`http://127.0.0.1:3000/announcements`, {
-          titulo: ad.titulo,
-          descricao: ad.descricao,
-          utilizadorId: ad.utilizadorId,
-          img: ad.img,
-          tipo: ad.tipo,
-          data: ad.data,
         },{headers: {Authorization: 'Bearer ' + localStorage.token}});
         
         return response;
@@ -785,8 +815,6 @@ export default new Vuex.Store({
         throw Error(err.response.data.message);
       }
     },
-
-    
 
   },
   modules: {},

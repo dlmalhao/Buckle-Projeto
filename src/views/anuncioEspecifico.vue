@@ -182,7 +182,7 @@ export default {
       try {
         if (!this.didUserLikeThisAnnouncement()) {
           const response = await this.postAnnouncementFavs({
-            adID: this.adID.id,
+            adID: this.especificAnnouncementData.id,
             id_utilizador_dado: this.loggedUser.id
           });
           console.log(response);
