@@ -235,6 +235,7 @@ export default {
   background-color: #d9534f !important;
   color: #ffffff !important;
   border: none;
+  width: 25px;
   border-radius: 4px;
 }
 
@@ -304,5 +305,6 @@ export default {
   background-color: white;
   border: none;
 }
+
 
 </style>

@@ -13,24 +13,7 @@
                   <b-col cols="2">
                     <div class="pesquisa">
                       <p>Pesquisa</p>
-                      <b-form-input type="text"></b-form-input>
-                    </div>
-                  </b-col>
-                  <b-col cols="2">
-                    <div class="ordenar">
-                      <p>Ordenar</p>
-                      <div class="form-selects">
-                        <b-form-select class="form-select cursos"></b-form-select>
-                      </div>
-                    </div>
-                  </b-col>
-                  <b-col cols="2">
-                    <div class="tipo">
-                      <p>Tipo</p>
-                      <div class="buttons">
-                        <b-button class="btn-procura" >Procura</b-button>
-                        <b-button class="btn-oferta">Oferta</b-button>
-                      </div>
+                      <b-form-input type="text" v-model="search"></b-form-input>
                     </div>
                   </b-col>
                 </div>
@@ -44,7 +27,7 @@
           <p>Associação de Estudantes</p>
         </div>
         <b-row style="padding:0;">
-          <b-col xl="12" lg="12" md="12" sm="12"   v-for="(ad,index) in this.ae" :key="index">
+          <b-col xl="12" lg="12" md="12" sm="12"   v-for="(ad,index) in filteredAds" :key="index">
             <div class="cardContainer">
               <div class="cardContent">
                 <div class="adData">
@@ -140,18 +123,27 @@ export default {
       form: {
         descricao: ""
       },
-      isAe: false
+      isAe: false,
+      search: ""
     }
   },
   computed : {
     ...mapGetters(["getLoggedUser"]),
+
+    filteredAds () {
+
+      let filterAds = this.ae.slice(0)
+
+      if(this.search != "") {
+        filterAds = filterAds.filter((ad)=> ad.descricao.toLowerCase().replace(/\s/g, '').includes(this.search.toLowerCase().replace(/\s/g, '')) || this.usersData.find((user) => user.id == ad.utilizadorId).nome.toLowerCase().includes(this.search.toLowerCase().replace(/\s/g, '')) || this.usersData.find((user) => user.id == ad.utilizadorId).sobrenome.toLowerCase().includes(this.search.toLowerCase().replace(/\s/g, '')) )
+      }
+      return filterAds
+    }
     
   },
   mounted () {
     this.loggedUser = this.getLoggedUser
     console.log(this.loggedUser)
-    this.getAllUsers()
-    this.getAeData()
     if(this.loggedUser.role == "Admin" || this.loggedUser.role == "Ae") {
       this.isAe = true
     }
@@ -169,6 +161,7 @@ export default {
         this.$swal("Error!", err.message, "error");
       }
     },
+
 
     async addAe() {
       try {
@@ -367,6 +360,10 @@ textarea {
 
 .filterRectangle > div > .col-2 {
   width: 100%;
+}
+
+.filterRectangle {
+  height: 200px;
 }
 
 .filterRectangle .tipo .buttons .btn {

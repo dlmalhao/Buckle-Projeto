@@ -196,8 +196,6 @@ export default {
   },
 
   mounted () {
-    this.getUsersData()
-    this.getProjectImagesData()
     if(this.getLoggedUser) {
       this.loggedUser = this.getLoggedUser
     }

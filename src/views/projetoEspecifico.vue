@@ -168,8 +168,6 @@ export default {
     ...mapGetters(["getLoggedUser"]),
   },
   created() {
-    this.getUsersData();
-    this.getProjectFavsData();
     if (this.getLoggedUser) {
       this.loggedUser = this.getLoggedUser;
     }
@@ -177,6 +175,7 @@ export default {
 
   mounted() {
     this.getCommentsProjectById();
+    this.loadingSpinner()
   },
   methods: {
     ...mapActions([
@@ -200,7 +199,7 @@ export default {
         this.users = await this.getUsers();
         this.loadingUser = false;
         this.getProjectsData();
-        this.getDataEspecificProject();
+        await this.getDataEspecificProject();
         this.getProjectImagesData();
       } catch (err) {
         this.$swal("Erro ao requisitar utilizadores");
@@ -215,6 +214,17 @@ export default {
         this.$swal("Erro ao requisitar projetos");
         console.log(err);
       }
+    },
+
+    async loadingSpinner() {
+
+      this.$vs.loading ({color:'#F17941'})
+      await this.getDataEspecificProject()
+      await this.getProjectFavsData()
+
+      setTimeout( ()=> {
+        this.$vs.loading.close()
+      }, 300);
     },
 
     async getDataEspecificProject() {

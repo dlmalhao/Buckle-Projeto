@@ -194,11 +194,11 @@ export default {
   border: #fff !important;
   color: var(--black) !important;
   font-weight: bold !important;
-  width: 30%;
+  width: 90px;
 }
 
 .login-btn {
-  width: 30% !important;
+  width: 90px !important;
 }
 
 .register-btn:hover {

@@ -453,7 +453,6 @@
       <div class="generalContainerOtherPerson">
         <header class="headBg">
           <div class="intro-body">
-            <b-container>
               <b-row>
                 <b-col col mx="auto" class="headerTexto">
                   <img class="image1" :src="userData.bgImg" />
@@ -471,7 +470,6 @@
                   </div>
                 </b-col>
               </b-row>
-            </b-container>
           </div>
         </header>
         <div class="profileButtonsPanel">
@@ -560,54 +558,118 @@
         </div>
 
         <!--Falta a página anúncios  -->
-        <div v-if="selectorOtherPerson == 'anunciosOtherPerson'">
-          <div class="adsContainer PerfilOtherPerson">
-            <div class="row">
-              <div
-                class="Card col-md-4"
-                v-for="(ad, index) in getAds"
+        <div v-if="selectorOtherPerson == 'anunciosOtherPerson'" class="adsContainerOtherProfile">
+          <section>
+            <b-row style="padding: 0" class="projects-row">
+              <b-col
+                cols="6"
+                lg="4"
+                xl="4"
+                style="margin-bottom: 20px"
+                class="cardContainer"
+                v-for="(ad, index) in getOwnAds2"
                 :key="index"
               >
-                <div
-                  class="card text-center"
-                  v-if="getActiveProfile.email == ad.email"
-                >
-                  <div class="backgroundAnuncios">
-                    <img
-                      :src="getActiveProfile.imgBg"
-                      alt=""
-                      class="backgroundAnuncio"
-                    />
-                  </div>
-                  <div class="imagemAnuncios">
-                    <img
-                      :src="getActiveProfile.profileImg"
-                      class="imgAnuncio col-md-3"
-                    />
-                    <div class="nome curso container">
-                      <h4>
-                        {{ getActiveProfile.first_name }}
-                        {{ getActiveProfile.last_name }}
-                        <h5>de {{ getActiveProfile.course }}</h5>
-                      </h4>
-                      <p>{{ ad.description }}</p>
-                    </div>
+                <div>
+                  <div class="buttonRemove">
+                    <b-button @click="deleteOneAd(ad.id)">
+                      <b-icon icon="trash"></b-icon>
+                    </b-button>
                   </div>
                   <router-link
-                    :to="{ name: 'anuncioEspecifico', params: { id: ad.id } }"
+                    :to="{
+                      name: 'anuncioEspecifico',
+                      params: { id: ad.id },
+                    }"
                   >
-                    <button
-                      class="btn btn-warning"
-                      @click="editSelectAd(ad.id)"
-                    >
-                      Ver Anúncio
-                    </button>
+                    <div class="cardImage">
+                      <img :src="ad.img" class="imageBox" />
+                    </div>
+                    <div class="cardContent">
+                      <div class="adData">
+                        <div class="profileImage">
+                          <img
+                            :src="userData.img"
+                            class="imageBox"
+                          />
+                        </div>
+                        <div class="nome_curso">
+                          <h4>
+                            {{ userData.nome }}
+                            {{ userData.sobrenome }}
+                          </h4>
+                          <div class="curso">
+                            <p>de&nbsp;</p>
+                            <p>{{ loggedCourse }}</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="descricao">
+                        <p>{{ ad.descricao }}</p>
+                      </div>
+                    </div>
                   </router-link>
                 </div>
-              </div>
-              <!-- </div> -->
-            </div>
-          </div>
+              </b-col>
+            </b-row>
+          </section>
+        </div>
+
+
+        <div v-if="selectorOtherPerson == 'projetosOtherPerson'">
+          <section class="container">
+            <b-row style="padding: 0" class="projects-row">
+              <b-col
+                cols="6"
+                lg="4"
+                style="margin-bottom: 20px"
+                class="cardContainer"
+                v-for="(project, index) in getOwnProjects2"
+                :key="index"
+              >
+                <div>
+                  <div class="buttonRemove">
+                    <b-button @click="deleteOneProject(project.id)">
+                      <b-icon icon="trash"></b-icon>
+                    </b-button>
+                  </div>
+                  <router-link
+                    :to="{
+                      name: 'anuncioEspecifico',
+                      params: { id: project.id },
+                    }"
+                  >
+                    <div class="cardImage">
+                      <img :src="project.img" class="imageBox" />
+                    </div>
+                    <div class="cardContent">
+                      <div class="adData">
+                        <div class="profileImage">
+                          <img
+                            :src="userData.img"
+                            class="imageBox"
+                          />
+                        </div>
+                        <div class="nome_curso">
+                          <h4>
+                            {{ userData.nome }}
+                            {{ userData.sobrenome }}
+                          </h4>
+                          <div class="curso">
+                            <p>de&nbsp;</p>
+                            <p>{{ loggedCourse }}</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="descricao">
+                        <p>{{ project.descricao }}</p>
+                      </div>
+                    </div>
+                  </router-link>
+                </div>
+              </b-col>
+            </b-row>
+          </section>
         </div>
 
         <div v-if="selectorOtherPerson == 'avaliacoesOtherPerson'">
@@ -642,7 +704,6 @@
             <div class="row">
               <div class="col-md-1"></div>
               <div class="col-md-10">
-                <h4>Diogo</h4>
                 <div class="containerAvaliacoes">
                   <div class="containerEsquerdo">
                     <img
@@ -780,17 +841,6 @@ export default {
   },
 
   mounted() {
-    this.getDataUser();
-    this.getCommentsProfile();
-    this.getChatsProfile();
-    this.getMessagesProfile();
-    this.getCoursesData();
-    this.getAnnouncementsData();
-    this.getProjectsData();
-    this.getProjectImagesData()
-    this.getAnnouncementFavsData()
-    this.getProjectFavsData()
-    this.getProjectFavs()
     this.loadingSpinner()
 
   },
@@ -1107,6 +1157,7 @@ export default {
             this.commentsLoggedProfile.push(comment);
           }
         }
+        console.log(this.commentsLoggedProfile)
       } catch (err) {
         this.$swal("Error!", err.message, "error");
       }
@@ -1311,6 +1362,7 @@ export default {
   width: 200px;
   height: 200px;
   border-radius: 200px;
+  object-fit: cover;
 }
 
 .headerData {
@@ -1334,13 +1386,22 @@ export default {
 }
 
 .generalContainerOtherPerson .headBg {
-  padding-top: 15px;
+  margin: 0 180px;
+}
+
+.generalContainerOtherPerson .row {
+  width: 100%;
+  background-color: white;
+  border-radius: 5px;
+  margin: 0;
+  margin-bottom: 25px;
 }
 
 .profileButtonsPanel {
   width: 100%;
   position: relative;
   bottom: 30px;
+  padding: 0;
   padding: 0 180px;
 }
 
@@ -1351,6 +1412,9 @@ export default {
 
 .dadosProfileOtherPerson .left {
   width: 50%;
+  background-color: #f3f3f3;
+  margin: 20px 0 15px 0 ;
+  padding: 15px;
 }
 
 .dadosProfileOtherPerson .containerTexto {
@@ -1498,7 +1562,8 @@ export default {
 }
 
 .avaliacoes.ContainerOtherPerson {
-  padding: 0 180px;
+  padding: 0 ;
+  margin: 0 300px;
 }
 
 .col-md-3.avaliacaoContainer {
@@ -1526,15 +1591,31 @@ export default {
 
 .containerAvaliacoes {
   display: flex;
-  border: 1px solid;
+  background-color: white;
+  padding: 10px;
   border-radius: 20px;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .containerEsquerdo {
   display: flex;
   align-items: flex-start;
-  width: 50%;
+  width: 300px;
+  height: 300px;
+  margin-left: 5vh;
 }
+
+.cursoeOpiniao {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.cursoeOpiniao label {
+  text-align: start;
+}
+
 .avaliacaoImg {
   width: 100%;
   border-radius: 20px;
@@ -1547,14 +1628,18 @@ export default {
   display: flex;
   flex-direction: column;
   margin-top: 5vh;
-  margin-left: 3vh;
-  width: 50%;
+  padding: 0 50px;
+  width: 70%;
   margin-bottom: 5vh;
 }
 
 .nomeeAvaliacao {
   text-align: left;
-  width: 90%;
+  width: 100%;
+}
+
+.adsContainerOtherProfile {
+  margin: 0 180px;
 }
 
 .camposAvaliacao {
@@ -1562,7 +1647,7 @@ export default {
 }
 
 .btn.btn-warning.enviarAvaliacao {
-  width: 90%;
+  width: 100%;
   font-weight: bold;
 }
 
@@ -2058,6 +2143,10 @@ export default {
   color: var(--orange);
 }
 
+.cardContainer {
+  margin-right: 10px;
+}
+
 a {
   text-decoration: none;
 }
@@ -2139,6 +2228,8 @@ h4 {
 .projects-row {
   width: 100%;
 }
+
+
 
 .addAnnouncement {
   display: flex;
@@ -2321,6 +2412,7 @@ h4 {
   background-color: #d9534f !important;
   color: #ffffff !important;
   border: none;
+  width: 50px !important;
   border-radius: 4px;
 }
 
@@ -2442,4 +2534,27 @@ h4 {
 .buttonRemove button:hover {
   background-color: var(--black) !important;
 }
+
+
+@media only screen and (max-width: 1250px) {
+  .generalContainerOtherPerson .headBg {
+    margin: 0 75px;
+  }
+
+  .adsContainerOtherProfile {
+    margin: 0 75px;
+  }
+
+  .dadosProfileOtherPerson {
+    margin: 0 75px;
+  }
+  .adsContainer.PerfilOtherPerson {
+    padding: 0 75px;
+  }
+  .profileButtonsPanel {
+    padding: 0 75px;
+  }
+}
+
+
 </style>

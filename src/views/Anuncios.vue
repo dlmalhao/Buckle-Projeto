@@ -227,9 +227,6 @@ export default {
   },
 
   mounted () {
-    this.getUsersData()
-    this.getAnnouncementsData()
-    this.getCoursesData()
     if(this.getLoggedUser) {
       this.loggedUser = this.getLoggedUser
     }

@@ -84,11 +84,10 @@ export default {
     ...mapGetters(["getLoggedUser"]),
   },
   mounted () {
-    this.getDataEspecificAnnouncement()
-    this.getAnnouncementFavsData()
     if(this.getLoggedUser) {
       this.loggedUser = this.getLoggedUser
     }
+    this.loadingSpinner()
   },
   // created() {
   //   this.adEspecific = this.getAdSpecific(this.$route.params.id)
@@ -129,11 +128,22 @@ export default {
       try {
         this.especificAnnouncementData = await this.getEspecificAnnouncement(this.$route.params.id);
         console.log(this.especificAnnouncementData)
-        this.getDataUser()
+        await this.getDataUser()
       } catch (err) {
          this.$swal('Erro ao requisitar Anuncio Especifico')
          console.log(err)
       }
+    },
+
+    async loadingSpinner() {
+
+      this.$vs.loading ({color:'#F17941'})
+      await this.getDataEspecificAnnouncement()
+      await this.getAnnouncementFavsData()
+
+      setTimeout( ()=> {
+        this.$vs.loading.close()
+      }, 300);
     },
 
     async getDataUser() {

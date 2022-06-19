@@ -129,7 +129,19 @@
 
 <script>
     export default {
-        
+        mounted() {
+            this.loadingSpinner()
+        },
+
+        methods: {
+            loadingSpinner () {
+                this.$vs.loading ({color:'#F17941'})
+
+                setTimeout( ()=> {
+                  this.$vs.loading.close()
+                },1000);
+            },
+        }
     }
 </script>
 

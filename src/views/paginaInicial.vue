@@ -225,10 +225,6 @@ export default {
   //   ...mapGetters(["getUsers","getAds", "getProjects"]),
   // },
   created () {
-    this.getProjectsData()
-    this.getUsersData()
-    this.getAnnouncementsData()
-    this.getCoursesData()
     this.loadingSpinner()
   },
   methods : {

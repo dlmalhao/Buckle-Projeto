@@ -226,11 +226,11 @@ button:hover {
   border: #fff !important;
   color: var(--black) !important;
   font-weight: bold !important;
-  width: 30%;
+  width: 90px;
 }
 
 .register-btn2 {
-  width: 30%;
+  width: 90px;
 }
 
 .login-btn2:hover {
@@ -284,7 +284,7 @@ button:hover {
 }
 
 .forgot-password {
-  margin-top: 15px !important;
+  margin-top: 30px !important;
 }
 
 .forgot-password > a {
