@@ -175,7 +175,7 @@
                                 <h3>Anúncios</h3>
                               </div>
                               <div class="description">
-                                <h3>3</h3>
+                                <h3>{{getOwnAds.length}}</h3>
                               </div>
                             </div>
                           </div>
@@ -183,10 +183,10 @@
                             <b-icon icon="filter-square-fill"></b-icon>
                             <div class="containerTexto">
                               <div class="title">
-                                <h3>Anúncios</h3>
+                                <h3>Projetos</h3>
                               </div>
                               <div class="description">
-                                <h3>3</h3>
+                                <h3>{{getOwnProjects.length}}</h3>
                               </div>
                             </div>
                           </div>
@@ -194,10 +194,10 @@
                             <b-icon icon="heart-fill"></b-icon>
                             <div class="containerTexto">
                               <div class="title">
-                                <h3>Anúncios</h3>
+                                <h3>Gostos</h3>
                               </div>
                               <div class="description">
-                                <h3>3</h3>
+                                <h3 v-if="!loadingOwnProjects">{{getNumberOfLikes()}}</h3>
                               </div>
                             </div>
                           </div>
@@ -209,15 +209,28 @@
                 <b-tab title="Anúncios" class="projects-tab">
                   <section>
                     <b-row style="padding: 0" class="projects-row">
-                      <b-col cols="6" lg="4" style="margin-bottom: 20px" class="cardContainer" v-for="(ad, index) in getOwnAds"
-                            :key="index">
-                        <router-link :to="{ name: 'anuncioEspecifico', params: { id: ad.id }}">
-                          <div >
-                            <div class="cardImage" >
-                              <img
-                                :src="ad.img"
-                                class="imageBox"
-                              />
+                      <b-col
+                        cols="6"
+                        lg="4"
+                        style="margin-bottom: 20px"
+                        class="cardContainer"
+                        v-for="(ad, index) in getOwnAds"
+                        :key="index"
+                      >
+                        <div>
+                          <div class="buttonRemove">
+                            <b-button @click="deleteOneAd(ad.id)">
+                              <b-icon icon="trash"></b-icon>
+                            </b-button>
+                          </div>
+                          <router-link
+                            :to="{
+                              name: 'anuncioEspecifico',
+                              params: { id: ad.id },
+                            }"
+                          >
+                            <div class="cardImage">
+                              <img :src="ad.img" class="imageBox" />
                             </div>
                             <div class="cardContent">
                               <div class="adData">
@@ -228,19 +241,22 @@
                                   />
                                 </div>
                                 <div class="nome_curso">
-                                  <h4>{{getLoggedUser.nome}} {{ getLoggedUser.sobrenome }}</h4>
+                                  <h4>
+                                    {{ getLoggedUser.nome }}
+                                    {{ getLoggedUser.sobrenome }}
+                                  </h4>
                                   <div class="curso">
                                     <p>de&nbsp;</p>
-                                    <p>{{loggedCourse}}</p>
+                                    <p>{{ loggedCourse }}</p>
                                   </div>
                                 </div>
                               </div>
                               <div class="descricao">
-                                <p>{{ad.descricao}}</p>
+                                <p>{{ ad.descricao }}</p>
                               </div>
                             </div>
-                          </div>
-                        </router-link>
+                          </router-link>
+                        </div>
                       </b-col>
                     </b-row>
                   </section>
@@ -248,14 +264,36 @@
 
                 <b-tab title="Projetos" class="projects-tab">
                   <section>
-
                     <b-row style="padding: 0" class="projects-row">
-                      <b-col cols="6" lg="4" style="margin-bottom: 20px" class="cardContainer" v-for="(project, index) in getOwnProjects" :key="index">
-                        <router-link :to="{ name: 'projetoEspecifico', params: { id: project.id }}">
-                          <div >
-                            <div class="cardImage" >
-                             <img v-if="!loadingImagensProjetos"
-                                :src="allProjectImages.filter((image) => image.projetoID == project.id)[0].descricao"
+                      <b-col
+                        cols="6"
+                        lg="4"
+                        style="margin-bottom: 20px"
+                        class="cardContainer"
+                        v-for="(project, index) in getOwnProjects"
+                        :key="index"
+                      >
+                      <div>
+                        <div class="buttonRemove">
+                            <b-button @click="deleteOneProject(project.id)">
+                              <b-icon icon="trash"></b-icon>
+                            </b-button>
+                          </div>
+                        <router-link
+                          :to="{
+                            name: 'projetoEspecifico',
+                            params: { id: project.id },
+                          }"
+                        >
+                          
+                            <div class="cardImage">
+                              <img
+                                v-if="!loadingImagensProjetos"
+                                :src="
+                                  allProjectImages.filter(
+                                    (image) => image.projetoID == project.id
+                                  )[0].descricao
+                                "
                                 class="imageBox"
                               />
                             </div>
@@ -268,19 +306,22 @@
                                   />
                                 </div>
                                 <div class="nome_curso">
-                                  <h4>{{getLoggedUser.nome}} {{ getLoggedUser.sobrenome }}</h4>
+                                  <h4>
+                                    {{ getLoggedUser.nome }}
+                                    {{ getLoggedUser.sobrenome }}
+                                  </h4>
                                   <div class="curso">
                                     <p>de&nbsp;</p>
-                                    <p>{{loggedCourse}}</p>
+                                    <p>{{ loggedCourse }}</p>
                                   </div>
                                 </div>
                               </div>
                               <div class="descricao">
-                                <p>{{project.descricao}}</p>
+                                <p>{{ project.descricao }}</p>
                               </div>
                             </div>
-                          </div>
-                        </router-link>
+                            </router-link>
+                          </div> 
                       </b-col>
                     </b-row>
                   </section>
@@ -417,14 +458,16 @@
                 <b-col col mx="auto" class="headerTexto">
                   <img class="image1" :src="userData.bgImg" />
                   <img class="image2" :src="userData.img" />
-                  <div class="headerData">
-                    <h1 class="headerName">
-                      {{ userData.nome }}
-                      {{ userData.sobrenome }}
-                    </h1>
-                    <p style="text-transform: capitalize">
-                      {{ userData.course }}
-                    </p>
+                  <div class="containerHeader">
+                    <div class="headerData">
+                      <h1 class="headerName">
+                        {{ userData.nome }}
+                        {{ userData.sobrenome }}
+                      </h1>
+                      <p style="text-transform: capitalize" v-if="!loadingCourses">
+                        {{ userData.course }}
+                      </p>
+                    </div>
                   </div>
                 </b-col>
               </b-row>
@@ -460,35 +503,60 @@
             </b-card>
           </div>
         </div>
-        <div
-          v-if="selectorOtherPerson == 'dadosPerfilOtherPerson'"
-          class="dadosProfileOtherPerson"
-        >
-          <div>
-            <b-button class="addNewChat" @click="goToChat"
-              >Enviar Mensagem</b-button
-            >
+        <div v-if="selectorOtherPerson == 'dadosPerfilOtherPerson'" class="dadosProfileOtherPerson">
+          <div class="left">
+            <div class="enviarMensagem">
+              <b-button class="addNewChat" @click="goToChat">Enviar Mensagem</b-button
+              >
+            </div>
+            <!-- Atualizar Descrição -->
+            <div class="descricao">
+              <h4>Descrição</h4>
+              <p v-if="userData.descricao != ''">{{ userData.descricao }}</p>
+              <p v-else>Este utilizador ainda não tem uma descrição</p>
+            </div>
+
+            <div class="contacto">
+              <h4>Contacto</h4>
+              <p>{{ userData.email_utilizador }}</p>
+              <br />
+            </div>
           </div>
-          <!-- Atualizar Descrição -->
-          <h4>Descrição</h4>
-          <p v-if="userData.nome != ''">
-            {{ userData.nome }}
-          </p>
-          <p v-else>Este utilizador ainda não tem uma descrição</p>
-          <h4>Contacto</h4>
-          <p>{{ userData.email_utilizador }}</p>
-          <br />
-
-          <h4>Anúncios criados</h4>
-          <p>1 ofertas, 1 procuras</p>
-          <br />
-
-          <h4>Projetos criados</h4>
-          <p>1 projeto</p>
-          <br />
-
-          <h4>Colaborações em projetos</h4>
-          <p>1 colaboração</p>
+          <div class="right">
+            <div class="container1">
+              <b-icon icon="journal-bookmark-fill"></b-icon>
+              <div class="containerTexto">
+                <div class="title">
+                  <h3>Anúncios</h3>
+                </div>
+                <div class="description">
+                  <h3>{{getOwnAds2.length}}</h3>
+                </div>
+              </div>
+            </div>
+            <div class="container2">
+              <b-icon icon="filter-square-fill"></b-icon>
+              <div class="containerTexto">
+                <div class="title">
+                  <h3>Projetos</h3>
+                </div>
+                <div class="description">
+                  <h3>{{getOwnProjects2.length}}</h3>
+                </div>
+              </div>
+            </div>
+            <div class="container3">
+              <b-icon icon="heart-fill"></b-icon>
+              <div class="containerTexto">
+                <div class="title">
+                  <h3>Gostos</h3>
+                </div>
+                <div class="description">
+                  <h3 v-if="!loadingOwnProjects">{{getNumberOfLikes2()}}</h3>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!--Falta a página anúncios  -->
@@ -698,10 +766,16 @@ export default {
       loggedCourse: "",
       announcementsData:[],
       getOwnAds : [],
+      getOwnAds2 : [],
       projectsData:[],
       getOwnProjects : [],
+      getOwnProjects2 : [],
       allProjectImages: [],
       loadingImagensProjetos: false,
+      projectFavs: [],
+      announcementFavs: [],
+      loadingOwnProjects: true,
+      loadingCourses: true
     };
   },
 
@@ -714,6 +788,9 @@ export default {
     this.getAnnouncementsData();
     this.getProjectsData();
     this.getProjectImagesData()
+    this.getAnnouncementFavsData()
+    this.getProjectFavsData()
+    this.getProjectFavs()
   },
   computed: {
     ...mapGetters(["getLoggedUser"]),
@@ -731,7 +808,11 @@ export default {
       "getCourses",
       "getAnnouncements",
       "getProjects",
-      "getProjectImages"
+      "getProjectImages",
+      "getAnnouncementFavs",
+      "getProjectFavs",
+      "deleteAnnouncement",
+      "deleteProject",
     ]),
 
     async getAnnouncementsData() {
@@ -740,6 +821,9 @@ export default {
         for (const announcement of this.announcementsData) {
           if(announcement.utilizadorId == this.getLoggedUser.id){
             this.getOwnAds.push(announcement)
+          }
+          if(announcement.utilizadorId == this.userData.id){
+            this.getOwnAds2.push(announcement)
           }
         }
       } catch (err) {
@@ -750,16 +834,114 @@ export default {
 
     async getProjectsData() {
       try {
+        this.loadingOwnProjects = true
         this.projectsData = await this.getProjects();
-        console.log(this.projectsData);
         for (const project of this.projectsData) {
           if(project.utilizadorId == this.getLoggedUser.id){
             this.getOwnProjects.push(project)
           }
+          if(project.utilizadorId == this.userData.id){
+            this.getOwnProjects2.push(project)
+          }
         }
+        this.loadingOwnProjects = false
       } catch (err) {
         this.$swal('Erro ao requisitar projetos')
         console.log(err)
+      }
+    },
+
+    async deleteOneAd(idx) {
+      this.$swal({
+        title: "Atenção",
+        text: `Tem a certeza que prentende eliminar o anúncio com id = ${idx}?`,
+        icon: "warning",
+        confirmButtonText: "Sim",
+        showCancelButton: true,
+        cancelButtonText: "Não",
+        dangerMode: true,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.$swal({
+            title: "Informação!",
+            text: `Anúncio com id ${idx} removido com sucesso!`,
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "Ok",
+          }).then(() => {
+            this.deleteAnnouncement({
+              id: idx,
+            });
+            window.location.reload();
+          });
+        }
+      });
+    },
+
+    async deleteOneProject(idx) {
+      this.$swal({
+        title: "Atenção",
+        text: `Tem a certeza que prentende eliminar o projeto com id = ${idx}?`,
+        icon: "warning",
+        confirmButtonText: "Sim",
+        showCancelButton: true,
+        cancelButtonText: "Não",
+        dangerMode: true,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.$swal({
+            title: "Informação!",
+            text: `Projeto com id ${idx} removido com sucesso!`,
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "Ok",
+          }).then(() => {
+            this.deleteProject({
+              id: idx,
+            });
+            window.location.reload();
+          });
+        }
+      });
+    },
+
+    getNumberOfLikes () {
+      let count = 0
+      for(const fav of this.projectFavs) {
+        for(const project of this.getOwnProjects) {
+          if(fav.projectID == project.id) {
+            count += 1
+          }
+        }
+      }
+      return count
+    },
+
+    getNumberOfLikes2 () {
+      let count = 0
+      for(const fav of this.projectFavs) {
+        for(const project of this.getOwnProjects2) {
+          if(fav.projectID == project.id) {
+            count += 1
+          }
+        }
+      }
+      return count
+    },
+
+    async getAnnouncementFavsData() {
+      try {
+        this.announcementFavs = await this.getAnnouncementFavs();
+      } catch (err) {
+        this.$swal('Erro ao requisitar favoritos')
+        console.log(err)
+      }
+    },
+
+    async getProjectFavsData() {
+      try {
+        this.projectFavs = await this.getProjectFavs();
+      } catch (err) {
+        this.$swal("Erro ao requisitar favoritos");
+        console.log(err);
       }
     },
 
@@ -777,9 +959,11 @@ export default {
 
     async getDataUser() {
       try {
+        this.loadingCourses = true
         this.userData = await this.getUser(this.$route.params.id);
         this.editUser = this.userData;
         this.courses = await this.getCourses();
+        this.loadingCourses = false
         console.log(this.userData);
         for (const course of this.courses) {
           if (this.userData.courseId == course.id) {
@@ -1075,9 +1259,7 @@ export default {
 <style scoped>
 /* Código da antiga página de perfil */
 
-.generalContainerOtherPerson {
-  margin: 2vh;
-}
+
 
 .headBg {
   position: relative;
@@ -1093,7 +1275,7 @@ export default {
   position: relative;
   top: 0;
   left: 0;
-  height: 507px;
+  height: 410px;
   width: 100%;
   object-fit: cover;
   filter: brightness(0.5);
@@ -1111,16 +1293,26 @@ export default {
 
 .headerData {
   position: absolute;
-  left: 50%;
-  top: 85%;
-  transform: translate(-50%, -50%);
-  width: 200px;
-  height: 200px;
-  border-radius: 200px;
+  bottom: 50px;
+}
+
+.generalContainerOtherPerson {
+  background-color: #f3f3f3;
 }
 
 .headerName {
   font-weight: bold;
+  font-size: 24px;
+}
+
+.generalContainerOtherPerson .containerHeader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.generalContainerOtherPerson .headBg {
+  padding-top: 15px;
 }
 
 .profileButtonsPanel {
@@ -1130,22 +1322,55 @@ export default {
   padding: 0 180px;
 }
 
+.enviarMensagem {
+  display: flex;
+  align-items: flex-start;
+}
+
+.dadosProfileOtherPerson .left {
+  width: 50%;
+}
+
+.dadosProfileOtherPerson .containerTexto {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .profileButtonsPanel > div {
   background-color: white;
   width: 100%;
   height: 100%;
-  
-  border-radius: 10px;
+  border-radius: 5px;
   display: flex;
   justify-content: center;
 }
 
 .dadosProfileOtherPerson {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0 180px;
+  margin: 0 180px;
   text-align: left;
+  background-color: white;
+  border-radius: 5px;
+  padding: 50px;
+  margin-bottom: 25px !important;
+}
+
+.dadosProfileOtherPerson h4{
+  font-weight: bold;
+  font-size: 15px;
+  margin: 0;
+}
+
+.dadosProfileOtherPerson .descricao {
+  margin: 0;
+  margin-top: 50px;
+}
+
+.dadosProfileOtherPerson p {
+  font-size: 15px;
+  margin: 0;
+  color: rgb(131, 131, 131);
 }
 
 .adsContainer.PerfilOtherPerson {
@@ -1493,7 +1718,6 @@ export default {
   display: flex;
   margin: 15px 0;
   align-items: center;
-
 }
 
 .main {
@@ -1991,6 +2215,7 @@ h4 {
   height: 100%;
   width: 100%;
   display: flex;
+  flex-direction: column;
   align-items: flex-end;
   border: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
@@ -2096,8 +2321,6 @@ h4 {
 .addNewChat {
   background-color: var(--orange) !important;
   border-color: var(--orange) !important;
-  margin-top: 2vh !important;
-  margin-bottom: 2vh !important;
 }
 
 .content {
@@ -2167,5 +2390,34 @@ h4 {
 }
 .message input {
   border: none !important;
+}
+
+
+.cardContainer .buttonRemove button {
+  opacity: 0;
+  border: none !important;
+  background-color: #d9534f;
+  position: absolute;
+  border-radius: 50% !important;
+  margin: 5px 5px 0 0;
+}
+.buttonRemove {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  position: relative;
+  z-index: 2;
+}
+
+.cardContainer:hover .buttonRemove button {
+  opacity: 1;
+}
+.cardContainer .buttonRemove button svg {
+  height: 16px;
+  width: 16px;
+}
+
+.buttonRemove button:hover {
+  background-color: var(--black) !important;
 }
 </style>

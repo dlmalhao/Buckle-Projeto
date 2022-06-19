@@ -206,11 +206,6 @@ export default {
       let unformattedDate = timeAndDateArray[1].split("-")
       let formattedDate = unformattedDate[2] + "/" + unformattedDate[1]+ "/" + unformattedDate[0]
       return formattedDate + " " + "-" + " " + timeAndDateArray[0];
-      // let date = timeAndDateArray[1]
-      // console.log(date)
-      // let DateArray = date.split("-")
-      // let formatedDate = DateArray[2] + "-" + DateArray[1] + "-" + DateArray[0]
-      // console.log(formatedDate)
     },
 
     async removeAe(idx) {

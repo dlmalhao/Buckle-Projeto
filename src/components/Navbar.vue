@@ -70,6 +70,7 @@
             >
             <b-dropdown-item
               id="dropdown-admin-projetos"
+              @click="$router.push({ name: 'Gestão de projetos' })"
               v-if="this.$store.getters.getLoggedUser.role == 'Admin'"
               href="#"
               >Gestão Projetos</b-dropdown-item

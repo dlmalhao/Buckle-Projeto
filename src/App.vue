@@ -300,4 +300,9 @@ export default {
   display: flex;
 }
 
+.generalContainerOtherPerson .card-header {
+  background-color: white;
+  border: none;
+}
+
 </style>

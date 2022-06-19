@@ -488,6 +488,66 @@ export default new Vuex.Store({
       }
     },
 
+    async deleteAnnouncement({ context, state }, ad) {
+      try {
+        const response = await axios.delete(`http://127.0.0.1:3000/announcements/${ad.id}`, 
+          {headers: {Authorization: 'Bearer ' + localStorage.token}});
+        
+        return response.data.ad;
+
+      } catch (err) {
+        throw Error(err.response.data.message);
+      }
+    },
+
+    async deleteProject({ context, state }, project) {
+      try {
+        const response = await axios.delete(`http://127.0.0.1:3000/projects/${project.id}`, 
+          {headers: {Authorization: 'Bearer ' + localStorage.token}});
+        
+        return response.data.project;
+
+      } catch (err) {
+        throw Error(err.response.data.message);
+      }
+    },
+
+    async editAdInfoAdmin({ context, state }, ad) {
+      try {
+        const response = await axios.put(`http://127.0.0.1:3000/announcements/${ad.id}`, {
+          titulo: ad.titulo,
+          descricao: ad.descricao,
+          utilizadorId: ad.utilizadorId,
+          img: ad.img,
+          tipo: ad.tipo,
+          data: ad.data,
+        }, {headers: {Authorization: 'Bearer ' + localStorage.token}});
+        
+        return response;
+
+      } catch (err) {
+        throw Error(err.response.data.message);
+      }
+    },
+
+    async editProjectInfoAdmin({ context, state }, project) {
+      try {
+        const response = await axios.put(`http://127.0.0.1:3000/projects/${project.id}`, {
+          titulo: project.titulo,
+          descricao: project.descricao,
+          utilizadorId: project.utilizadorId,
+          // img: ad.img,
+          data: project.data,
+        }, {headers: {Authorization: 'Bearer ' + localStorage.token}});
+        
+        return response;
+
+      } catch (err) {
+        throw Error(err.response.data.message);
+      }
+    },
+
+
     async getUsers({ context, state }){
       try{
         const response = await axios.get(`http://127.0.0.1:3000/users`)        

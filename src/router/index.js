@@ -7,6 +7,7 @@ import login from '../views/login.vue'
 import registo from '../views/registo.vue'
 import gestaoUtilizadores from '../views/adminUsers.vue'
 import gestaoAnuncios from '../views/adminAds.vue'
+import gestaoProjetos from '../views/adminProjects.vue'
 import store from '../store/index.js'
 import perfil from '../views/perfil2.vue'
 import sobre from '../views/sobre.vue'
@@ -79,6 +80,15 @@ const routes = [
     path: '/admin/anuncios',
     name: 'Gestão de anuncios',
     component: gestaoAnuncios,
+    meta: {
+      requiresAuth: true,
+      requiresAdmin: true
+    },
+  },
+  {
+    path: '/admin/projetos',
+    name: 'Gestão de projetos',
+    component: gestaoProjetos,
     meta: {
       requiresAuth: true,
       requiresAdmin: true

@@ -179,10 +179,10 @@
                 <div class="cardContent">
                   <div class="adData">
                     <div class="profileImage">
-                      <img :src="users.find((user) => user.id == projects[index-1].id).img" alt="">
+                      <img :src="users.find((user) => user.id == projects[index-1].utilizadorId).img" alt="">
                     </div>
                     <div class="nome_curso">
-                      <h4>{{users.find((user) => user.id == projects[index-1].id).nome + " " + users.find((user) => user.id == projects[index-1].utilizadorId).sobrenome}}</h4>
+                      <h4>{{users.find((user) => user.id == projects[index-1].utilizadorId).nome + " " + users.find((user) => user.id == projects[index-1].utilizadorId).sobrenome}}</h4>
                       <div class="curso">
                         <p>de&nbsp;</p>
                         <p>{{users.find((user) => user.id == projects[index-1].utilizadorId).course.descricao_curso}}</p>

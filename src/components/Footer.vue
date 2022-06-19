@@ -9,11 +9,11 @@
                         <div class="footer-left-section">
                             <div class="left-section">
                                 <div class="content">
-                                    <router-link :to="{ path: 'paginaInicial' }">Página inicial</router-link>
-                                    <router-link :to="{ path: 'anuncios' }">Anúncios</router-link>
-                                    <router-link :to="{ path: 'paginaInicial' }">Projetos</router-link>
-                                    <router-link :to="{ path: 'paginaInicial' }">Sobre</router-link>
-                                    <router-link :to="{ path: 'paginaInicial' }">Contactos</router-link>
+                                    <router-link :to="{ name: 'PaginaInicial' }">Página inicial</router-link>
+                                    <router-link :to="{ name: 'Anuncios' }">Anúncios</router-link>
+                                    <router-link :to="{ name: 'Projetos' }">Projetos</router-link>
+                                    <router-link :to="{ name: 'sobre' }">Sobre</router-link>
+                                    <router-link :to="{ name: 'AE' }">AE</router-link>
                                 </div>
                             </div>
                         
@@ -23,7 +23,7 @@
                                     <div class="text">
                                         <p>Termos e condições</p>
                                         <p>Direitos de autor</p>
-                                        <p>Perfil</p>
+                                        <p @click="goProfile">Perfil</p>
                                     </div>
                                     <div class="icons">
                                         <i class="fab fa-instagram-square"></i>
@@ -69,7 +69,16 @@
 
 <script>
 export default {
+    methods: {
+        goProfile() {
+      // this.SET_ACTIVE_PROFILE(this.getLoggedUser.email);
 
+      this.$router.push({
+        name: "perfil",
+        params: { id: this.$store.getters.getLoggedUser.id },
+      });
+    },
+    }
 }
 </script>
 

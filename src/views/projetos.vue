@@ -220,6 +220,7 @@ export default {
       try {
         this.loadingProjetos = true
         this.projects = await this.getProjects();
+        console.log(this.projects)
         this.loadingProjetos = false
       } catch (err) {
         this.$swal('Erro ao requisitar projetos')
@@ -248,20 +249,14 @@ export default {
         console.log(err)
       }
       try {
-        console.log(this.images)
-        console.log(this.projects)
         for(let image of this.images) {
           let imageData = {
-            projetoID : this.projects[this.projects.length - 1].id ,
+            projetoID : this.projects[0].id ,
             descricao : image.img
           }
-          console.log(this.projects)
-          console.log(imageData)
-          const response2 = await this.postProjectImages(imageData)
-          if(response2.data.success) {
-            location.reload()
-          }
+          await this.postProjectImages(imageData)
         }
+        location.reload()
       } catch (err) {
         console.log(err)
       }

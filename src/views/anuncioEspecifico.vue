@@ -44,7 +44,7 @@
     <b-container>
       <div class="slideBg">
         <div class="userImg">
-          <img :src="userData.img" alt="">
+          <img @click="goProfile" :src="userData.img" alt="">
         </div>
         <div class="userInfo">
           <div class="header">
@@ -54,6 +54,9 @@
             <p v-if="userData.descricao == '' || userData.descricao == null ">{{userData.nome + ' ' + userData.sobrenome + ' não tem descrição.'}}</p>
             <p v-else>{{userData.descricao}}</p>
           </div>
+        </div>
+        <div class="btnProfile">
+          <b-button variant="dark" @click="goProfile">Perfil</b-button>
         </div>
       </div>
     </b-container>
@@ -166,6 +169,14 @@ export default {
         this.$swal('Erro ao requisitar favoritos')
         console.log(err)
       }
+    },
+
+    goProfile() {
+      // this.SET_ACTIVE_PROFILE(this.getLoggedUser.email);
+      this.$router.push({
+        name: "perfil",
+        params: { id: this.userData.id },
+      });
     },
 
     didUserLikeThisAnnouncement () {
@@ -363,20 +374,43 @@ button {
 .userImg img {
   width: 100px;
   height: 100px;
+  cursor: pointer;
   object-fit: cover;
   border-radius: 50%;
   position: relative;
   left: 40px;
+  transition: all 0.2s ease;
+}
+
+.userImg img:hover {
+  padding: 3px;
 }
 
 .userImg {
-  width: 33%;
+  width: 30%;
 }
 
 .userInfo {
   text-align: left;
-  width: 67%;
+  width: 50%;
   margin-right: 30px;
+}
+
+.btnProfile {
+  width: 20%;
+}
+
+.btnProfile button {
+  width: 100px;
+  height: 50px;
+  background-color: var(--orange) ;
+  font-weight: bold;
+  border: 0;
+  margin-right: 60px;
+}
+
+.btnProfile button:hover {
+  background-color: var(--border);
 }
 
 .userInfo .header h3 {

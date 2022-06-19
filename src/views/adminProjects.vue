@@ -2,57 +2,49 @@
   <div>
     <div v-if="showModal">
       <b-modal hide-footer id="modal-1" title="Detalhes utilizador">
-        <form @submit.prevent="editAdAdmin" class="adminModal">
+        <form @submit.prevent="editProjectAdmin" class="adminModal">
           <b-form-group label="Id" label-for="titulo-input">
             <b-form-input
               id="titulo-input"
               disabled
-              v-model="especificAdData.id"
+              v-model="especificProjectsData.id"
             ></b-form-input>
           </b-form-group>
 
           <b-form-group label="Titulo" label-for="img-input" class="outsideDiv">
             <b-form-input
               id="img-input"
-              v-model="especificAdData.titulo"
+              v-model="especificProjectsData.titulo"
             ></b-form-input>
           </b-form-group>
 
           <b-form-group label="Descricao" label-for="nome-input">
             <b-form-textarea
               id="nome-input"
-              v-model="especificAdData.descricao"
+              v-model="especificProjectsData.descricao"
             ></b-form-textarea>
           </b-form-group>
           <b-form-group label="Utilizador Id" label-for="nome-input">
             <b-form-input
             disabled
               id="nome-input"
-              v-model="especificAdData.utilizadorId"
+              v-model="especificProjectsData.utilizadorId"
             ></b-form-input>
           </b-form-group>
 
-          <b-form-group label="Imagem Anúncio" label-for="Imagem-input">
+          <!-- <b-form-group label="Imagem Anúncio" label-for="Imagem-input">
             <b-form-input
               id="Imagem-input"
               v-model="especificAdData.img"
             ></b-form-input>
             <img :src="especificAdData.img" alt="" />
-          </b-form-group>
-
-          <b-form-group label="Tipo" label-for="genero-input">
-            <b-form-input
-              id="genero-input"
-              disabled
-              v-model="especificAdData.tipo"
-            ></b-form-input>
-          </b-form-group>
+          </b-form-group> -->
 
           <b-form-group label="Data" label-for="data-input">
             <b-form-input
               id="data-input"
               disabled
-              v-model="especificAdData.data"
+              v-model="especificProjectsData.data"
             ></b-form-input>
           </b-form-group>
 
@@ -68,24 +60,24 @@
           <th>#</th>
           <th>Titulo</th>
           <th>Descrição</th>
-          <th>Imagem</th>
+          <!-- <th>Imagem</th> -->
           <th>Id Utilizador</th>
           <th>Tipo</th>
           <th>Opções</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(ad, index) in adsData" :key="index">
+        <tr v-for="(project, index) in projectsData" :key="index">
           <td>{{ index + 1 }}</td>
-          <td>{{ ad.titulo }}</td>
-          <td>{{ ad.descricao }}</td>
+          <td>{{ project.titulo }}</td>
+          <td>{{ project.descricao }}</td>
+          <!-- <td>
+            <img :src="project.img" style="width: 75px; object-fit: cover" />
+          </td> -->
+          <td>{{ project.utilizadorId }}</td>
+          <td>{{ project.data }}</td>
           <td>
-            <img :src="ad.img" style="width: 75px; object-fit: cover" />
-          </td>
-          <td>{{ ad.utilizadorId }}</td>
-          <td>{{ ad.tipo }}</td>
-          <td>
-            <b-button variant="danger" @click="deleteOneAd(ad.id)"
+            <b-button variant="danger" @click="deleteOneProject(project.id)"
               >Remover</b-button
             >
             <b-button variant="info" style="color: white" @click="showModalFunction(index)" v-b-modal.modal-1>Detalhes</b-button>
@@ -102,27 +94,24 @@ import { mapMutations, mapActions} from "vuex";
 export default {
   data: function () {
     return {
-      ads: [],
-      adsData: {},
+      projectsData: {},
       showModal: false,
-      adDetailsIndex: null,
-      especificAdData: {
+      projectsDetailsIndex: null,
+      especificProjectsData: {
         id: null,
         titulo: "",
         descricao: "",
         utilizadorId: 0,
-        img: "",
-        tipo: "",
         data: "",
       },
     };
   },
   mounted() {
-    this.getAllAds();
+    this.getAllProjects();
   },
   methods: {
     ...mapMutations(["SET_ADS", "REMOVE_AD"]),
-    ...mapActions(["deleteAnnouncement", "getAnnouncements","editAdInfoAdmin"]),
+    ...mapActions(["deleteProject", "getProjects","editProjectInfoAdmin"]),
 
     addAds() {
       this.form.id = this.getAdsId;
@@ -149,9 +138,9 @@ export default {
       });
     },
 
-    async getAllAds(){
+    async getAllProjects(){
       try {
-        this.adsData = await this.getAnnouncements();
+        this.projectsData = await this.getProjects();
       } catch (err) {
         this.$swal("Error!", err.message, "error");
       }
@@ -159,21 +148,20 @@ export default {
 
     showModalFunction(idx) {
       this.showModal = true
-      this.adDetailsIndex = idx
-      this.especificAdData = {
-        id: this.adsData[idx].id,
-        titulo: this.adsData[idx].titulo,
-        descricao: this.adsData[idx].descricao,
-        utilizadorId: this.adsData[idx].utilizadorId,
-        img: this.adsData[idx].img,
-        tipo: this.adsData[idx].tipo,
-        data: this.adsData[idx].data,
+      this.projectsDetailsIndex = idx
+      this.especificProjectsData = {
+        id: this.projectsData[idx].id,
+        titulo: this.projectsData[idx].titulo,
+        descricao: this.projectsData[idx].descricao,
+        utilizadorId: this.projectsData[idx].utilizadorId,
+        // img: this.projectsData[idx].img,
+        data: this.projectsData[idx].data,
       }
     },
 
-    async editAdAdmin () {
+    async editProjectAdmin () {
       try {
-        const response = await this.editAdInfoAdmin(this.especificAdData);
+        const response = await this.editProjectInfoAdmin(this.especificProjectsData);
 
         if (response.data.success) {
           this.$swal(
@@ -182,16 +170,16 @@ export default {
             "success"
           );
         }
-        this.getAllAds()
+        this.getAllProjects()
       } catch (err) {
         this.$swal("Error!", err.message, "error");
       }
     },
 
-    async deleteOneAd(idx) {
+    async deleteOneProject(idx) {
       this.$swal({
             title: "Atenção",
-            text: `Tem a certeza que prentende eliminar o anúncio com id = ${idx}?`,
+            text: `Tem a certeza que prentende eliminar o projeto com id = ${idx}?`,
             icon: "warning",
             confirmButtonText: 'Sim',
             showCancelButton: true,
@@ -201,14 +189,14 @@ export default {
         if (result.isConfirmed) {
           this.$swal({
             title: "Informação!",
-            text: `Anúncio com id ${idx} removido com sucesso!`,
+            text: `Projeto com id ${idx} removido com sucesso!`,
             confirmButtonColor: "#3085d6",
             confirmButtonText: "Ok",
           }).then(() => {
-            this.deleteAnnouncement({
+            this.deleteProject({
               id: idx,
             });
-            this.getAllAds();
+            this.getAllProjects();
           });
         }
       });
