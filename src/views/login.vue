@@ -36,7 +36,7 @@
                 ></b-form-input>
               </div>
               <div class="form-submit">
-                <b-button type="submit">Entrar</b-button>
+                <b-button ref="loginButton" type="submit">Entrar</b-button>
               </div>
             </form>
             <div class="forgot-password">
@@ -61,11 +61,20 @@ export default {
         password: "",
       },
       users: [],
-      loading: true,
+      isLoading: false,
     };
   },
   computed: {
     ...mapGetters(["isLoginValid"]),
+
+    // loadingFunc() {
+    //   if(this.isLoading) {
+    //     this.$vs.loading({background:this.backgroundLoading,color:'#353535'})
+    //   }
+    //   else {
+    //     this.$vs.loading.close()
+    //   }
+    // }
   },
   methods: {
     ...mapMutations(["SET_LOGGED_USER", "SET_ACTIVE_PROFILE"]),

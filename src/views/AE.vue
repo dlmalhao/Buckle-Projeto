@@ -155,6 +155,7 @@ export default {
     if(this.loggedUser.role == "Admin" || this.loggedUser.role == "Ae") {
       this.isAe = true
     }
+    this.loadingSpinner()
   },
   methods: {
 
@@ -189,6 +190,17 @@ export default {
         this.$swal('Erro ao criar Tópico!')
         console.log(err)
       }
+    },
+
+    async loadingSpinner () {
+      this.$vs.loading ({color:'#F17941'})
+
+      await this.getAllUsers()
+      await this.getAeData()
+
+      setTimeout( ()=> {
+        this.$vs.loading.close()
+      },300);
     },
 
     async getAeData() {

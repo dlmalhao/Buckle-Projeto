@@ -201,6 +201,7 @@ export default {
     if(this.getLoggedUser) {
       this.loggedUser = this.getLoggedUser
     }
+    this.loadingSpinner()
   },
 
    methods: {
@@ -212,6 +213,18 @@ export default {
       });
     },
 
+    async loadingSpinner () {
+      this.$vs.loading ({color:'#F17941'})
+
+      await this.getUsersData()
+      await this.getProjectImagesData()
+      await this.getProjectsData()
+
+      setTimeout( ()=> {
+        this.$vs.loading.close()
+      },300);
+    },
+
     removeInput(index) {
       this.images.splice(index, 1);
     },
@@ -220,7 +233,6 @@ export default {
       try {
         this.loadingProjetos = true
         this.projects = await this.getProjects();
-        console.log(this.projects)
         this.loadingProjetos = false
       } catch (err) {
         this.$swal('Erro ao requisitar projetos')
@@ -237,7 +249,7 @@ export default {
           utilizadorId: this.loggedUser.id,
           data: today.getFullYear()+'-'+( today.getMonth()+1)+'-'+ today.getDate(),
         }
-        console.log(project)
+        
         const response = await this.postProject(project);
 
         await this.getProjectsData()
@@ -297,7 +309,6 @@ export default {
         this.loadingImagensProjetos = true
         this.allProjectImages = await this.getProjectImages();
         this.loadingImagensProjetos = false
-        console.log(this.allProjectImages)
       } catch (err) {
         this.$swal('Erro ao requisitar imagens de projetos')
         console.log(err)

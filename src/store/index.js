@@ -391,7 +391,7 @@ export default new Vuex.Store({
   actions: {
     async getUser({ context, state }, id){
       try{
-        const response = await axios.get(`http://127.0.0.1:3000/users/${id}`)        
+        const response = await axios.get(`http://buckle-app-esmad.herokuapp.com/users/${id}`)        
           return response.data.user;
       }
       catch(err){
@@ -401,7 +401,7 @@ export default new Vuex.Store({
 
     async getAnnouncements({ context, state }){
       try{
-        const response = await axios.get(`http://127.0.0.1:3000/announcements`)        
+        const response = await axios.get(`http://buckle-app-esmad.herokuapp.com/announcements`)        
           return response.data.announcements.reverse();
       }
       catch(err){
@@ -411,7 +411,7 @@ export default new Vuex.Store({
 
     async postAnnouncement({ context, state },ad){
       try {
-        const response = await axios.post(`http://127.0.0.1:3000/announcements`, {
+        const response = await axios.post(`http://buckle-app-esmad.herokuapp.com/announcements`, {
           titulo: ad.titulo,
           descricao: ad.descricao,
           utilizadorId: ad.utilizadorId,
@@ -429,7 +429,7 @@ export default new Vuex.Store({
 
     async getAe({ context, state }){
       try{
-        const response = await axios.get(`http://127.0.0.1:3000/aeAnnouncements`)        
+        const response = await axios.get(`http://buckle-app-esmad.herokuapp.com/aeAnnouncements`)        
           return response.data.aes.reverse();
       }
       catch(err){
@@ -439,7 +439,7 @@ export default new Vuex.Store({
 
     async postAe({ context, state },ad){
       try {
-        const response = await axios.post(`http://127.0.0.1:3000/aeAnnouncements`, {
+        const response = await axios.post(`http://buckle-app-esmad.herokuapp.com/aeAnnouncements`, {
           descricao: ad.descricao,
           utilizadorId: ad.utilizadorId,
           data: ad.data,
@@ -454,7 +454,7 @@ export default new Vuex.Store({
 
     async deleteAe({ context, state },id){
       try{
-        const response = await axios.delete(`http://127.0.0.1:3000/aeAnnouncements/${id}`)        
+        const response = await axios.delete(`http://buckle-app-esmad.herokuapp.com/aeAnnouncements/${id}`)        
           return response;
       }
       catch(err){
@@ -464,7 +464,7 @@ export default new Vuex.Store({
 
     async getProjects({ context, state }){
       try{
-        const response = await axios.get(`http://127.0.0.1:3000/projects`)        
+        const response = await axios.get(`http://buckle-app-esmad.herokuapp.com/projects`)        
           return response.data.projects.reverse();
       }
       catch(err){
@@ -474,7 +474,7 @@ export default new Vuex.Store({
 
     async postProject({ context, state },project){
       try {
-        const response = await axios.post(`http://127.0.0.1:3000/projects`, {
+        const response = await axios.post(`http://buckle-app-esmad.herokuapp.com/projects`, {
           titulo: project.titulo,
           descricao: project.descricao,
           utilizadorId: project.utilizadorId,
@@ -490,7 +490,7 @@ export default new Vuex.Store({
 
     async deleteAnnouncement({ context, state }, ad) {
       try {
-        const response = await axios.delete(`http://127.0.0.1:3000/announcements/${ad.id}`, 
+        const response = await axios.delete(`http://buckle-app-esmad.herokuapp.com/announcements/${ad.id}`, 
           {headers: {Authorization: 'Bearer ' + localStorage.token}});
         
         return response.data.ad;
@@ -502,7 +502,7 @@ export default new Vuex.Store({
 
     async deleteProject({ context, state }, project) {
       try {
-        const response = await axios.delete(`http://127.0.0.1:3000/projects/${project.id}`, 
+        const response = await axios.delete(`http://buckle-app-esmad.herokuapp.com/projects/${project.id}`, 
           {headers: {Authorization: 'Bearer ' + localStorage.token}});
         
         return response.data.project;
@@ -514,7 +514,7 @@ export default new Vuex.Store({
 
     async editAdInfoAdmin({ context, state }, ad) {
       try {
-        const response = await axios.put(`http://127.0.0.1:3000/announcements/${ad.id}`, {
+        const response = await axios.put(`http://buckle-app-esmad.herokuapp.com/announcements/${ad.id}`, {
           titulo: ad.titulo,
           descricao: ad.descricao,
           utilizadorId: ad.utilizadorId,
@@ -532,7 +532,7 @@ export default new Vuex.Store({
 
     async editProjectInfoAdmin({ context, state }, project) {
       try {
-        const response = await axios.put(`http://127.0.0.1:3000/projects/${project.id}`, {
+        const response = await axios.put(`http://buckle-app-esmad.herokuapp.com/projects/${project.id}`, {
           titulo: project.titulo,
           descricao: project.descricao,
           utilizadorId: project.utilizadorId,
@@ -550,7 +550,7 @@ export default new Vuex.Store({
 
     async getUsers({ context, state }){
       try{
-        const response = await axios.get(`http://127.0.0.1:3000/users`)        
+        const response = await axios.get(`http://buckle-app-esmad.herokuapp.com/users`)        
           return response.data.users;
       }
       catch(err){
@@ -560,7 +560,7 @@ export default new Vuex.Store({
 
     async editUserInfo({ context, state }, user) {
       try {
-        const response = await axios.put(`http://127.0.0.1:3000/users/${user.id}`, {
+        const response = await axios.put(`http://buckle-app-esmad.herokuapp.com/users/${user.id}`, {
           email_utilizador: user.email_utilizador,
           nome: user.nome,
           sobrenome: user.sobrenome,
@@ -578,7 +578,7 @@ export default new Vuex.Store({
 
     async editUserInfoAdmin({ context, state }, user) {
       try {
-        const response = await axios.put(`http://127.0.0.1:3000/users/${user.id}`, {
+        const response = await axios.put(`http://buckle-app-esmad.herokuapp.com/users/${user.id}`, {
           email_utilizador: user.email_utilizador,
           nome: user.nome,
           sobrenome: user.sobrenome,
@@ -597,7 +597,7 @@ export default new Vuex.Store({
 
     async deleteUser({ context, state }, user) {
       try {
-        const response = await axios.delete(`http://127.0.0.1:3000/users/${user.id}`, 
+        const response = await axios.delete(`http://buckle-app-esmad.herokuapp.com/users/${user.id}`, 
           {headers: {Authorization: 'Bearer ' + localStorage.token}});
         
         return response.data.user;
@@ -609,7 +609,7 @@ export default new Vuex.Store({
 
     async getProjectImages({ context, state }){
       try{
-        const response = await axios.get(`http://127.0.0.1:3000/projectImages`)        
+        const response = await axios.get(`http://buckle-app-esmad.herokuapp.com/projectImages`)        
           return response.data.projectImages;
       }
       catch(err){
@@ -619,7 +619,7 @@ export default new Vuex.Store({
 
     async getCourses({ context, state }){
       try{
-        const response = await axios.get(`http://127.0.0.1:3000/courses`)        
+        const response = await axios.get(`http://buckle-app-esmad.herokuapp.com/courses`)        
           return response.data.courses;
       }
       catch(err){
@@ -629,7 +629,7 @@ export default new Vuex.Store({
 
     async getEspecificAnnouncement({ context, state }, id){
       try{
-        const response = await axios.get(`http://127.0.0.1:3000/announcements/${id}`)
+        const response = await axios.get(`http://buckle-app-esmad.herokuapp.com/announcements/${id}`)
           return response.data.announcement;
       }
       catch(err){
@@ -639,7 +639,7 @@ export default new Vuex.Store({
 
     async getEspecificProject({ context, state }, id){
       try{
-        const response = await axios.get(`http://127.0.0.1:3000/projects/${id}`)
+        const response = await axios.get(`http://buckle-app-esmad.herokuapp.com/projects/${id}`)
           return response.data.project;
       }
       catch(err){
@@ -649,7 +649,7 @@ export default new Vuex.Store({
 
     async getAnnouncementFavs({ context, state }){
       try{
-        const response = await axios.get(`http://127.0.0.1:3000/favsAnnouncement`)        
+        const response = await axios.get(`http://buckle-app-esmad.herokuapp.com/favsAnnouncement`)        
           return response.data.favAnnouncements;
       }
       catch(err){
@@ -659,7 +659,7 @@ export default new Vuex.Store({
 
     async postAnnouncementFavs({ context, state },fav){
       try {
-        const response = await axios.post(`http://127.0.0.1:3000/favsAnnouncement`, {
+        const response = await axios.post(`http://buckle-app-esmad.herokuapp.com/favsAnnouncement`, {
           adID: fav.adID,
           id_utilizador_dado: fav.id_utilizador_dado,
         },{headers: {Authorization: 'Bearer ' + localStorage.token}});
@@ -673,7 +673,7 @@ export default new Vuex.Store({
 
     async postProjectImages({ context, state },image){
       try {
-        const response = await axios.post(`http://127.0.0.1:3000/projectImages`, {
+        const response = await axios.post(`http://buckle-app-esmad.herokuapp.com/projectImages`, {
           projetoID: image.projetoID,
           descricao: image.descricao,
         },{headers: {Authorization: 'Bearer ' + localStorage.token}});
@@ -687,7 +687,7 @@ export default new Vuex.Store({
 
     async addComments({ context, state }, comment) {
       try {
-        const response = await axios.post(`http://127.0.0.1:3000/users/${comment.id}/comments`, {
+        const response = await axios.post(`http://buckle-app-esmad.herokuapp.com/users/${comment.id}/comments`, {
           desc_comentario: comment.desc_comentario,
           rating: comment.rating,
           tipo_comentario: comment.tipo_comentario,
@@ -704,7 +704,7 @@ export default new Vuex.Store({
 
     async getCommentsByID({ context, state }, comment) {
       try {
-        const response = await axios.get(`http://127.0.0.1:3000/users/${comment.id}/comments`,
+        const response = await axios.get(`http://buckle-app-esmad.herokuapp.com/users/${comment.id}/comments`,
           {headers: {Authorization: 'Bearer ' + localStorage.token}});
         
           return response.data.comments;
@@ -716,7 +716,7 @@ export default new Vuex.Store({
 
     async addChat({ context, state }, chat) {
       try {
-        const response = await axios.post(`http://127.0.0.1:3000/users/${chat.id}/chats`, {
+        const response = await axios.post(`http://buckle-app-esmad.herokuapp.com/users/${chat.id}/chats`, {
           id_user1 : chat.id_user1,
           id_user2 : chat.id_user2
         },{headers: {Authorization: 'Bearer ' + localStorage.token}});
@@ -730,7 +730,7 @@ export default new Vuex.Store({
 
     async getChatsByID({ context, state }, chat) {
       try {
-        const response = await axios.get(`http://127.0.0.1:3000/users/${chat.id}/chats`,
+        const response = await axios.get(`http://buckle-app-esmad.herokuapp.com/users/${chat.id}/chats`,
           {headers: {Authorization: 'Bearer ' + localStorage.token}});
         
           return response.data.chats;
@@ -742,7 +742,7 @@ export default new Vuex.Store({
 
     async addMessage({ context, state }, message) {
       try {
-        const response = await axios.post(`http://127.0.0.1:3000/users/${message.userID}/chats/${message.chatID}/messages`, {
+        const response = await axios.post(`http://buckle-app-esmad.herokuapp.com/users/${message.userID}/chats/${message.chatID}/messages`, {
           id_chat : message.id_chat,
           id_user : message.id_user,
           text : message.text,
@@ -757,7 +757,7 @@ export default new Vuex.Store({
 
     async getMessagesByID({ context, state }, message) {
       try {
-        const response = await axios.get(`http://127.0.0.1:3000/users/${message.userID}/chats/${message.chatID}/messages`,
+        const response = await axios.get(`http://buckle-app-esmad.herokuapp.com/users/${message.userID}/chats/${message.chatID}/messages`,
           {headers: {Authorization: 'Bearer ' + localStorage.token}});
         
           return response.data.messages;
@@ -769,7 +769,7 @@ export default new Vuex.Store({
 
     async removeAnnouncementFavs({ context, state },id){
       try{
-        const response = await axios.delete(`http://127.0.0.1:3000/favsAnnouncement/${id}`)        
+        const response = await axios.delete(`http://buckle-app-esmad.herokuapp.com/favsAnnouncement/${id}`)        
           return response;
       }
       catch(err){
@@ -779,7 +779,7 @@ export default new Vuex.Store({
 
     async getProjectFavs({ context, state }){
       try{
-        const response = await axios.get(`http://127.0.0.1:3000/favsProject`)        
+        const response = await axios.get(`http://buckle-app-esmad.herokuapp.com/favsProject`)        
           return response.data.favProjects;
       }
       catch(err){
@@ -789,7 +789,7 @@ export default new Vuex.Store({
 
     async postProjectFavs({ context, state },fav){
       try {
-        const response = await axios.post(`http://127.0.0.1:3000/favsProject`, {
+        const response = await axios.post(`http://buckle-app-esmad.herokuapp.com/favsProject`, {
           projectID: fav.projectID,
           id_utilizador_dado: fav.id_utilizador_dado,
         },{headers: {Authorization: 'Bearer ' + localStorage.token}});
@@ -803,7 +803,7 @@ export default new Vuex.Store({
 
     async removeProjectFavs({ context, state },id){
       try{
-        const response = await axios.delete(`http://127.0.0.1:3000/favsProject/${id}`)        
+        const response = await axios.delete(`http://buckle-app-esmad.herokuapp.com/favsProject/${id}`)        
           return response;
       }
       catch(err){
@@ -813,7 +813,7 @@ export default new Vuex.Store({
 
     async login({ context, state }, user) {
       try {
-        const response = await axios.post("http://127.0.0.1:3000/auth/signin", {
+        const response = await axios.post("http://buckle-app-esmad.herokuapp.com/auth/signin", {
           email_utilizador: user.email_utilizador,
           password: user.password,
         });
@@ -833,7 +833,7 @@ export default new Vuex.Store({
 
     async register({ context, state }, user) {
       try {
-        const response = await axios.post("http://127.0.0.1:3000/auth/signup", {
+        const response = await axios.post("http://buckle-app-esmad.herokuapp.com/auth/signup", {
           email_utilizador: user.email_utilizador,
           nome: user.nome,
           sobrenome: user.sobrenome,
@@ -851,7 +851,7 @@ export default new Vuex.Store({
 
     async addCommentsProject({ context, state }, commentProject) {
       try {
-        const response = await axios.post(`http://127.0.0.1:3000/projects/${commentProject.id}/commentsProject`, {
+        const response = await axios.post(`http://buckle-app-esmad.herokuapp.com/projects/${commentProject.id}/commentsProject`, {
           desc_comentario: commentProject.desc_comentario,
           id_quem_comentou: commentProject.id_quem_comentou,
           id_projeto: commentProject.id_projeto,
@@ -866,7 +866,7 @@ export default new Vuex.Store({
 
     async getCommentsProject({ context, state }, commentProject) {
       try {
-        const response = await axios.get(`http://127.0.0.1:3000/projects/${commentProject.id}/commentsProject`,
+        const response = await axios.get(`http://buckle-app-esmad.herokuapp.com/projects/${commentProject.id}/commentsProject`,
           {headers: {Authorization: 'Bearer ' + localStorage.token}});
         
           return response.data.commentsProject;

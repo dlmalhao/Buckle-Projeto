@@ -229,6 +229,7 @@ export default {
     this.getUsersData()
     this.getAnnouncementsData()
     this.getCoursesData()
+    this.loadingSpinner()
   },
   methods : {
     ...mapActions(["getProjects","getUsers", "getAnnouncements","getCourses","getProjectImages"]),
@@ -252,6 +253,19 @@ export default {
         this.$swal('Erro ao requisitar utilizadores')
         console.log(err)
       }
+    },
+
+    async loadingSpinner () {
+      this.$vs.loading ({color:'#F17941'})
+
+      await this.getProjectsData()
+      await this.getUsersData()
+      await this.getAnnouncementsData()
+      await this.getCoursesData()
+
+      setTimeout( ()=> {
+        this.$vs.loading.close()
+      },300);
     },
 
     async getCoursesData() {

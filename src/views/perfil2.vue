@@ -791,6 +791,8 @@ export default {
     this.getAnnouncementFavsData()
     this.getProjectFavsData()
     this.getProjectFavs()
+    this.loadingSpinner()
+
   },
   computed: {
     ...mapGetters(["getLoggedUser"]),
@@ -901,6 +903,26 @@ export default {
           });
         }
       });
+    },
+
+    async loadingSpinner () {
+      this.$vs.loading({color:'#F17941'})
+
+      await this.getDataUser()
+      await this.getCommentsProfile();
+      await this.getChatsProfile();
+      await this.getMessagesProfile();
+      await this.getCoursesData();
+      await this.getAnnouncementsData();
+      await this.getProjectsData();
+      await this.getProjectImagesData()
+      await this.getAnnouncementFavsData()
+      await this.getProjectFavsData()
+      await this.getProjectFavs()
+
+      setTimeout( ()=> {
+        this.$vs.loading.close()
+      },300);
     },
 
     getNumberOfLikes () {

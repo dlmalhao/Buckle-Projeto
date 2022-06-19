@@ -133,6 +133,7 @@
         </b-modal>
       </div>
   </div>
+  
 </template>
 
 <script>
@@ -175,11 +176,22 @@ export default {
       },
       search: "",
       announcementsData: [],
-      showModal : false
+      showModal : false,
+      isLoading : false
     }
   },
   computed : {
     ...mapGetters(["getLoggedUser"]),
+
+    // loadingSpinner () {
+    //   if(this.isLoading) {
+
+    //     this.$vs.loading ()
+    //   }
+    //   if(!this.isLoading) {
+    //     this.$vs.loading.close ()
+    //   }
+    // },
 
     filteredAds () {
       let filterAds = this.announcementsData.slice(0)
@@ -221,25 +233,38 @@ export default {
     if(this.getLoggedUser) {
       this.loggedUser = this.getLoggedUser
     }
+    this.loadingSpinner()
   },
+
 
    methods: {
     ...mapActions(["getAnnouncements","getUsers", "getCourses", "postAnnouncement"]),
 
     async getAnnouncementsData() {
       try {
-        this.announcementsData = await this.getAnnouncements();
-
+        this.announcementsData = await this.getAnnouncements(); 
+        
       } catch (err) {
         this.$swal('Erro ao requisitar anúncios')
         console.log(err)
       }
     },
 
+    async loadingSpinner() {
+
+      this.$vs.loading ({color:'#F17941'})
+      await this.getUsersData()
+      await this.getAnnouncementsData()
+      await this.getCoursesData()
+
+      setTimeout( ()=> {
+        this.$vs.loading.close()
+      }, 300);
+    },
+
     async getUsersData() {
       try {
         this.users = await this.getUsers();
-        console.log(this.users)
       } catch (err) {
         this.$swal('Erro ao requisitar utilizadores')
         console.log(err)
@@ -277,7 +302,7 @@ export default {
           data: today.getFullYear()+'-'+( today.getMonth()+1)+'-'+ today.getDate(),
         }
         const response = await this.postAnnouncement(ad);
-        this.getAnnouncementsData()
+        this.S()
         if (response.data.success) {
           this.$swal('','Anúncio criado com sucesso')
         }

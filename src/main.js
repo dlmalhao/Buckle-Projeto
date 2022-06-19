@@ -7,6 +7,13 @@ import VueSweetalert2 from 'vue-sweetalert2';
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'sweetalert2/dist/sweetalert2.min.css';
 
+import Vuesax from 'vuesax'
+
+import 'vuesax/dist/vuesax.css' //Vuesax styles
+Vue.use(Vuesax, {
+  // options here
+})
+
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'

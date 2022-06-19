@@ -78,7 +78,7 @@
           <th>Opções</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody> 
         <tr v-for="(user, index) in usersData" :key="index">
           <td>{{ user.id }}</td>
           <td>{{ user.nome + " " + user.sobrenome }}</td>
