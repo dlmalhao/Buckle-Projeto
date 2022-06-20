@@ -217,6 +217,7 @@ export default {
       await this.getUsersData()
       await this.getProjectImagesData()
       await this.getProjectsData()
+      await this.getCoursesData()
 
       setTimeout( ()=> {
         this.$vs.loading.close()
@@ -275,8 +276,6 @@ export default {
     async getUsersData() {
       try {
         this.users = await this.getUsers();
-        this.getCoursesData()
-        this.getProjectsData()
       } catch (err) {
         this.$swal('Erro ao requisitar utilizadores')
         console.log(err)

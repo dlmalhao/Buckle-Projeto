@@ -198,9 +198,6 @@ export default {
         this.loadingUser = true;
         this.users = await this.getUsers();
         this.loadingUser = false;
-        this.getProjectsData();
-        await this.getDataEspecificProject();
-        this.getProjectImagesData();
       } catch (err) {
         this.$swal("Erro ao requisitar utilizadores");
         console.log(err);
@@ -221,6 +218,8 @@ export default {
       this.$vs.loading ({color:'#F17941'})
       await this.getDataEspecificProject()
       await this.getProjectFavsData()
+      await this.getProjectsData();
+      await this.getProjectImagesData();
 
       setTimeout( ()=> {
         this.$vs.loading.close()
