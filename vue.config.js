@@ -1,3 +1,5 @@
 module.exports = {
-    publicPath: '/Buckle-Projeto/' 
+    publicPath: process.env.NODE_ENV === 'production'
+      ? '/Buckle-Projeto/'
+      : '/'
   }
