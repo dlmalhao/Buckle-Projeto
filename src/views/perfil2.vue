@@ -398,21 +398,108 @@
                     </b-row>
                   </div>
                 </b-tab>
-                <b-tab title="Favoritos"
-                  ><b-card-text>Tab contents 3</b-card-text></b-tab
-                >
+                <b-tab title="Anúncios favoritos" class="favs">
+                  <section>
+                    <b-row style="padding: 0" class="projects-row">
+                      <b-col
+                        cols="6"
+                        lg="4"
+                        style="margin-bottom: 20px"
+                        class="cardContainer"
+                        v-for="(ad, index) in userAnnouncementFavs"
+                        :key="index"
+                      >
+                        <div>
+                          <router-link
+                            :to="{
+                              name: 'anuncioEspecifico',
+                              params: { id: ad.id },
+                            }"
+                          >
+                            <div class="cardImage">
+                              <img :src="ad.img" class="imageBox" />
+                            </div>
+                            <div class="cardContent">
+                              <div class="adData">
+                                <div class="profileImage">
+                                  <img
+                                    :src="getLoggedUser.img"
+                                    class="imageBox"
+                                  />
+                                </div>
+                                <div class="nome_curso">
+                                  <h4>
+                                    {{ getLoggedUser.nome }}
+                                    {{ getLoggedUser.sobrenome }}
+                                  </h4>
+                                  <div class="curso">
+                                    <p>de&nbsp;</p>
+                                    <p>{{ loggedCourse }}</p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="descricao">
+                                <p>{{ ad.descricao }}</p>
+                              </div>
+                            </div>
+                          </router-link>
+                        </div>
+                      </b-col>
+                    </b-row>
+                  </section>
+                </b-tab>
+                <b-tab title="Projetos favoritos" class="favs">
+                  <section>
+                    <b-row style="padding: 0" class="projects-row">
+                      <b-col
+                        cols="6"
+                        lg="4"
+                        style="margin-bottom: 20px"
+                        class="cardContainer"
+                        v-for="(project, index) in userProjectFavs"
+                        :key="index"
+                      >
+                        <div>
+                          <router-link
+                            :to="{
+                              name: 'anuncioEspecifico',
+                              params: { id: project.id },
+                            }"
+                          >
+                            <div class="cardImage">
+                              <img :src="allProjectImages.filter((image) => image.projetoID == project.id)[0].descricao" class="imageBox" />
+                            </div>
+                            <div class="cardContent">
+                              <div class="adData">
+                                <div class="profileImage">
+                                  <img
+                                    :src="users.find((user) => user.id == project.utilizadorId).img"
+                                    class="imageBox"
+                                  />
+                                </div>
+                                <div class="nome_curso">
+                                  <h4>
+                                    {{users.find((user) => user.id == project.utilizadorId).nome + " " + users.find((user) => user.id == project.utilizadorId).sobrenome}}
+                                  </h4>
+                                  <div class="curso">
+                                    <p>de&nbsp;</p>
+                                    <p>{{users.find((user) => user.id == project.utilizadorId).course.descricao_curso}}</p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="descricao">
+                                <p>{{ project.descricao }}</p>
+                              </div>
+                            </div>
+                          </router-link>
+                        </div>
+                      </b-col>
+                    </b-row>
+                  </section>
+                </b-tab>
                 <b-tab title="Avaliações"
                   ><b-card-text
-                    ><div class="titulo">
-                      <div class="tituloAnuncios">
-                        <h1>Avaliações</h1>
-                      </div>
-                      <div class="botaoAdicionar">
-                        <button class="titulo btn btn-primary">
-                          Ver Todas
-                        </button>
-                      </div>
-                    </div>
+                    >
                     <div class="row">
                       <div
                         class="col-md-3 avaliacaoContainer"
@@ -836,7 +923,10 @@ export default {
       projectFavs: [],
       announcementFavs: [],
       loadingOwnProjects: true,
-      loadingCourses: true
+      loadingCourses: true,
+      userAnnouncementFavs: [],
+      userProjectFavs: [],
+      users: []
     };
   },
 
@@ -850,6 +940,7 @@ export default {
   methods: {
     ...mapActions([
       "getUser",
+      "getUsers",
       "editUserInfo",
       "addComments",
       "getCommentsByID",
@@ -969,6 +1060,9 @@ export default {
       await this.getAnnouncementFavsData()
       await this.getProjectFavsData()
       await this.getProjectFavs()
+      await this.getUsersData()
+      this.getUserFavAnnouncements()
+      this.getUserFavProjects()
 
       setTimeout( ()=> {
         this.$vs.loading.close()
@@ -985,6 +1079,15 @@ export default {
         }
       }
       return count
+    },
+
+    async getUsersData() {
+      try {
+        this.users = await this.getUsers();
+      } catch (err) {
+        this.$swal('Erro ao requisitar utilizadores')
+        console.log(err)
+      }
     },
 
     getNumberOfLikes2 () {
@@ -1161,6 +1264,46 @@ export default {
       } catch (err) {
         this.$swal("Error!", err.message, "error");
       }
+    },
+
+    getUserFavAnnouncements () {
+      let ids = []
+      this.userAnnouncementFavs = []
+      for(const fav of this.announcementFavs) {
+        if(fav.id_utilizador_dado == this.getLoggedUser.id) {
+          ids.push(fav.adID)
+        }
+      }
+      if(ids.length > 0) {
+        for(const announcement of this.announcementsData) {
+          for(const id of ids) {
+            if(announcement.id == id) {
+              this.userAnnouncementFavs.push(announcement)
+            }
+          }
+        }
+      }
+      
+    },
+
+    getUserFavProjects () {
+      let ids = []
+      this.userProjectFavs = []
+      for(const fav of this.projectFavs) {
+        if(fav.id_utilizador_dado == this.getLoggedUser.id) {
+          ids.push(fav.projectID)
+        }
+      }
+      if(ids.length > 0) {
+        for(const project of this.projectsData) {
+          for(const id of ids) {
+            if(project.id == id) {
+              this.userProjectFavs.push(project)
+            }
+          } 
+        }
+      }
+      
     },
 
     async addChatsUser() {
@@ -1696,6 +1839,16 @@ export default {
   bottom: 100px;
   left: 100px;
 }
+
+.favs .projects-row {
+  margin: 0;
+}
+
+.favs .projects-row .cardContainer {
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
 
 .right-side .user-data-div .settings {
   width: 100%;
