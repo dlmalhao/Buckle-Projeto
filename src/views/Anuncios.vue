@@ -299,7 +299,6 @@ export default {
           data: today.getFullYear()+'-'+( today.getMonth()+1)+'-'+ today.getDate(),
         }
         const response = await this.postAnnouncement(ad);
-        this.S()
         if (response.data.success) {
           this.$swal('','Anúncio criado com sucesso')
         }
